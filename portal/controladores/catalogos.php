@@ -1,6 +1,7 @@
 <?php
 require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modulo_modelo.php';
+require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
 	function limpiarCadena($valor){
@@ -43,10 +44,25 @@ class catalogos extends Controlador{
 		
 		
 		$datos = $sth->fetchAll(PDO::FETCH_ASSOC);
+		$elementos=array();
+		foreach($datos as $campoTabla){
+			$elemento=array();
+			$elemento['id']=0;			
+			$elemento['esDefault'] =$campoTabla['Default'];
+			$elemento['extras'] =$campoTabla['Extra'];
+			$elemento['campo'] =$campoTabla['Field'];
+			$elemento['llave'] =$campoTabla['Key'];
+			$elemento['esNulo'] =$campoTabla['Null'];
+			$elemento['tipo'] =$campoTabla['Type'];
+			$elemento['componente'] ='Text Input';
+			$elemento['comp_config'] ='{}';
+			$elementos[] = $elemento;
+			
+		}
 		$res=array(
 			'success'=>true,
 			'msg'=>'Campos Obtenidos',
-			'datos'=>$datos
+			'datos'=>$elementos
 		);
 		echo json_encode($res);
 		

@@ -1,4 +1,4 @@
-﻿var Busquedamodulos=function(){
+﻿var Busquedaelementos=function(){
 	this.tituloNuevo='Nueva';
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -179,7 +179,15 @@
 			reader:new wijarrayreader(campos),
 			loading : function(data){				
 				var value = $( ' input[name="query"]').val();				
-				//{CAMPOS_BUSQUEDA}
+				data.proxy.options.data.filtering.push({
+					 dataKey: "Field",
+					 filterOperator: "Contains",
+					 filterValue: value
+				 },{
+					 dataKey: "componente",
+					 filterOperator: "Contains",
+					 filterValue: value
+				 });
 				// data.proxy.options.data.filtering.push({
 					// dataKey: "descripcion",
 					// filterOperator: "Contains",
@@ -211,11 +219,15 @@
 			    // { dataKey: "id", hidden:true, visible:true, headerText: "ID" }						
 				
 { dataKey: "id", visible:true, headerText: "Id" },
-{ dataKey: "nombre", visible:true, headerText: "Nombre" },
-{ dataKey: "icono", visible:true, headerText: "Icono" },
-{ dataKey: "nombre_interno", visible:true, headerText: "Nombre_interno" },
-{ dataKey: "ruta_base", visible:true, headerText: "Ruta_base" },
-{ dataKey: "orden", visible:true, headerText: "Orden" }
+{ dataKey: "esDefault", visible:true, headerText: "Esdefault" },
+{ dataKey: "extras", visible:true, headerText: "Extras" },
+{ dataKey: "campo", visible:true, headerText: "Campo" },
+{ dataKey: "llave", visible:true, headerText: "Llave" },
+{ dataKey: "esNulo", visible:true, headerText: "Esnulo" },
+{ dataKey: "tipo", visible:true, headerText: "Tipo" },
+{ dataKey: "componente", visible:true, headerText: "Componente" },
+{ dataKey: "comp_config", visible:true, headerText: "Comp_config" },
+{ dataKey: "fk_catalogo", visible:true, headerText: "Fk_catalogo" }
 			]
 		});
 		

@@ -1,7 +1,7 @@
 <?php
-class ModuloModelo extends Modelo{
-	var $tabla="system_modulos";
-	var $campos=array('id','nombre','icono','nombre_interno','ruta_base','orden');
+class elementoModelo extends Modelo{
+	var $tabla="constructor_elemento_catalogo";
+	var $campos=array('id','esDefault','extras','campo','llave','esNulo','tipo','componente','comp_config','fk_catalogo');
 	var $pk="id";
 	
 	function nuevo($params){

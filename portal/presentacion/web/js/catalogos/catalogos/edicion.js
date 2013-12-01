@@ -3,6 +3,10 @@
 	this.tituloNuevo='Nuevo Catalogo';
 	this.saveAndClose=false;
 	var gridElementos = new GridElementos();
+	this.configBotonesEditada=function(){};
+	this.configurarComponente=function(){
+		alert("CONFIGURAR");
+	}
 	this.recargar=function(){		
 		$("#contenedorDatos2").block({ 
 			message: '<h1>Obteniendo Campos, espere unos segundos...</h1>'               
@@ -35,7 +39,7 @@
 				//--------------------
 				var elementos=resp.datos;	
 				
-				console.log("elementos"); console.log(elementos);
+				
 				var grid=$(gridElementos.targetSelector);
 				var data=grid.wijgrid('data');				
 				data.length=0;
@@ -149,6 +153,7 @@
 		var config={
 			tabId:tabId,
 			articulos:{},
+			elementos:params.elementos,
 			padre:this
 		};
 		gridElementos.init(config);
@@ -208,9 +213,8 @@
 	this.guardar=function(){
 		var tabId=this.tabId;
 		var tab = $('#tabs '+tabId);
-		var me=this;
-	
-		//-----------------------------------
+		var me=this;		
+		
 		// http://stackoverflow.com/questions/2403179/how-to-get-form-data-as-a-object-in-jquery
 		var paramObj = {};
 		$.each($(tabId + ' .frmEdicion').serializeArray(), function(_, kv) {
@@ -224,7 +228,12 @@
 		});
 		//-----------------------------------
 		var datos=paramObj;
-		
+		//-----------------------------------------------		
+		$(gridElementos.targetSelector).wijgrid('endEdit');		
+		var datos=paramObj;		
+		var elementos=$(gridElementos.targetSelector).wijgrid('data');
+		datos.elementos = elementos;		
+		//-----------------------------------------------		
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -260,6 +269,9 @@
 				objId = objId.toLowerCase();
 				$(me.tabId ).attr('objId',objId);				
 				
+				console.log("resp"); console.log(resp.datos);
+				var elementos= ( resp.datos.elementos != null )? resp.datos.elementos : new Array();
+				gridElementos.recargar(elementos);
 				$.gritter.add({
 					position: 'bottom-left',
 					title:title,
@@ -370,6 +382,12 @@
 				me.editado=true;
 			});
 			
+			
+			
+			$(this.tabId + ' .contenedorTabla .btnConfigurarComponente').click( function(){
+				me.configurarComponente();
+				me.editado=true;
+			});
 			$(this.tabId + ' .contenedorTabla .btnRecargarTabla').click( function(){
 				me.recargar();
 				me.editado=true;

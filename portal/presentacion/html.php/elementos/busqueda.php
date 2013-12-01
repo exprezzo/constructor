@@ -18,20 +18,20 @@
 				nombre:'<?php echo $_PETICION->modulo; ?>'
 			},
 			catalogo:{
-				nombre:'Modulos'
+				nombre:'Elemento del Catalogo'
 
 			},			
 			pk:"id"
 			
 		};				
-		 var lista=new Busquedamodulos();
+		 var lista=new Busquedaelementos();
 		 lista.init(config);		
 	});
 </script>
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>BUSQUEDA</h1>
+    	<h1>Buscar Elemento</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">

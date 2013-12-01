@@ -51,7 +51,8 @@
 				nombre:'Catalogos',
 				modelo:'Catalogo'
 			},			
-			pk:"id"
+			pk:"id",
+			elementos:<?php echo json_encode( $this->datos['elementos'] ); ?>
 			
 		};				
 		 var editor=new Edicioncatalogos();
@@ -196,8 +197,16 @@
 					<input type="text" name="pk_tabla" class="entradaDatos" value="<?php echo $this->datos['pk_tabla']; ?>" style="width:500px;" />
 				</div>
 			</form>
-			<h1>Elementos</h1>
-			<table class="tablaElementos">
+			<h1 style="display:inline-block;">Elementos</h1>
+			<br />
+			<input type="button"  class="botonNuevo btnConfigurarComponente" value="Configurar Componente"   style="width:226px; ;position:absolute; margin: auto; margin-left: 13px; height: 32px;" />
+			<br />
+			<div class="toolbar_detalles" style="margin-right: 44px;">
+				<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+				<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+			</div>
+			
+			<table class="tablaElementos" >
 				<thead>
 					<th>id</th>		
 					<th>Campo</th>					
@@ -213,4 +222,7 @@
 			</div>
 		</div>		
 	</div>
+	<div id="<?php echo $id; ?>-dialog-confirm-eliminarConcepto" title="&iquest;Eliminar Concepto?">
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto?</p>
+	</div> 	
 </div>

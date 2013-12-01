@@ -1,7 +1,7 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/Modulo_modelo.php';
-class modulos extends Controlador{
-	var $modelo="Modulo";	
+require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
+class elementos extends Controlador{
+	var $modelo="elemento";	
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();

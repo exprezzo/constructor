@@ -1,6 +1,17 @@
 var GridElementos = function(){
 	
+	this.recargar = function(elementos){
+		//--------------------		
+		var grid=$(this.targetSelector);
+		var data=grid.wijgrid('data');
+		data.length=0;
+		for(var i=0; i<elementos.length; i++){
+			data.push(elementos[i]);
+		}
 
+		grid.wijgrid('ensureControl', true);
+		//-----------------------------
+	}
 	this.init=function(config){
 		var tabId=config.tabId, 
 			padre = config.padre, 			
@@ -56,18 +67,21 @@ var GridElementos = function(){
 		if (id==0){	
 		  this.nuevo();
 		}
+		this.recargar(config.elementos);
 		return true;		
 	};
 	
 	this.configurarGrid=function(targetSelector, articulos){		
 		var fields=[
 			{ name: "id", default:0},
-			{ name:'Default'},
-			{ name:'Extra'},
-			{ name:'Field'},
-			{ name:'Key'},
-			{ name:'Null'},
-			{ name:'Type'},
+			{ name:'esDefault'},
+			{ name:'extras'},
+			{ name:'campo'},
+			{ name:'llave'},
+			{ name:'esNulo'},
+			{ name:'tipo'},
+			{ name:'componente'},
+			{ name:'comp_config'},
 			{ name: "eliminado", default:false}
 		];
 		
@@ -101,13 +115,16 @@ var GridElementos = function(){
 				}
 			},
 			columns: [
-				{ dataKey: "id", visible:true, headerText: "id", editable:true, valueRequired: true },
-				{ dataKey: "Default", visible:true, headerText: "valor_default", editable:true, valueRequired: true },
-				{ dataKey: "Extra", visible:true, headerText: "extra", editable:true, valueRequired: true },
-				{ dataKey: "Field", visible:true, headerText: "nombre", editable:true, valueRequired: true },
-				{ dataKey: "Key", visible:true, headerText: "llave", editable:true, valueRequired: true },				
-				{ dataKey: "Null", visible:true, headerText: "permitirNulo", editable:true, valueRequired: true },
-				{ dataKey: "Type", visible:true, headerText: "tipo", editable:true, valueRequired: true }				
+				{ dataKey: "id", visible:true, headerText: "id", editable:true, valueRequired: true },				
+				{ dataKey: "esDefault", visible:true, headerText: "valor_default", editable:true, valueRequired: true },
+				{ dataKey: "extras", visible:true, headerText: "extra", editable:true, valueRequired: true },
+				{ dataKey: "campo", visible:true, headerText: "nombre", editable:true, valueRequired: true },
+				{ dataKey: "llave", visible:true, headerText: "llave", editable:true, valueRequired: true },				
+				{ dataKey: "esNulo", visible:true, headerText: "permitirNulo", editable:true, valueRequired: true },
+				{ dataKey: "tipo", visible:true, headerText: "tipo", editable:true, valueRequired: true },
+				{ dataKey: "componente", visible:true, headerText: "Tipo de Componente", editable:true, valueRequired: true },
+				{ dataKey: "comp_config", visible:true, headerText: "Config", editable:true, valueRequired: true }
+				
 			]
 		});
 		var me=this;
@@ -134,7 +151,7 @@ var GridElementos = function(){
 					.appendTo(args.cell.container().empty());
 					
 				combo.css('width',	w-5 );
-				combo.css('height',	h-7 );
+				combo.css('height',	h-3 );
 				
 				args.handled = true;
 				combo.focus();

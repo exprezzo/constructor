@@ -45,13 +45,13 @@
 				nombre:'<?php echo $_PETICION->modulo; ?>'
 			},
 			catalogo:{
-				nombre:'Modulos',
-				modelo:'Modulo'
+				nombre:'Elemento del Catalogo',
+				modelo:'Elemento'
 			},			
 			pk:"id"
 			
 		};				
-		 var editor=new Edicionmodulos();
+		 var editor=new Edicionelementos();
 		 editor.init(config);		
 	});
 </script>
@@ -83,7 +83,7 @@
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
-    	<h1></h1>
+    	<h1>Nuevo Elemento</h1>
 	</div>
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">
@@ -95,28 +95,48 @@
 				</div>
 
 				<div class="inputBox" style=""  >
-					<label style="">Nombre:</label>
-					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
+					<label style="">Esdefault:</label>
+					<input type="text" name="esDefault" class="entradaDatos" value="<?php echo $this->datos['esDefault']; ?>" style="width:500px;" />
 				</div>
 
 				<div class="inputBox" style=""  >
-					<label style="">Icono:</label>
-					<input type="text" name="icono" class="entradaDatos" value="<?php echo $this->datos['icono']; ?>" style="width:500px;" />
+					<label style="">Extras:</label>
+					<input type="text" name="extras" class="entradaDatos" value="<?php echo $this->datos['extras']; ?>" style="width:500px;" />
 				</div>
 
 				<div class="inputBox" style=""  >
-					<label style="">Nombre_interno:</label>
-					<input type="text" name="nombre_interno" class="entradaDatos" value="<?php echo $this->datos['nombre_interno']; ?>" style="width:500px;" />
+					<label style="">Campo:</label>
+					<input type="text" name="campo" class="entradaDatos" value="<?php echo $this->datos['campo']; ?>" style="width:500px;" />
 				</div>
 
 				<div class="inputBox" style=""  >
-					<label style="">Ruta_base:</label>
-					<input type="text" name="ruta_base" class="entradaDatos" value="<?php echo $this->datos['ruta_base']; ?>" style="width:500px;" />
+					<label style="">Llave:</label>
+					<input type="text" name="llave" class="entradaDatos" value="<?php echo $this->datos['llave']; ?>" style="width:500px;" />
 				</div>
 
 				<div class="inputBox" style=""  >
-					<label style="">Orden:</label>
-					<input type="text" name="orden" class="entradaDatos" value="<?php echo $this->datos['orden']; ?>" style="width:500px;" />
+					<label style="">Esnulo:</label>
+					<input type="text" name="esNulo" class="entradaDatos" value="<?php echo $this->datos['esNulo']; ?>" style="width:500px;" />
+				</div>
+
+				<div class="inputBox" style=""  >
+					<label style="">Tipo:</label>
+					<input type="text" name="tipo" class="entradaDatos" value="<?php echo $this->datos['tipo']; ?>" style="width:500px;" />
+				</div>
+
+				<div class="inputBox" style=""  >
+					<label style="">Componente:</label>
+					<input type="text" name="componente" class="entradaDatos" value="<?php echo $this->datos['componente']; ?>" style="width:500px;" />
+				</div>
+
+				<div class="inputBox" style=""  >
+					<label style="">Comp_config:</label>
+					<input type="text" name="comp_config" class="entradaDatos" value="<?php echo $this->datos['comp_config']; ?>" style="width:500px;" />
+				</div>
+
+				<div class="inputBox" style=""  >
+					<label style="">Fk_catalogo:</label>
+					<input type="text" name="fk_catalogo" class="entradaDatos" value="<?php echo $this->datos['fk_catalogo']; ?>" style="width:500px;" />
 				</div>
 
 			</form>
