@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>	
 	# Enrutamiento mediante htacces de apache		
-    RewriteEngine On			
-	RewriteRule ^$ core/entrada.php/backend/paginas/inicio$1 [L]
-	RewriteRule ^/$ core/entrada.php/backend/paginas/index$1 [L]
+    RewriteEngine On				
+	RewriteRule ^$ portal/paginas/inicio
+	RewriteRule ^/$ portal/paginas/inicio
 	
 	RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

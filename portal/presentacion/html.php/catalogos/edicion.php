@@ -224,5 +224,8 @@
 	</div>
 	<div id="<?php echo $id; ?>-dialog-confirm-eliminarConcepto" title="&iquest;Eliminar Concepto?">
 		<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto?</p>
-	</div> 	
+	</div>
+	
+	<div id="<?php echo $id; ?>-dialog-configurarComponente" title="Configurar Componente" style="width:auto;">		
+	</div>
 </div>

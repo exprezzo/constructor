@@ -1,5 +1,127 @@
 var GridElementos = function(){
-	
+	var me=this;
+	this.aceptarConfig=function(){
+		var paramObj = {};
+		
+		var selector=me.padre.tabId + '-dialog-configurarComponente form';
+		
+		$.each($(selector).serializeArray(), function(_, kv) {
+		  if (paramObj.hasOwnProperty(kv.name)) {
+			paramObj[kv.name] = $.makeArray(paramObj[kv.name]);
+			paramObj[kv.name].push(kv.value);
+		  }
+		  else {
+			paramObj[kv.name] = kv.value;
+		  }
+		});
+		//-----------------------------------
+		var componente=this.selected.componente;
+		if (componente=='Combo Box'){
+			var selector='.formCompConfig select[name="campo_a_mostrar"]';
+			var selectedIndex = $(selector).wijcombobox('option','selectedIndex');  
+			var selectedItem = $(selector).wijcombobox("option","data");					
+			if (selectedIndex == -1){
+				paramObj['campo_a_mostrar'] ='';
+			}else{
+				if (selectedItem.data == undefined ){
+					paramObj['campo_a_mostrar'] =selectedItem[selectedIndex]['label'];
+				}else{
+					paramObj['campo_a_mostrar'] =selectedItem.data[selectedIndex]['nombre'];
+				}
+			}
+						
+		
+		}
+		
+		//-----------------------------------
+		var datos=paramObj;
+		var strConfig=JSON.stringify(datos);
+		
+		var cellInfo= $(this.target).wijgrid("currentCell");		
+		var row = cellInfo.row();		
+		row.data.comp_config=strConfig;
+		$(this.target).wijgrid("ensureControl", true);
+		this.padre.configBotonesEditada();
+		
+	};
+	this.configurarComponenteSeleccionado=function(){
+		// console.log( "this.selected" ); console.log( this.selected );
+		if ( this.selected == null ) return false;
+		
+		var componente=this.selected.componente;
+		var config=resp=eval('(' + this.selected.comp_config + ')');
+		
+		me.selected.comp_config
+		var params={ 
+			componente: componente ,
+			config:config
+		};
+		$("#contenedorDatos2").block({ 
+			message: '<h1>Obteniendo Plantilla, espere unos segundos...</h1>'               
+		});
+		
+		$.ajax({
+			type: "POST",
+			url: kore.url_base+this.padre.configuracion.modulo.nombre+'/'+this.padre.controlador.nombre+'/getConfigurador',
+			data: params
+		}).done(function( response ) {
+			$("#contenedorDatos2").unblock(); 
+			var resp;
+			try{
+				resp=eval('(' + response + ')');
+			}catch(err){
+				resp={};
+				resp.success = false;
+				resp.title='El servidor respondio de manera no apropiada';
+				resp.msg=response;
+			}
+			
+			resp.datos = (resp.datos==null )? '': resp.datos;
+			var msg= (resp.msg)? resp.msg : '';
+			var title;
+			
+			
+			if ( resp.success == true	){
+				title= 'Exito';					
+				icon= kore.url_web+'imagenes/yes.png';				
+				//--------------------				
+			}else{
+				title= 'Error';
+				icon= kore.url_web+'imagenes/error.png';
+			}
+			
+			
+			var msg='';
+			
+			//Esto deberia pasar al nucleo
+			if (resp.msg != undefined) msg =resp.msg;
+			if (resp.title != undefined) title =resp.title;
+			// if (resp.icon != undefined){} icon = resp.icon;
+			
+			if (resp.success == false)
+			$.gritter.add({
+				position: 'bottom-left',
+				title:title,
+				text: msg,
+				image: icon,
+				class_name: 'my-sticky-class'
+			});
+			
+			$(me.padre.tabId + "-dialog-configurarComponente").wijdialog('open');
+			$(me.padre.tabId + "-dialog-configurarComponente").html( resp.datos );
+			
+			// var datosConfig=eval('(' + me.selected.comp_config + ')');
+			
+			
+			// $.each(datosConfig, function( index, value ) {			  
+				// $(me.padre.tabId + "-dialog-configurarComponente form [name='"+index+"']").val(value);
+			// });
+			
+				
+				
+		});
+		
+	};
 	this.recargar = function(elementos){
 		//--------------------		
 		var grid=$(this.targetSelector);
@@ -61,7 +183,31 @@ var GridElementos = function(){
 			 ]
           });
 		  
-		  
+		 $(this.tabId + "-dialog-configurarComponente").wijdialog({
+			autoOpen: false,
+			width: 'auto',
+            captionButtons: {                  
+				pin: { visible: false },
+				refresh: { visible: false },
+				toggle: { visible: false },
+				minimize: { visible: false },
+				maximize: { visible: false }
+			},
+			buttons: [{
+				text: "Aceptar",
+				click: function() {
+					  // $("#dialog").jqprint();
+					  me.aceptarConfig();
+					  $(this).wijdialog("close");
+				   }
+				},
+				{text: "Cancelar",
+				click: function() {
+					  $(this).wijdialog("close");
+				   }
+				}
+			 ]
+          });
 		 var id = $(this.tabId + ' [name="id"]').val();
 		
 		if (id==0){	
@@ -81,7 +227,7 @@ var GridElementos = function(){
 			{ name:'esNulo'},
 			{ name:'tipo'},
 			{ name:'componente'},
-			{ name:'comp_config'},
+			{ name:'comp_config', default:'{}'},
 			{ name: "eliminado", default:false}
 		];
 		
@@ -123,8 +269,7 @@ var GridElementos = function(){
 				{ dataKey: "esNulo", visible:true, headerText: "permitirNulo", editable:true, valueRequired: true },
 				{ dataKey: "tipo", visible:true, headerText: "tipo", editable:true, valueRequired: true },
 				{ dataKey: "componente", visible:true, headerText: "Tipo de Componente", editable:true, valueRequired: true },
-				{ dataKey: "comp_config", visible:true, headerText: "Config", editable:true, valueRequired: true }
-				
+				{ dataKey: "comp_config", visible:false, headerText: "Config", editable:true, valueRequired: true }				
 			]
 		});
 		var me=this;
@@ -526,7 +671,9 @@ var GridElementos = function(){
 		var rec={};
 		$.each( this.fields, function(indexInArray, valueOfElement){
 			var campo=valueOfElement.name;
-			rec[campo]='';		
+			
+			
+			rec[campo]= (valueOfElement.default != null )? valueOfElement.default : '';		
 		} );
 		
 		// console.log(rec);

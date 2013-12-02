@@ -2,8 +2,78 @@
 require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modulo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
+require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
+	function getCampos(){
+		$filtros=$_POST['filtering'];
+		$modelo='';
+		foreach($filtros as $filtro){
+			if ($filtro['dataKey'] == 'nombreModelo'){
+				$modelo=$filtro['filterValue'];
+			}
+		}
+		global $_PETICION;
+		require_once $_PETICION->basePath.'modelos/'.$modelo.'_modelo.php';
+		$clase=$modelo.'Modelo';
+		$mod = new $clase();
+		$arrCampos=$mod->campos;
+		$campos=array();
+		foreach($arrCampos as $key=>$value){
+			$campos[]=array(
+				'id'=>$value,
+				'nombre'=>$value,
+			);
+		}
+		
+		$totalRows=sizeof($campos);
+		$rows = $campos;
+		
+		$res=array(
+			'success'=>true,
+			'msg'=>'Campos',
+			'totalRows'=>$totalRows,
+			'rows'=>$rows
+		);
+		echo json_encode($res);
+		return $res;
+	}
+	function getConfigurador(){
+		
+		$componente=$_POST['componente'];
+		//-----Busca un template para ese componente
+		$componente = addslashes($componente);
+		$componente=strtolower($componente);
+		$componente=str_replace(' ','_', $componente);
+		
+		global $_PETICION;
+		
+		
+		$template=$_PETICION->ruta_vistas.$_PETICION->controlador.'/configuradores/'.$componente.'.php';
+		
+		$existe=file_exists($template);
+		if ( !$existe ){
+			echo 'template no encontrado'; return false;
+		}
+		
+		$config=$_POST['config'];
+		
+		ob_start();
+		$this->datos=$config;
+		include $template;
+		
+		$buffer = ob_get_flush();
+		ob_end_clean();
+		
+		
+		$res=array(
+			'success'=>true,
+			'msg'=>'Plantilla Obtenida',
+			'datos'=>$buffer
+		);
+		echo json_encode( $res );
+		return $res;
+	}
 	function limpiarCadena($valor){
 		$valor = str_ireplace("SELECT","",$valor);
 		$valor = str_ireplace("COPY","",$valor);
