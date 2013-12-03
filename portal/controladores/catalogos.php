@@ -5,6 +5,9 @@ require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
+	
+	function generarCodigo(){
+	}
 	function getCampos(){
 		$filtros=$_POST['filtering'];
 		$modelo='';
