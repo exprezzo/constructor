@@ -171,6 +171,7 @@ class catalogos extends Controlador{
 		for($i=0; $i<sizeof($campos); $i++){
 			$obj[$campos[$i]]="";
 		}
+		$obj['elementos']=array();
 		$vista->datos=$obj;		
 		
 		global $_PETICION;

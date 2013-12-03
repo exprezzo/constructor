@@ -62,6 +62,16 @@
 	});
 </script>
 <style>
+.btnConfigurar{	
+	background-color: transparent;
+	border: none;
+	background-size: 38px;
+	background-image: url(<?php echo $_PETICION->url_web; ?>imagenes/configuration.png);
+	background-repeat: no-repeat;
+	width: 38px;
+	height: 35px;
+	cursor: pointer;
+}
 .entradaDatos, input[role="textbox"]{
 	/* float:right; */
 	background-color:#f2f2f2  !important;
@@ -86,6 +96,7 @@
 	
 	color:black  !important;
 }
+.contenedorMenu2{width:auto !important;}
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
@@ -93,13 +104,63 @@
 	</div>
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">
+			<div id="contenedorMenu2" class="contenedorMenu2 toolbarEdicion">
+				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
+				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="Generar Codigo" class="botonNuevo btnGenerar">
+				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
+			</div>
 			<form class="frmEdicion" style="">
 				
 				<div class="inputBox" style="display:none;"  >
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-
+				<div class="inputBox" style=""  >
+					<label style="">Nombre:</label>
+					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedorTabla" style=""  >
+					<label style="">Tabla:</label>					
+					<select name="tabla">
+						<?php							
+							foreach($this->tablas as $tabla){							
+								$selected= ( $this->datos['tabla'] == $tabla['nombre'] )? 'selected' : '' ;
+								echo '<option '.$selected.' >'.$tabla['nombre'].'</option>';
+							}
+						?>
+					</select>
+					<input type="button"  class="botonNuevo btnRecargarTabla" value="recargar"  text="recargar" style="margin: auto; position: absolute; margin-left: 13px; height: 32px;" />
+				</div>
+				
+				
+				
+			<br />			
+			
+			<h1 style="display:inline-block;">Elementos</h1>
+			
+			<div class="toolbar_detalles" style="margin-right: 44px;">
+				<input type="button" value="" class="btnAgregar" id="botonAgregar"/>				
+				<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+				<input type="button" value="" class="btnConfigurar" />
+			</div>
+			
+			<table class="tablaElementos" >
+				<thead>
+					<th>id</th>		
+					<th>Campo</th>					
+					<th>Tipo</th>
+				</thead>  	 
+				<tbody>			
+				</tbody>
+			</table>
+			
+				
+				
+				<div class="inputBox" style=""  >
+					<label style="">Pk_tabla:</label>
+					<input type="text" name="pk_tabla" class="entradaDatos" value="<?php echo $this->datos['pk_tabla']; ?>" style="width:500px;" />
+				</div>
 				<div class="inputBox" style=""  >
 					<label style="">Modulo:</label>
 					<select name="fk_modulo">
@@ -111,12 +172,7 @@
 						?>
 					</select>					
 				</div>
-
-				<div class="inputBox" style=""  >
-					<label style="">Nombre:</label>
-					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
-				</div>
-
+				
 				<div class="inputBox" style=""  >
 					<label style="">Controlador:</label>
 					<input type="text" name="controlador" class="entradaDatos" value="<?php echo $this->datos['controlador']; ?>" style="width:500px;" />
@@ -126,29 +182,34 @@
 					<label style="">Modelo:</label>
 					<input type="text" name="modelo" class="entradaDatos" value="<?php echo $this->datos['modelo']; ?>" style="width:500px;" />
 				</div>
+				<div class="inputBox " style=""  >
+					<label style="">Campos_busqueda:</label>
+					<input type="text" name="campos_busqueda" class="entradaDatos" value="<?php echo $this->datos['campos_busqueda']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox" style=""  >
+					<label style="">Titulo_edicion:</label>
+					<input type="text" name="titulo_edicion" class="entradaDatos" value="<?php echo $this->datos['titulo_edicion']; ?>" style="width:500px;" />
+				</div>
 
 				
-
-				<div class="inputBox" style=""  >
-					<label style="">Icono:</label>
-					<input type="text" name="icono" class="entradaDatos" value="<?php echo $this->datos['icono']; ?>" style="width:500px;" />
-				</div>
 
 				<div class="inputBox" style=""  >
 					<label style="">Titulo_nuevo:</label>
 					<input type="text" name="titulo_nuevo" class="entradaDatos" value="<?php echo $this->datos['titulo_nuevo']; ?>" style="width:500px;" />
 				</div>
 
-				<div class="inputBox" style=""  >
-					<label style="">Titulo_edicion:</label>
-					<input type="text" name="titulo_edicion" class="entradaDatos" value="<?php echo $this->datos['titulo_edicion']; ?>" style="width:500px;" />
-				</div>
+				
 
 				<div class="inputBox" style=""  >
 					<label style="">Titulo_busqueda:</label>
 					<input type="text" name="titulo_busqueda" class="entradaDatos" value="<?php echo $this->datos['titulo_busqueda']; ?>" style="width:500px;" />
 				</div>
-
+				
+				<div class="inputBox" style=""  >
+					<label style="">Icono:</label>
+					<input type="text" name="icono" class="entradaDatos" value="<?php echo $this->datos['icono']; ?>" style="width:500px;" />
+				</div>
+				
 				<div class="inputBox" style=""  >
 					<label style="">Msg_creado:</label>
 					<input type="text" name="msg_creado" class="entradaDatos" value="<?php echo $this->datos['msg_creado']; ?>" style="width:500px;" />
@@ -174,50 +235,13 @@
 					<input type="text" name="msg_cambios" class="entradaDatos" value="<?php echo $this->datos['msg_cambios']; ?>" style="width:500px;" />
 				</div>
 
-				<div class="inputBox " style=""  >
-					<label style="">Campos_busqueda:</label>
-					<input type="text" name="campos_busqueda" class="entradaDatos" value="<?php echo $this->datos['campos_busqueda']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedorTabla" style=""  >
-					<label style="">Tabla:</label>					
-					<select name="tabla">
-						<?php							
-							foreach($this->tablas as $tabla){							
-								$selected= ( $this->datos['tabla'] == $tabla['nombre'] )? 'selected' : '' ;
-								echo '<option '.$selected.' >'.$tabla['nombre'].'</option>';
-							}
-						?>
-					</select>
-					<input type="button"  class="botonNuevo btnRecargarTabla" value="recargar"  text="recargar" style="margin: auto; position: absolute; margin-left: 13px; height: 32px;" />
-				</div>
 				
 				
-				<div class="inputBox" style=""  >
-					<label style="">Pk_tabla:</label>
-					<input type="text" name="pk_tabla" class="entradaDatos" value="<?php echo $this->datos['pk_tabla']; ?>" style="width:500px;" />
-				</div>
 			</form>
-			<h1 style="display:inline-block;">Elementos</h1>
-			<br />
-			<input type="button"  class="botonNuevo btnConfigurarComponente" value="Configurar Componente"   style="width:226px; ;position:absolute; margin: auto; margin-left: 13px; height: 32px;" />
-			<br />
-			<div class="toolbar_detalles" style="margin-right: 44px;">
-				<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-				<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-			</div>
-			
-			<table class="tablaElementos" >
-				<thead>
-					<th>id</th>		
-					<th>Campo</th>					
-					<th>Tipo</th>
-				</thead>  	 
-				<tbody>			
-				</tbody>
-			</table>
-			<div id="contenedorMenu2" class="toolbarEdicion">
+			<div id="contenedorMenu2" class="contenedorMenu2 toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="Generar Codigo" class="botonNuevo btnGenerar">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
 		</div>		

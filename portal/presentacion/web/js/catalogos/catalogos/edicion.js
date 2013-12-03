@@ -385,10 +385,11 @@
 			
 			
 			
-			$(this.tabId + ' .btnConfigurarComponente').click( function(){
+			$(this.tabId + ' .btnConfigurar').click( function(){
 				me.configurarComponente();
 				me.editado=true;
 			});
+			
 			$(this.tabId + ' .contenedorTabla .btnRecargarTabla').click( function(){
 				me.recargar();
 				me.editado=true;
