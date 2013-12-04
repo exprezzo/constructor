@@ -3,10 +3,18 @@ require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modulo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
+require_once $_PETICION->basePath.'/generador.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
 	
 	function generarCodigo(){
+		$id=$_POST['id'];
+		
+		$mod=$this->getModelo();
+		$generador=new GeneradorDeCodigo();
+		
+		$res = $generador->generarCodigo($id);
+		// echo json_encode( $res );
 	}
 	function getCampos(){
 		$filtros=$_POST['filtering'];

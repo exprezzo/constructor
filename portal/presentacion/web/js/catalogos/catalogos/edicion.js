@@ -8,7 +8,7 @@
 			message: '<h1>Generando Codigo del catálogo, espere unos segundos...</h1>'               
 		}); 
 		
-		var id = $("[name='id|']").val();
+		var id = $("[name='id']").val();
 		$.ajax({
 			type: "POST",
 			url: kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/generarCodigo',
