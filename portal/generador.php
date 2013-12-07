@@ -42,7 +42,8 @@ class GeneradorDeCodigo{
 				$config=json_decode($el['comp_config'], true);				 
 				$fk_modelo=$config['target'];				
 				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );				
+				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+				
 				$campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].', ';				
 				$joins.=$crlf.' LEFT JOIN '.$modeloObj['tabla'].' AS '.$modeloObj['nombre'].$numJoins;
 				$joins.=' ON '.$modeloObj['nombre'].$numJoins.'.'.$modeloObj['llave_primaria'].' = '.$cat['modelo'].'.'.$el['campo'];
@@ -53,21 +54,48 @@ class GeneradorDeCodigo{
 		}		
 		
 		$campos = substr($campos, 0, strlen($campos)-2);
-		$filtros=' WHERE '.$cat['modelo'].'.'.$cat['pk_tabla'].'=:'.$cat['pk_tabla'];
+		$filtros=' WHERE '.$cat['modelo'].'.{CAMPOLLAVE}=:{CAMPOLLAVE}';
 		
 		
 		$sql='SELECT '.$campos.$crlf.
 		' FROM '.$cat['tabla'].' AS '.$cat['modelo'].
 		$joins.
-		$crlf.' '.$filtros;		
-		$modeloStr = str_replace('{SQL-obtener}', $sql, $modeloStr);		
+		$crlf.' '.$filtros;
+		$modeloStr = str_replace('{SQL-obtener}', $sql, $modeloStr);
 		
-		$filtroObtener=' $sth->BindValue(\':'.$cat['pk_tabla'].'\',$llave ); ';
-		$modeloStr = str_replace('//{FILTRO-OBTENER}', $filtroObtener, $modeloStr);		
+		$filtroObtener=' $sth->BindValue(\':{CAMPOLLAVE}\',$llave ); ';
+		$modeloStr = str_replace('//{FILTRO-OBTENER}', $filtroObtener, $modeloStr);
 		
 		$nombreModelo = $cat['modelo'].'Modelo';
-		$modeloStr = str_replace('class PlantillaModelo', 'class '.$nombreModelo, $modeloStr);		
+		$modeloStr = str_replace('class PlantillaModelo', 'class '.$nombreModelo, $modeloStr);
 		//-----------------------------------------------------------------
+		// GUARDAR
+		$codigoCampos = '';
+		$codigoBindCampos='';
+		foreach($cat['elementos'] as $el ){
+			if ($el['llave']=='PRI' ) {
+				
+				$modeloStr = str_replace('{CAMPOLLAVE}', $el['campo'], $modeloStr);	
+				continue;
+			}
+			$codigoCampos .=' 
+		if ( isset( $datos[\''.$el['campo'].'\'] ) ){
+			$strCampos = \' '.$el['campo'].'=:'.$el['campo'].', \';
+		}
+';
+			$codigoBindCampos.='
+		if  ( isset( $datos[\''.$el['campo'].'\'] ) ){
+			$sth->bindValue(\':'.$el['campo'].'\', $datos[\''.$el['campo'].'\'] );
+		}
+';
+			
+		}
+		
+		$modeloStr = str_replace('//{guardar()-codigoCampos}', $codigoCampos, $modeloStr);	
+		$modeloStr = str_replace('//{guardar()-codigoBindCampos}', $codigoBindCampos, $modeloStr);	
+		
+		
+		//---------------------------------------------------------------------
 		$directorio = $rutaBase.'modelos/';		
 		if ( !file_exists($directorio)) {
 			mkdir($directorio);
@@ -77,7 +105,10 @@ class GeneradorDeCodigo{
 		$handle = fopen($filename, "w");
 		$modeloStr= fwrite($handle, $modeloStr, strlen($modeloStr));
 		fclose($handle);
-		
+		return array(
+			'success'=>false,
+			'msg'=>'En Construccion '
+		);
 	}
 	
 }

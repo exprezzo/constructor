@@ -14,7 +14,7 @@ class catalogos extends Controlador{
 		$generador=new GeneradorDeCodigo();
 		
 		$res = $generador->generarCodigo($id);
-		// echo json_encode( $res );
+		 echo json_encode( $res );
 	}
 	function getCampos(){
 		$filtros=$_POST['filtering'];
