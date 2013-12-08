@@ -112,7 +112,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="'+this.configuracion.pk+'"]').val();
 		if (id>0){			
-			$(tabId +' #titulo h1').html('Pagina: ' + getValorCampo('nombre'));
+			$(tabId +' #titulo h1').html('Pagina: ' + getValorCampo('titulo'));
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');

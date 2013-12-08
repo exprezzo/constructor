@@ -1,5 +1,5 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/pagina_modelo.php';
+require_once $_PETICION->basePath.'/modelos/pagina.php';
 class paginas extends Controlador{
 	var $modelo="pagina";	
 	
@@ -13,11 +13,9 @@ class paginas extends Controlador{
 	
 	function nuevo(){		
 		$modelo = $this->getModelo();
-		$campos=$modelo->campos;
-		$vista=$this->getVista();				
-		for($i=0; $i<sizeof($campos); $i++){
-			$obj[$campos[$i]]="";
-		}
+		$obj=$modelo->nuevo( array() );
+		
+		$vista=$this->getVista();
 		$vista->datos=$obj;		
 		
 		global $_TEMA_APP;
@@ -64,8 +62,7 @@ class paginas extends Controlador{
 			$model->pk=>$id
 		);		
 		
-		$obj=$model->obtener( $params );	
-
+		$obj=$model->obtener( $id );			
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		
 		

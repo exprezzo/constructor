@@ -1,13 +1,13 @@
 <?php
-class PlantillaModelo extends Modelo{	
-	//var $tabla;
+class categoriaModelo extends Modelo{	
+	var $tabla='cms_categoria';
 	
 	function eliminar( $id ){
 		if ( empty($params[$this->pk]) ){
-			throw new Exception("Es necesario el parámetro '{CAMPOLLAVE}'");			
+			throw new Exception("Es necesario el parámetro 'id'");			
 		};		
 		$id=$params[$this->pk];
-		$sql = 'DELETE FROM '.$this->tabla.' WHERE {CAMPOLLAVE}=:id';		
+		$sql = 'DELETE FROM '.$this->tabla.' WHERE id=:id';		
 		
 		$con = $this->getConexion();
 		$sth = $con->prepare($sql);		
@@ -23,7 +23,16 @@ class PlantillaModelo extends Modelo{
 		$filtros='';
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
-				//buscar()-FILTROS			
+				 
+				if ( $filtro['dataKey']=='id' ) {
+					$filtros .= ' id like :id OR ';
+				} 
+				if ( $filtro['dataKey']=='nombre' ) {
+					$filtros .= ' nombre like :nombre OR ';
+				} 
+				if ( $filtro['dataKey']=='fk_categoria_padre' ) {
+					$filtros .= ' fk_categoria_padre like :fk_categoria_padre OR ';
+				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
 			if ( !empty($filtros) ){
@@ -32,12 +41,21 @@ class PlantillaModelo extends Modelo{
 		}
 		
 		
-		$joins='{buscar()-JOINS}';
+		$joins='';
 						
-		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' {buscar()-nombreModelo} '.$joins.$filtros;				
+		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' categoria '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
 		foreach($params['filtros'] as $filtro){
-			//buscar()-BIND_FILTROS		
+			
+			if ( $filtro['dataKey']=='id' ) {
+				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre' ) {
+				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fk_categoria_padre' ) {
+				$sth->bindValue(':fk_categoria_padre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}		
 		}
 		$exito = $sth->execute();		
 		if ( !$exito ){
@@ -56,9 +74,9 @@ class PlantillaModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT {CAMPOS-SELECT} FROM '.$this->tabla.' {NOMBRE-MODELO} '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre FROM '.$this->tabla.' categoria '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT {CAMPOS-SELECT} FROM '.$this->tabla.' {NOMBRE-MODELO} '.$joins.$filtros;
+			$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre FROM '.$this->tabla.' categoria '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -69,7 +87,16 @@ class PlantillaModelo extends Modelo{
 		
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
-				//buscar()-BIND_FILTROS	
+				
+			if ( $filtro['dataKey']=='id' ) {
+				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre' ) {
+				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fk_categoria_padre' ) {
+				$sth->bindValue(':fk_categoria_padre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}	
 			}
 		}
 		$exito = $sth->execute();
@@ -91,14 +118,19 @@ class PlantillaModelo extends Modelo{
 	
 	function nuevo( $params ){
 		$obj=array();
-		//nuevo()-ATTRIBUTOS
+		
+		$obj['id']='';
+		$obj['nombre']='';
+		$obj['fk_categoria_padre']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = '{SQL-obtener}';
+		$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre
+ FROM cms_categoria AS categoria
+  WHERE categoria.id=:id';
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
-		//{FILTRO-OBTENER}
+		 $sth->BindValue(':id',$llave ); 
 		$exito = $sth->execute();
 		if ( !$exito ){
 			$error =  $this->getError( $sth );
@@ -120,12 +152,18 @@ class PlantillaModelo extends Modelo{
 	
 	function guardar( $datos ){
 	
-		$esNuevo=( empty( $datos['{CAMPOLLAVE}'] ) )? true : false;			
+		$esNuevo=( empty( $datos['id'] ) )? true : false;			
 		$strCampos='';
 		
 		//--------------------------------------------
 		// CAMPOS A GUARDAR
-		//{guardar()-codigoCampos}		
+		 
+		if ( isset( $datos['nombre'] ) ){
+			$strCampos .= ' nombre=:nombre, ';
+		} 
+		if ( isset( $datos['fk_categoria_padre'] ) ){
+			$strCampos .= ' fk_categoria_padre=:fk_categoria_padre, ';
+		}		
 		//--------------------------------------------
 		
 		$strCampos=substr( $strCampos,0,  strlen($strCampos)-2 );
@@ -133,19 +171,25 @@ class PlantillaModelo extends Modelo{
 		
 		if ( $esNuevo ){
 			$sql = 'INSERT INTO '.$this->tabla.' SET '.$strCampos;
-			$msg='{guardar()-MSG_NUEVO}';
+			$msg='Categoria Creada';
 		}else{
-			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE {CAMPOLLAVE}=:{CAMPOLLAVE}';
-			$msg='{guardar()-MSG_ACTUALIZADO}';
+			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE id=:id';
+			$msg='Categoria Actualizada';
 		}
 		
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
 		//--------------------------------------------		
 		// BIND VALUES
-		//{guardar()-codigoBindCampos}		
+		
+		if  ( isset( $datos['nombre'] ) ){
+			$sth->bindValue(':nombre', $datos['nombre'] );
+		}
+		if  ( isset( $datos['fk_categoria_padre'] ) ){
+			$sth->bindValue(':fk_categoria_padre', $datos['fk_categoria_padre'] );
+		}		
 		if ( !$esNuevo)	{
-			$sth->bindValue(':{CAMPOLLAVE}', $datos['{CAMPOLLAVE}'] );
+			$sth->bindValue(':id', $datos['id'] );
 		}	
 		//--------------------------------------------
 		$exito = $sth->execute();
@@ -157,7 +201,7 @@ class PlantillaModelo extends Modelo{
 		if ( $esNuevo ){
 			$idObj=$pdo->lastInsertId();
 		}else{
-			$idObj=$datos['{CAMPOLLAVE}'];
+			$idObj=$datos['id'];
 		}	
 		
 		$obj=$this->obtener( $idObj );

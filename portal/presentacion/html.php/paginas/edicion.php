@@ -99,19 +99,28 @@
 					<input type="text" name="titulo" class="entradaDatos" value="<?php echo $this->datos['titulo']; ?>" style="width:500px;" />
 				</div>
 
-				<div class="inputBox" style=""  >
-					<label style="">Nombre:</label>
-					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
-				</div>
+				
 
 				<div class="inputBox" style=""  >
 					<label style="">Contenido:</label>
 					<input type="text" name="contenido" class="entradaDatos" value="<?php echo $this->datos['contenido']; ?>" style="width:500px;" />
 				</div>
-
+				<div class="inputBox" style=""  >
+					<label style="">Categoria:</label>
+					<input type="text"  class="entradaDatos" value="<?php echo $this->datos['nombre_categoria']; ?>" style="width:500px;" />
+				</div>
+				
 				<div class="inputBox" style=""  >
 					<label style="">Fk_categoria_pagina:</label>
 					<input type="text" name="fk_categoria_pagina" class="entradaDatos" value="<?php echo $this->datos['fk_categoria_pagina']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox" style=""  >
+					<label style="">Autor:</label>
+					<input type="text"  class="entradaDatos" value="<?php echo $this->datos['name_autor']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox" style=""  >
+					<label style="">fk_utor:</label>
+					<input type="text" name="autor" class="entradaDatos" value="<?php echo $this->datos['autor']; ?>" style="width:500px;" />
 				</div>
 
 				<div class="inputBox" style=""  >

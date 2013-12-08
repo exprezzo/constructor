@@ -1,5 +1,5 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/categoria_modelo.php';
+require_once $_PETICION->basePath.'/modelos/categoria.php';
 class categorias extends Controlador{
 	var $modelo="categoria";	
 	
@@ -64,7 +64,7 @@ class categorias extends Controlador{
 			$model->pk=>$id
 		);		
 		
-		$obj=$model->obtener( $params );	
+		$obj=$model->obtener( $id );	
 
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		

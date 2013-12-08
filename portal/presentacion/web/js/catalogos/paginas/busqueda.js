@@ -180,11 +180,18 @@
 			loading : function(data){				
 				var value = $( ' input[name="query"]').val();				
 				//{CAMPOS_BUSQUEDA}
-				// data.proxy.options.data.filtering.push({
-					// dataKey: "descripcion",
-					// filterOperator: "Contains",
-					// filterValue: value
-				// });
+				data.proxy.options.data.filtering.push({
+					dataKey: "contenido",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+				
+				data.proxy.options.data.filtering.push({
+					dataKey: "name_autor",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+				
             }
 		});
 				
@@ -212,7 +219,6 @@
 				
 { dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "titulo", visible:true, headerText: "Titulo" },
-{ dataKey: "nombre", visible:true, headerText: "Nombre" },
 { dataKey: "contenido", visible:true, headerText: "Contenido" },
 { dataKey: "fk_categoria_pagina", visible:true, headerText: "Fk_categoria_pagina" },
 { dataKey: "fecha_creacion", visible:true, headerText: "Fecha_creacion" },
