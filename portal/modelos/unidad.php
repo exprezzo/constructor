@@ -2,6 +2,7 @@
 class unidadModelo extends Modelo{	
 	var $tabla='exp_um';
 	var $pk='id';
+	var $campos= array('id', 'nombre', 'abreviacion');
 	
 	function buscar($params){
 		

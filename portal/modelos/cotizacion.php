@@ -1,8 +1,8 @@
 <?php
-class conceptoModelo extends Modelo{	
-	var $tabla='exp_concepto';
+class cotizacionModelo extends Modelo{	
+	var $tabla='exp_cotizacion';
 	var $pk='id';
-	var $campos= array('id', 'nombre', 'fk_um', 'abreviacion_unidad');
+	var $campos= array('id', 'serie', 'folio', 'notas', 'fecha');
 	
 	function buscar($params){
 		
@@ -12,16 +12,19 @@ class conceptoModelo extends Modelo{
 			foreach($params['filtros'] as $filtro){
 				 
 				if ( $filtro['dataKey']=='id' ) {
-					$filtros .= ' concepto.id like :id OR ';
+					$filtros .= ' cotizacion.id like :id OR ';
 				} 
-				if ( $filtro['dataKey']=='nombre' ) {
-					$filtros .= ' concepto.nombre like :nombre OR ';
+				if ( $filtro['dataKey']=='serie' ) {
+					$filtros .= ' cotizacion.serie like :serie OR ';
 				} 
-				if ( $filtro['dataKey']=='fk_um' ) {
-					$filtros .= ' concepto.fk_um like :fk_um OR ';
+				if ( $filtro['dataKey']=='folio' ) {
+					$filtros .= ' cotizacion.folio like :folio OR ';
 				} 
-				if ( $filtro['dataKey']=='abreviacion_unidad' ) {
-					$filtros .= ' unidad0.abreviacion like :abreviacion_unidad OR ';
+				if ( $filtro['dataKey']=='notas' ) {
+					$filtros .= ' cotizacion.notas like :notas OR ';
+				} 
+				if ( $filtro['dataKey']=='fecha' ) {
+					$filtros .= ' cotizacion.fecha like :fecha OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -31,10 +34,9 @@ class conceptoModelo extends Modelo{
 		}
 		
 		
-		$joins='
- LEFT JOIN exp_um AS unidad0 ON unidad0.id = concepto.fk_um';
+		$joins='';
 						
-		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' concepto '.$joins.$filtros;				
+		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' cotizacion '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
@@ -42,14 +44,17 @@ class conceptoModelo extends Modelo{
 			if ( $filtro['dataKey']=='id' ) {
 				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='nombre' ) {
-				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='serie' ) {
+				$sth->bindValue(':serie','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='fk_um' ) {
-				$sth->bindValue(':fk_um','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='folio' ) {
+				$sth->bindValue(':folio','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='abreviacion_unidad' ) {
-				$sth->bindValue(':abreviacion_unidad', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='notas' ) {
+				$sth->bindValue(':notas','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fecha' ) {
+				$sth->bindValue(':fecha','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
 			}
 		}
@@ -70,9 +75,9 @@ class conceptoModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad FROM '.$this->tabla.' concepto '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha FROM '.$this->tabla.' cotizacion '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad FROM '.$this->tabla.' concepto '.$joins.$filtros;
+			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha FROM '.$this->tabla.' cotizacion '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -87,14 +92,17 @@ class conceptoModelo extends Modelo{
 			if ( $filtro['dataKey']=='id' ) {
 				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='nombre' ) {
-				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='serie' ) {
+				$sth->bindValue(':serie','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='fk_um' ) {
-				$sth->bindValue(':fk_um','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='folio' ) {
+				$sth->bindValue(':folio','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='abreviacion_unidad' ) {
-				$sth->bindValue(':abreviacion_unidad', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='notas' ) {
+				$sth->bindValue(':notas','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fecha' ) {
+				$sth->bindValue(':fecha','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}	
 			}
 		}
@@ -119,16 +127,16 @@ class conceptoModelo extends Modelo{
 		$obj=array();
 		
 		$obj['id']='';
-		$obj['nombre']='';
-		$obj['fk_um']='';
-		$obj['abreviacion_unidad']='';
+		$obj['serie']='';
+		$obj['folio']='';
+		$obj['notas']='';
+		$obj['fecha']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad
- FROM exp_concepto AS concepto
- LEFT JOIN exp_um AS unidad0 ON unidad0.id = concepto.fk_um
-  WHERE concepto.id=:id';
+		$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha
+ FROM exp_cotizacion AS cotizacion
+  WHERE cotizacion.id=:id';
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
 		 $sth->BindValue(':id',$llave ); 
@@ -159,11 +167,17 @@ class conceptoModelo extends Modelo{
 		//--------------------------------------------
 		// CAMPOS A GUARDAR
 		 
-		if ( isset( $datos['nombre'] ) ){
-			$strCampos .= ' nombre=:nombre, ';
+		if ( isset( $datos['serie'] ) ){
+			$strCampos .= ' serie=:serie, ';
 		} 
-		if ( isset( $datos['fk_um'] ) ){
-			$strCampos .= ' fk_um=:fk_um, ';
+		if ( isset( $datos['folio'] ) ){
+			$strCampos .= ' folio=:folio, ';
+		} 
+		if ( isset( $datos['notas'] ) ){
+			$strCampos .= ' notas=:notas, ';
+		} 
+		if ( isset( $datos['fecha'] ) ){
+			$strCampos .= ' fecha=:fecha, ';
 		}		
 		//--------------------------------------------
 		
@@ -172,10 +186,10 @@ class conceptoModelo extends Modelo{
 		
 		if ( $esNuevo ){
 			$sql = 'INSERT INTO '.$this->tabla.' SET '.$strCampos;
-			$msg='Concepto Creado';
+			$msg='Cotizacion Creada';
 		}else{
 			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE id=:id';
-			$msg='Concepto Actualizado';
+			$msg='Cotizacion Actualizada';
 		}
 		
 		$pdo = $this->getConexion();
@@ -183,11 +197,17 @@ class conceptoModelo extends Modelo{
 		//--------------------------------------------		
 		// BIND VALUES
 		
-		if  ( isset( $datos['nombre'] ) ){
-			$sth->bindValue(':nombre', $datos['nombre'] );
+		if  ( isset( $datos['serie'] ) ){
+			$sth->bindValue(':serie', $datos['serie'] );
 		}
-		if  ( isset( $datos['fk_um'] ) ){
-			$sth->bindValue(':fk_um', $datos['fk_um'] );
+		if  ( isset( $datos['folio'] ) ){
+			$sth->bindValue(':folio', $datos['folio'] );
+		}
+		if  ( isset( $datos['notas'] ) ){
+			$sth->bindValue(':notas', $datos['notas'] );
+		}
+		if  ( isset( $datos['fecha'] ) ){
+			$sth->bindValue(':fecha', $datos['fecha'] );
 		}		
 		if ( !$esNuevo)	{
 			$sth->bindValue(':id', $datos['id'] );

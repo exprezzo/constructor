@@ -227,8 +227,8 @@ var GridElementos = function(){
 			{ name:'esNulo'},
 			{ name:'tipo'},
 			{ name:'componente'},
-			{ name:'comp_config', default:'{}'},
-			{ name: "eliminado", default:false}
+			{ name:'comp_config', default:'{}'}
+			// { name: "eliminado", default:false}
 		];
 		
 		this.fields=fields;			

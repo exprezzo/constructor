@@ -120,7 +120,10 @@ class GeneradorModelo{
 		
 		$modeloStr = str_replace('{buscar()-nombreModelo}', $cat['modelo'], $modeloStr);	
 		$numJoins=0;
+		$strArrCampos='';
 		foreach($cat['elementos'] as $el ){			
+			$strArrCampos.='\''.$el['campo'].'\', ';
+			
 			$codigoCampos .=' 
 				if ( $filtro[\'dataKey\']==\''.$el['campo'].'\' ) {
 					$filtros .= \' '.$cat['modelo'].'.'.$el['campo'].' like :'.$el['campo'].' OR \';
@@ -130,10 +133,13 @@ class GeneradorModelo{
 				$sth->bindValue(\':'.$el['campo'].'\',\'%\'.$filtro[\'filterValue\'].\'%\', PDO::PARAM_STR );
 			}';	
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){
+				
 				$config    = json_decode($el['comp_config'], true);				 
 				$fk_modelo = $config['target'];				
 				$modeloMod = new modelocModelo();
 				$modeloObj = $modeloMod->obtener( array('id'=>$fk_modelo)  );
+				
+				$strArrCampos.='\''.$config['campo_a_mostrar'].'_'.$modeloObj['nombre'].'\', ';
 				
 				$nombreCampo=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'];
 				$nombreFiltro=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
@@ -154,6 +160,8 @@ class GeneradorModelo{
 			}
 					
 		}
+		$strArrCampos=substr($strArrCampos, 0, strlen($strArrCampos)-2 );
+		$modeloStr = str_replace('//MODELO-CAMPOS', 'var $campos= array('.$strArrCampos.');', $modeloStr);	
 		
 		$modeloStr = str_replace('//buscar()-FILTROS', $codigoCampos, $modeloStr);	
 		$modeloStr = str_replace('//buscar()-BIND_FILTROS', $codigoBindCampos, $modeloStr);			

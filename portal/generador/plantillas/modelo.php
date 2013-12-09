@@ -2,6 +2,7 @@
 class PlantillaModelo extends Modelo{	
 	//var $tabla;
 	//var $pk;
+	//MODELO-CAMPOS
 	
 	function buscar($params){
 		

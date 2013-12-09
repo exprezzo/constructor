@@ -25,7 +25,7 @@ class catalogos extends Controlador{
 			}
 		}
 		global $_PETICION;
-		require_once $_PETICION->basePath.'modelos/'.$modelo.'_modelo.php';
+		require_once $_PETICION->basePath.'modelos/'.$modelo.'.php';
 		$clase=$modelo.'Modelo';
 		$mod = new $clase();
 		$arrCampos=$mod->campos;
@@ -203,6 +203,11 @@ class catalogos extends Controlador{
 			echo json_encode($res);
 			return $res;
 		}
+		
+		//-----------------------
+		// $mod=new modeloModelo();
+		// $mod->guardar();
+		//------------------------
 		
 		if ( $esNuevo ){					
 			$res['esNuevo']=true;				
