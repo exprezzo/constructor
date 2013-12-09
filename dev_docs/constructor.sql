@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2013-12-02 23:38:44
+Date: 2013-12-08 23:09:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,12 +24,13 @@ CREATE TABLE `cms_categoria` (
   `nombre` char(255) DEFAULT NULL,
   `fk_categoria_padre` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cms_categoria
 -- ----------------------------
 INSERT INTO `cms_categoria` VALUES ('1', 'Default', '0');
+INSERT INTO `cms_categoria` VALUES ('2', 'Nueva', '1');
 
 -- ----------------------------
 -- Table structure for `constructor_elemento_catalogo`
@@ -49,40 +50,104 @@ CREATE TABLE `constructor_elemento_catalogo` (
   PRIMARY KEY (`id`),
   KEY `fk_catalogo` (`fk_catalogo`),
   CONSTRAINT `fk_catalogo` FOREIGN KEY (`fk_catalogo`) REFERENCES `system_catalogos` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of constructor_elemento_catalogo
 -- ----------------------------
-INSERT INTO `constructor_elemento_catalogo` VALUES ('41', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"ID\",\"requerido\":\"1\",\"oculto\":\"1\",\"editable\":\"0\"}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('42', '', '', 'titulo', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Titulo\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\"}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('43', '', '', 'autor', '', 'YES', 'text', 'Combo Box', '{\"etiqueta\":\"Autor\",\"requerido\":\"1\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"1\",\"campo_a_mostrar\":\"name\"}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('44', '', '', 'contenido', '', 'YES', 'text', 'Html', '{}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('45', '', '', 'fk_categoria_pagina', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Categoria\",\"requerido\":\"1\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"5\",\"campo_a_mostrar\":\"nombre\"}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('46', '', '', 'fecha_creacion', '', 'YES', 'datetime', 'Date Input', '{}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('47', '', '', 'ultima_edicion', '', 'YES', 'datetime', 'Date Input', '{}', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('48', '', '', '', '', '', '', '', '', '40');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('49', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{}', '45');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('50', '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{}', '45');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('51', '', '', 'fk_categoria_padre', '', 'YES', 'int(11)', 'Text Input', '{}', '45');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('52', '0', '', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{}', '46');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('53', '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{}', '46');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('54', '', '', 'fk_um', '', 'YES', 'int(255)', 'Combo Box', '{\"etiqueta\":\"UM\",\"requerido\":\"1\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"2\",\"campo_a_mostrar\":\"nombre\"}', '46');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('58', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('59', '', '', 'titulo', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Titulo\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('60', '', '', 'autor', '', 'YES', 'text', 'Combo Box', '{\"etiqueta\":\"Autor\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"1\",\"campo_a_mostrar\":\"name\"}', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('61', '', '', 'contenido', '', 'YES', 'text', 'Text Input', '{\"etiqueta\":\"Contenido\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('62', '', '', 'fk_categoria_pagina', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Fk_categoria_pagina\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"5\",\"campo_a_mostrar\":\"nombre\"}', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('63', '', '', 'fecha_creacion', '', 'YES', 'datetime', 'Date Input', '{\"etiqueta\":\"Fecha_creacion\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('64', '', '', 'ultima_edicion', '', 'YES', 'datetime', 'Date Input', '{\"etiqueta\":\"Ultima_edicion\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '40');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('65', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('66', '', '', 'nick', 'UNI', 'NO', 'char(255)', 'Text Input', '{\"etiqueta\":\"Nick\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('67', '', '', 'pass', '', 'YES', 'blob', 'Text Input', '{\"etiqueta\":\"Pass\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('68', '', '', 'email', 'UNI', 'NO', 'char(255)', 'Text Input', '{\"etiqueta\":\"Email\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('69', '1', '', 'rol', '', 'YES', 'int(11)', 'Text Input', '{\"etiqueta\":\"Rol\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('70', '', '', 'fbid', '', 'YES', 'int(11)', 'Text Input', '{\"etiqueta\":\"Fbid\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('71', '0', '', 'name', '', 'NO', 'char(255)', 'Text Input', '{\"etiqueta\":\"Name\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('72', '', '', 'picture', '', 'YES', 'varchar(255)', 'Text Input', '{\"etiqueta\":\"Picture\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('73', '', '', 'originalName', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"OriginalName\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '43');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('74', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '45');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('75', '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Nombre\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '45');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('76', '', '', 'fk_categoria_padre', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Fk_categoria_padre\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"5\",\"campo_a_mostrar\":\"nombre\"}', '45');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('77', '0', '', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '46');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('78', '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Nombre\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '46');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('79', '', '', 'fk_um', '', 'YES', 'int(255)', 'Combo Box', '{\"etiqueta\":\"Fk_um\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"2\",\"campo_a_mostrar\":\"abreviacion\"}', '46');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('80', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '44');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('81', '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Nombre\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '44');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('82', '', '', 'abreviacion', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Abreviacion\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '44');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('93', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('94', '', '', 'serie', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Serie\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('95', '', '', 'folio', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Folio\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('96', '', '', 'notas', '', 'YES', 'char(255)', 'Text Input', '{\"etiqueta\":\"Notas\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('97', '', '', 'fecha', '', 'YES', 'datetime', 'Text Input', '{\"etiqueta\":\"Fecha\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('104', '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{\"etiqueta\":\"Id\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('105', '', '', 'fk_concepto', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Fk_concepto\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"6\",\"campo_a_mostrar\":\"nombre\"}', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('106', '', '', 'cantidad', '', 'YES', 'decimal(18,6)', 'Text Input', '{\"etiqueta\":\"Cantidad\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('107', '', '', 'fk_um', '', 'YES', 'decimal(18,6)', 'Combo Box', '{\"etiqueta\":\"Fk_um\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"2\",\"campo_a_mostrar\":\"nombre\"}', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('108', '', '', 'precio_unitario', '', 'YES', 'decimal(18,6)', 'Text Input', '{\"etiqueta\":\"Precio_unitario\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('109', '', '', 'importe', '', 'YES', 'decimal(18,6)', 'Text Input', '{\"etiqueta\":\"Importe\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('110', '', '', 'fk_cotizacion', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Fk_cotizacion\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"7\",\"campo_a_mostrar\":\"folio\"}', '48');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('111', '', '', 'concepos', '', '', '', 'Tabla', '{\"titulo\":\"Conceptos\",\"requerido\":\"\",\"oculto\":\"\",\"editable\":\"\",\"target\":\"48\"}', '47');
 
 -- ----------------------------
 -- Table structure for `exp_concepto`
 -- ----------------------------
 DROP TABLE IF EXISTS `exp_concepto`;
 CREATE TABLE `exp_concepto` (
-  `id` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` char(255) DEFAULT NULL,
   `fk_um` int(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exp_concepto
 -- ----------------------------
+INSERT INTO `exp_concepto` VALUES ('1', 'Nuevo Concepto', '1');
+INSERT INTO `exp_concepto` VALUES ('2', 'SSd', '3');
+
+-- ----------------------------
+-- Table structure for `exp_conceptos_cotizacion`
+-- ----------------------------
+DROP TABLE IF EXISTS `exp_conceptos_cotizacion`;
+CREATE TABLE `exp_conceptos_cotizacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_concepto` int(11) DEFAULT NULL,
+  `cantidad` decimal(18,6) DEFAULT NULL,
+  `fk_um` decimal(18,6) DEFAULT NULL,
+  `precio_unitario` decimal(18,6) DEFAULT NULL,
+  `importe` decimal(18,6) DEFAULT NULL,
+  `fk_cotizacion` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of exp_conceptos_cotizacion
+-- ----------------------------
+INSERT INTO `exp_conceptos_cotizacion` VALUES ('1', '1', '0.000000', '0.000000', '0.000000', '0.000000', '2');
+
+-- ----------------------------
+-- Table structure for `exp_cotizacion`
+-- ----------------------------
+DROP TABLE IF EXISTS `exp_cotizacion`;
+CREATE TABLE `exp_cotizacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `serie` char(255) DEFAULT NULL,
+  `folio` char(255) DEFAULT NULL,
+  `notas` char(255) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of exp_cotizacion
+-- ----------------------------
+INSERT INTO `exp_cotizacion` VALUES ('2', 'A', '1', 'Una Cotozacion', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `exp_um`
@@ -144,7 +209,7 @@ CREATE TABLE `system_catalogos` (
   `msg_cambios` char(255) DEFAULT NULL,
   `campos_busqueda` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_catalogos
@@ -152,13 +217,15 @@ CREATE TABLE `system_catalogos` (
 INSERT INTO `system_catalogos` VALUES ('18', '2', 'Usuarios', 'usuarios', 'Usuario', 'system_users', 'id', 'http://png.findicons.com/files/icons/1620/crystal_project/64/personal.png', 'Nuevo Usuario', '\'Usuario: \' + getValorCampo(\'nombre\')', 'Buscar Usuario', 'Usuario Creado', '', '', '', '', 'nick, email, name');
 INSERT INTO `system_catalogos` VALUES ('32', '2', 'Modulos', 'modulos', 'Modulo', 'system_modulos', 'id', 'http://png.findicons.com/files/icons/1681/siena/48/puzzle_yellow.png', '', '', '', '', '', '', '', '', '');
 INSERT INTO `system_catalogos` VALUES ('33', '1', 'Catalogos', 'catalogos', 'Catalogo', 'system_catalogos', 'id', 'http://png.findicons.com/files/icons/577/refresh_cl/48/windows_view_icon.png', 'Nuevo Catalogo', '\'Catalogo: \' + getValorCampo(\'nombre\')', '\'Buscar Catalogos\'', 'Catalogo Creado', 'Catalogo Actualizado', 'Eliminar Catalogo', 'Catalogo Eliminado', 'Ha hecho cambios en el catalogo, Â¿Guardar antes de salir?', 'nombre');
-INSERT INTO `system_catalogos` VALUES ('40', '2', 'Paginas', 'paginas', 'pagina', 'system_pagina', 'id', 'default.png', 'Nueva Pagina', '\'Pagina:  \' + getValorCampo(\'nombre\')', 'Buscar Paginas', 'Pagina Creada', 'Pagina Actualizada', 'Â¿Eliminar Pagina?', 'Pagina Eliminada', 'Desea Guardar los cambios', 'nombre');
+INSERT INTO `system_catalogos` VALUES ('40', '2', 'Paginas', 'paginas', 'pagina', 'system_pagina', 'id', 'default.png', 'Nueva Pagina', '\'Pagina:  \' + getValorCampo(\'titulo\')', 'Buscar Paginas', 'Pagina Creada', 'Pagina Actualizada', 'Â¿Eliminar Pagina?', 'Pagina Eliminada', 'Desea Guardar los cambios', 'nombre');
 INSERT INTO `system_catalogos` VALUES ('41', '2', 'Elemento del Catalogo', 'elementos', 'elemento', 'constructor_elemento_catalogo', 'id', '', 'Nuevo Elemento', '\'Editar Elemento\'', 'Buscar Elemento', 'Elemento Creado', 'Elemento Actualizado', 'Â¿Eliminar Elemento?', 'Elemento Eliminado', 'Â¿Guardar Cambios del Elemento?', 'Field, componente');
 INSERT INTO `system_catalogos` VALUES ('42', '2', 'Modelo C', 'modelos', 'modeloc', 'system_modelos', 'id', '', 'Nuevo Modelo', '\'Editando Modelo: \'+ getValorCampo(\'nombre\')', 'Buscar Modelo', '', '', '', '', '', 'nombre');
-INSERT INTO `system_catalogos` VALUES ('43', '2', 'Autor', 'autores', 'autor', 'system_users', 'id', '', '', '\'Autor: \'+getValorCampo(\'name\')', 'Busqueda de Autores', '', '', '', '', '', 'name');
-INSERT INTO `system_catalogos` VALUES ('44', '2', 'UM', 'unidades', 'unidad', 'exp_um', 'id', '', 'Nueva Unidad de Medida', '\'UM: \' +getValorCampo(\'nombre\')', 'Buscar Unidades de Medida', '', '', '', '', '', 'nombre, abreviacion');
-INSERT INTO `system_catalogos` VALUES ('45', '2', 'Categoria', 'categorias', 'categoria', 'cms_categoria', 'id', '', 'Nueva Categoria', '\'Categoria: \' + getValorCampo(\'nombre\')', 'Buscar Cagegoria', '', '', '', '', '', 'nombre');
-INSERT INTO `system_catalogos` VALUES ('46', '1', 'Conceptos', 'conceptos', 'concepto', 'exp_concepto', 'id', '', 'Nuevo Concepto', '\'Concepto: \' + getValorCampo(\'nombre\')', 'Conceptos', 'Concepto Creado', 'Concepto Actualizado', 'Â¿Eliminar Concepto?', 'Concepto Eliminado', 'Â¿Guardar antes de salir?', 'nombre');
+INSERT INTO `system_catalogos` VALUES ('43', '2', 'Autor', 'autores', 'autor', 'system_users', 'id', '', 'Nuevo Autor', '\'Autor: \'+getValorCampo(\'name\')', 'Busqueda de Autores', 'Autor Creado', 'Autor Actualizado', 'Â¿Eliminar?', 'Eliminado', 'cambios pendientes', 'name');
+INSERT INTO `system_catalogos` VALUES ('44', '2', 'UM', 'unidades', 'unidad', 'exp_um', 'id', '', 'Nueva Unidad de Medida', '\'UM: \' +getValorCampo(\'nombre\')', 'Buscar Unidades de Medida', 'UM creada', 'UM actualizada', 'Â¿Eliminar UM?', 'UM eliminada', 'Â¿Guardar los cambios?', 'nombre, abreviacion');
+INSERT INTO `system_catalogos` VALUES ('45', '2', 'Categoria', 'categorias', 'categoria', 'cms_categoria', 'id', '', 'Nueva Categoria', '\'Categoria: \' + getValorCampo(\'nombre\')', 'Buscar Categoria', 'Categoria Creada', 'Categoria Actualizada', 'Â¿Eliminar Categoria?', '', '', 'nombre');
+INSERT INTO `system_catalogos` VALUES ('46', '2', 'Conceptos', 'conceptos', 'concepto', 'exp_concepto', 'id', '', 'Nuevo Concepto', '\'Concepto: \' + getValorCampo(\'nombre\')', 'Conceptos', 'Concepto Creado', 'Concepto Actualizado', 'Â¿Eliminar Concepto?', 'Concepto Eliminado', 'Â¿Guardar antes de salir?', 'nombre');
+INSERT INTO `system_catalogos` VALUES ('47', '2', 'Cotizacion', 'cotizaciones', 'cotizacion', 'exp_cotizacion', 'id', '', 'Nueva Cotizacion', '\'Cotizacion: \'+getValorCampo(\'serie\')+\'  \'+getValorCampo(\'folio\')', 'Cotizaciones', 'Cotizacion Creada', 'Cotizacion Actualizada', 'Â¿Eliminar Cotizacion?', 'Cotizacion Eliminada', '', '');
+INSERT INTO `system_catalogos` VALUES ('48', '2', 'concepto_cotizacion', 'conceptos_cotizacion', 'concepto_cotizacion', 'exp_conceptos_cotizacion', 'id', '', 'Nuevo Concepto de Cotizacion', '\'Concepto: \'+getValorCampo(\'fk_concepto\')', 'Conceptos de Cotizacion', 'Concepto Creado', 'Concepto Actualizado', 'Â¿Eliminar Concepto?', 'Concepto Eliminado', '', '');
 
 -- ----------------------------
 -- Table structure for `system_categoria_pagina`
@@ -199,17 +266,20 @@ CREATE TABLE `system_modelos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` char(255) DEFAULT NULL,
   `tabla` char(255) DEFAULT NULL,
+  `llave_primaria` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_modelos
 -- ----------------------------
-INSERT INTO `system_modelos` VALUES ('1', 'autor', '');
-INSERT INTO `system_modelos` VALUES ('2', 'unidad', '');
-INSERT INTO `system_modelos` VALUES ('3', 'producto', '');
-INSERT INTO `system_modelos` VALUES ('4', 'pagina', '');
-INSERT INTO `system_modelos` VALUES ('5', 'categoria', '');
+INSERT INTO `system_modelos` VALUES ('1', 'autor', 'system_users', 'id');
+INSERT INTO `system_modelos` VALUES ('2', 'unidad', 'exp_um', 'id');
+INSERT INTO `system_modelos` VALUES ('3', 'producto', 'exp_concepto', 'id');
+INSERT INTO `system_modelos` VALUES ('4', 'pagina', 'system_pagina', 'id');
+INSERT INTO `system_modelos` VALUES ('5', 'categoria', 'cms_categoria', 'id');
+INSERT INTO `system_modelos` VALUES ('6', 'concepto', 'exp_concepto', 'id');
+INSERT INTO `system_modelos` VALUES ('7', 'cotizacion', 'exp_cotizacion', 'id');
 
 -- ----------------------------
 -- Table structure for `system_modulos`
@@ -244,15 +314,15 @@ CREATE TABLE `system_pagina` (
   `fecha_creacion` datetime DEFAULT NULL,
   `ultima_edicion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_pagina
 -- ----------------------------
-INSERT INTO `system_pagina` VALUES ('1', 'Cerritos', '', '', '11', '0000-00-00 00:00:00', null);
-INSERT INTO `system_pagina` VALUES ('2', 'La machado', '', '', '7', '0000-00-00 00:00:00', null);
-INSERT INTO `system_pagina` VALUES ('3', 'Paseo Clausen', '', '', '8', '0000-00-00 00:00:00', null);
-INSERT INTO `system_pagina` VALUES ('4', 'olas altas', '', '', '8', '0000-00-00 00:00:00', null);
+INSERT INTO `system_pagina` VALUES ('1', 'Cerritos', '1 ', 'asdfas', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `system_pagina` VALUES ('6', 'AAA', '1      ', 'BLA bla bla ble ble ble', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `system_pagina` VALUES ('7', 'Un Titulo', '1', '', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `system_pagina` VALUES ('18', 'Nueva Pagina', '1 ', '', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `system_users`

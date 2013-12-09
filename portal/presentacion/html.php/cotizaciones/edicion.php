@@ -87,6 +87,10 @@
 					<label style="">Fecha:</label>
 					<input type="text" name="fecha" class="entradaDatos" value="<?php echo $this->datos['fecha']; ?>" style="width:500px;" />
 				</div>
+				<div class="inputBox contenedor_concepos" style=""  >
+					<label style="">:</label>
+					<input type="text" name="concepos" class="entradaDatos" value="<?php echo $this->datos['concepos']; ?>" style="width:500px;" />
+				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">

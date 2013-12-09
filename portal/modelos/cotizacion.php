@@ -2,7 +2,7 @@
 class cotizacionModelo extends Modelo{	
 	var $tabla='exp_cotizacion';
 	var $pk='id';
-	var $campos= array('id', 'serie', 'folio', 'notas', 'fecha');
+	var $campos= array('id', 'serie', 'folio', 'notas', 'fecha', 'concepos');
 	
 	function buscar($params){
 		
@@ -25,6 +25,9 @@ class cotizacionModelo extends Modelo{
 				} 
 				if ( $filtro['dataKey']=='fecha' ) {
 					$filtros .= ' cotizacion.fecha like :fecha OR ';
+				} 
+				if ( $filtro['dataKey']=='concepos' ) {
+					$filtros .= ' cotizacion.concepos like :concepos OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -55,6 +58,9 @@ class cotizacionModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='fecha' ) {
 				$sth->bindValue(':fecha','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='concepos' ) {
+				$sth->bindValue(':concepos','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
 			}
 		}
@@ -75,9 +81,9 @@ class cotizacionModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha FROM '.$this->tabla.' cotizacion '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha, cotizacion.concepos FROM '.$this->tabla.' cotizacion '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha FROM '.$this->tabla.' cotizacion '.$joins.$filtros;
+			$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha, cotizacion.concepos FROM '.$this->tabla.' cotizacion '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -103,6 +109,9 @@ class cotizacionModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='fecha' ) {
 				$sth->bindValue(':fecha','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='concepos' ) {
+				$sth->bindValue(':concepos','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}	
 			}
 		}
@@ -131,10 +140,11 @@ class cotizacionModelo extends Modelo{
 		$obj['folio']='';
 		$obj['notas']='';
 		$obj['fecha']='';
+		$obj['concepos']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha
+		$sql = 'SELECT cotizacion.id, cotizacion.serie, cotizacion.folio, cotizacion.notas, cotizacion.fecha, cotizacion.concepos
  FROM exp_cotizacion AS cotizacion
   WHERE cotizacion.id=:id';
 		$pdo = $this->getConexion();
@@ -178,6 +188,9 @@ class cotizacionModelo extends Modelo{
 		} 
 		if ( isset( $datos['fecha'] ) ){
 			$strCampos .= ' fecha=:fecha, ';
+		} 
+		if ( isset( $datos['concepos'] ) ){
+			$strCampos .= ' concepos=:concepos, ';
 		}		
 		//--------------------------------------------
 		
@@ -208,6 +221,9 @@ class cotizacionModelo extends Modelo{
 		}
 		if  ( isset( $datos['fecha'] ) ){
 			$sth->bindValue(':fecha', $datos['fecha'] );
+		}
+		if  ( isset( $datos['concepos'] ) ){
+			$sth->bindValue(':concepos', $datos['concepos'] );
 		}		
 		if ( !$esNuevo)	{
 			$sth->bindValue(':id', $datos['id'] );
