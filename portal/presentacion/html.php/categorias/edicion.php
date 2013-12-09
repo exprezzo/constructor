@@ -1,7 +1,17 @@
-
 <?php
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
+	
+	
+if ( !empty( $this->datos['fk_categoria_padre'] ) ){
+			$categoria_listado=array();
+			$categoria_listado[]=array('id'=>$this->datos['fk_categoria_padre'],'nombre'=>$this->datos['nombre_categoria'] );
+			$this->categoria_listado = $categoria_listado;
+		}else{
+			$mod=new categoriaModelo();
+			$objs=$mod->buscar( array() );		
+			$this->categoria_listado = $objs['datos'];
+		}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -45,71 +55,51 @@
 				nombre:'<?php echo $_PETICION->modulo; ?>'
 			},
 			catalogo:{
-				nombre:'Categoria',
-				modelo:'Categoria'
+				nombre:'Paginas',
+				modelo:'Pagina'
 			},			
 			pk:"id"
 			
 		};				
-		 var editor=new Edicioncategorias();
+		 var editor=new EdicionCategorias();
 		 editor.init(config);		
 	});
 </script>
 <style>
-.entradaDatos, input[role="textbox"]{
-	/* float:right; */
-	background-color:#f2f2f2  !important;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	border-top: 0px;
-	border-right: 0px;
-	border-left: 0px;
-	border-bottom-color:#508b96  !important;
-	border-bottom-style:solid !important;
-	border-bottom-width:1px  !important;
-	-webkit-box-shadow: 0px 3px #d6e6e9  !important;
-    -moz-box-shadow: 0px 3px #d6e6e9  !important;
-	box-shadow: 0px 3px #d6e6e9  !important;
-	/* width:365px; */
-	height:23px;
-	/*height:43px;*/
-	/* margin-bottom:25px; */
-	font-family:"OpenSans-Light", sans-serif;
-	font-size:17px;
-	
-	color:black  !important;
-}
+
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
     	<h1>Nueva Categoria</h1>
 	</div>
-	<div id="cuerpo" >				
+	<div id="cuerpo">
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
 				
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_id" style=""  >
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_nombre" style=""  >
 					<label style="">Nombre:</label>
 					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_fk_categoria_padre" style=""  >
 					<label style="">Fk_categoria_padre:</label>
-					<input type="text" name="fk_categoria_padre" class="entradaDatos" value="<?php echo $this->datos['fk_categoria_padre']; ?>" style="width:500px;" />
+					<select name="fk_categoria_padre" class="entradaDatos" style="width:250px;">
+						<?php
+							foreach($this->categoria_listado as $categoria){
+								echo '<option value="'.$categoria['id'].' " >'.$categoria['nombre'].'</option>';
+							}
+						?>
+					</select>
 				</div>
-
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>

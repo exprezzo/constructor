@@ -1,7 +1,11 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/unidad_modelo.php';
+
+require_once $_PETICION->basePath.'/modelos/unidad.php';
+
 class unidades extends Controlador{
 	var $modelo="unidad";	
+	
+	
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
@@ -13,11 +17,9 @@ class unidades extends Controlador{
 	
 	function nuevo(){		
 		$modelo = $this->getModelo();
-		$campos=$modelo->campos;
-		$vista=$this->getVista();				
-		for($i=0; $i<sizeof($campos); $i++){
-			$obj[$campos[$i]]="";
-		}
+		$obj=$modelo->nuevo( array() );
+		
+		$vista=$this->getVista();
 		$vista->datos=$obj;		
 		
 		global $_TEMA_APP;
@@ -64,8 +66,7 @@ class unidades extends Controlador{
 			$model->pk=>$id
 		);		
 		
-		$obj=$model->obtener( $params );	
-
+		$obj=$model->obtener( $id );			
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		
 		

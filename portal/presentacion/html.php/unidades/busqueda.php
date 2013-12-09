@@ -1,4 +1,3 @@
-
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/busqueda.js"></script>
 <?php 		
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
@@ -18,13 +17,13 @@
 				nombre:'<?php echo $_PETICION->modulo; ?>'
 			},
 			catalogo:{
-				nombre:'UM'
+				nombre:''
 
 			},			
 			pk:"id"
 			
 		};				
-		 var lista=new Busquedaunidades();
+		 var lista=new BusquedaUnidades();
 		 lista.init(config);		
 	});
 </script>
@@ -36,9 +35,7 @@
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">
 		<table class="grid_busqueda">
-			<thead>
-				<th>id</th>		
-				<th>titulo</th>					
+			<thead>				
 			</thead>  	 
 			<tbody>			
 			</tbody>

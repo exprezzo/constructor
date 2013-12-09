@@ -1,7 +1,26 @@
-
 <?php
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
+	
+	
+if ( !empty( $this->datos['autor'] ) ){
+			$autor_listado=array();
+			$autor_listado[]=array('id'=>$this->datos['autor'],'name'=>$this->datos['name_autor'] );
+			$this->autor_listado = $autor_listado;
+		}else{
+			$mod=new autorModelo();
+			$objs=$mod->buscar( array() );		
+			$this->autor_listado = $objs['datos'];
+		}
+if ( !empty( $this->datos['fk_categoria_pagina'] ) ){
+			$categoria_listado=array();
+			$categoria_listado[]=array('id'=>$this->datos['fk_categoria_pagina'],'nombre'=>$this->datos['nombre_categoria'] );
+			$this->categoria_listado = $categoria_listado;
+		}else{
+			$mod=new categoriaModelo();
+			$objs=$mod->buscar( array() );		
+			$this->categoria_listado = $objs['datos'];
+		}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -51,94 +70,67 @@
 			pk:"id"
 			
 		};				
-		 var editor=new Edicionpaginas();
+		 var editor=new EdicionPaginas();
 		 editor.init(config);		
 	});
 </script>
 <style>
-.entradaDatos, input[role="textbox"]{
-	/* float:right; */
-	background-color:#f2f2f2  !important;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	border-top: 0px;
-	border-right: 0px;
-	border-left: 0px;
-	border-bottom-color:#508b96  !important;
-	border-bottom-style:solid !important;
-	border-bottom-width:1px  !important;
-	-webkit-box-shadow: 0px 3px #d6e6e9  !important;
-    -moz-box-shadow: 0px 3px #d6e6e9  !important;
-	box-shadow: 0px 3px #d6e6e9  !important;
-	/* width:365px; */
-	height:23px;
-	/*height:43px;*/
-	/* margin-bottom:25px; */
-	font-family:"OpenSans-Light", sans-serif;
-	font-size:17px;
-	
-	color:black  !important;
-}
+
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
     	<h1>Nueva Pagina</h1>
 	</div>
-	<div id="cuerpo" >				
+	<div id="cuerpo">
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
 				
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_id" style=""  >
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_titulo" style=""  >
 					<label style="">Titulo:</label>
 					<input type="text" name="titulo" class="entradaDatos" value="<?php echo $this->datos['titulo']; ?>" style="width:500px;" />
 				</div>
-
-				
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_autor" style=""  >
+					<label style="">Autor:</label>
+					<select name="autor" class="entradaDatos" style="width:250px;">
+						<?php
+							foreach($this->autor_listado as $autor){
+								echo '<option value="'.$autor['id'].' " >'.$autor['name'].'</option>';
+							}
+						?>
+					</select>
+				</div>
+				<div class="inputBox contenedor_contenido" style=""  >
 					<label style="">Contenido:</label>
 					<input type="text" name="contenido" class="entradaDatos" value="<?php echo $this->datos['contenido']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox" style=""  >
-					<label style="">Categoria:</label>
-					<input type="text"  class="entradaDatos" value="<?php echo $this->datos['nombre_categoria']; ?>" style="width:500px;" />
-				</div>
-				
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_fk_categoria_pagina" style=""  >
 					<label style="">Fk_categoria_pagina:</label>
-					<input type="text" name="fk_categoria_pagina" class="entradaDatos" value="<?php echo $this->datos['fk_categoria_pagina']; ?>" style="width:500px;" />
+					<select name="fk_categoria_pagina" class="entradaDatos" style="width:250px;">
+						<?php
+							foreach($this->categoria_listado as $categoria){
+								echo '<option value="'.$categoria['id'].' " >'.$categoria['nombre'].'</option>';
+							}
+						?>
+					</select>
 				</div>
-				<div class="inputBox" style=""  >
-					<label style="">Autor:</label>
-					<input type="text"  class="entradaDatos" value="<?php echo $this->datos['name_autor']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox" style=""  >
-					<label style="">fk_utor:</label>
-					<input type="text" name="autor" class="entradaDatos" value="<?php echo $this->datos['autor']; ?>" style="width:500px;" />
-				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_fecha_creacion" style=""  >
 					<label style="">Fecha_creacion:</label>
 					<input type="text" name="fecha_creacion" class="entradaDatos" value="<?php echo $this->datos['fecha_creacion']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_ultima_edicion" style=""  >
 					<label style="">Ultima_edicion:</label>
 					<input type="text" name="ultima_edicion" class="entradaDatos" value="<?php echo $this->datos['ultima_edicion']; ?>" style="width:500px;" />
 				</div>
-
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>

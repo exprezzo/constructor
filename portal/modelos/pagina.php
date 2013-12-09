@@ -1,22 +1,8 @@
 <?php
 class paginaModelo extends Modelo{	
 	var $tabla='system_pagina';
+	var $pk='id';
 	
-	function eliminar( $id ){
-		if ( empty($params[$this->pk]) ){
-			throw new Exception("Es necesario el parámetro 'id'");			
-		};		
-		$id=$params[$this->pk];
-		$sql = 'DELETE FROM '.$this->tabla.' WHERE id=:id';		
-		
-		$con = $this->getConexion();
-		$sth = $con->prepare($sql);		
-		$sth->bindValue(':id',$id,PDO::PARAM_INT);
-		
-		$exito = $sth->execute();					
-		
-		return $exito;	
-	}
 	function buscar($params){
 		
 		$pdo = $this->getConexion();
@@ -25,31 +11,31 @@ class paginaModelo extends Modelo{
 			foreach($params['filtros'] as $filtro){
 				 
 				if ( $filtro['dataKey']=='id' ) {
-					$filtros .= ' id like :id OR ';
+					$filtros .= ' pagina.id like :id OR ';
 				} 
 				if ( $filtro['dataKey']=='titulo' ) {
-					$filtros .= ' titulo like :titulo OR ';
+					$filtros .= ' pagina.titulo like :titulo OR ';
 				} 
 				if ( $filtro['dataKey']=='autor' ) {
-					$filtros .= ' autor like :autor OR ';
+					$filtros .= ' pagina.autor like :autor OR ';
 				} 
 				if ( $filtro['dataKey']=='name_autor' ) {
 					$filtros .= ' autor0.name like :name_autor OR ';
 				} 
 				if ( $filtro['dataKey']=='contenido' ) {
-					$filtros .= ' contenido like :contenido OR ';
+					$filtros .= ' pagina.contenido like :contenido OR ';
 				} 
 				if ( $filtro['dataKey']=='fk_categoria_pagina' ) {
-					$filtros .= ' fk_categoria_pagina like :fk_categoria_pagina OR ';
+					$filtros .= ' pagina.fk_categoria_pagina like :fk_categoria_pagina OR ';
 				} 
 				if ( $filtro['dataKey']=='nombre_categoria' ) {
 					$filtros .= ' categoria1.nombre like :nombre_categoria OR ';
 				} 
 				if ( $filtro['dataKey']=='fecha_creacion' ) {
-					$filtros .= ' fecha_creacion like :fecha_creacion OR ';
+					$filtros .= ' pagina.fecha_creacion like :fecha_creacion OR ';
 				} 
 				if ( $filtro['dataKey']=='ultima_edicion' ) {
-					$filtros .= ' ultima_edicion like :ultima_edicion OR ';
+					$filtros .= ' pagina.ultima_edicion like :ultima_edicion OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -65,8 +51,9 @@ class paginaModelo extends Modelo{
 						
 		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' pagina '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
-		foreach($params['filtros'] as $filtro){
-			
+		if ( !empty($params['filtros']) ){
+			foreach($params['filtros'] as $filtro){
+				
 			if ( $filtro['dataKey']=='id' ) {
 				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
@@ -94,6 +81,7 @@ class paginaModelo extends Modelo{
 			if ( $filtro['dataKey']=='ultima_edicion' ) {
 				$sth->bindValue(':ultima_edicion','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
+			}
 		}
 		$exito = $sth->execute();		
 		if ( !$exito ){

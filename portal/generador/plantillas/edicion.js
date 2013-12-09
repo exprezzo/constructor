@@ -1,58 +1,10 @@
-﻿var EdicionCategorias = function(){
+﻿var EdicionControlador = function(){
 	this.editado=false;
-	this.tituloNuevo='Nueva Categoria';
+	this.tituloNuevo='{TITULO NUEVO}';
 	this.saveAndClose=false;
-	
-	this.configurarComboCategoria=function(){
-		var me=this;
-		
-		$('select[name="fk_categoria_padre"]').wijcombobox({			
-			showTrigger: true,
-			width:300,
-			minLength:1,
-			autoFilter:true,			
-			select : function (e, data) {						
-			},
-			search: function (e, obj) { 						
-			}
-		 });
-		 
-		 $('.contenedor_fk_categoria_padre input[role="textbox"]').bind('focus', function(){			
-			if (me.categoriaEnAjax) return true;			
-			me.setDSCategoria();
-			me.categoriaEnAjax=true;
-		 });
-	};
-		
-		
-	this.setDSCategoria = function(){		
-		
-		var filtering=new Array();
-		var proxy = new wijhttpproxy({
-			url: kore.url_base+'categorias/buscarCategoria',
-			dataType: "json", 
-			type:"POST",
-			data: {
-				style: "full",
-				 filtering:filtering						
-			},
-			key: 'datos'
-		}); 
-
-		var myReader = new wijarrayreader([
-		{name:'label', mapping:'nombre' }, 
-		{name:'value', mapping:'id' }]); 
-
-		var datasource = new wijdatasource({ 
-			reader: myReader, 
-			proxy: proxy 
-		}); 
-	
-		$('select[name="fk_categoria_padre"]').wijcombobox('option','data',datasource);
-	};
-		
+	//FUNCIONES-COMBO
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Categoria?");
+		var r=confirm("{PREGUNTA-ELIMINAR}");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -159,9 +111,9 @@
 		}
 		
 		var tabId = this.tabId;		
-		var id = $(this.tabId + ' [name="id"]').val();
+		var id = $(this.tabId + ' [name="{LLAVE-PRIMARIA}"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Categoria: ' + getValorCampo('nombre'));
+			//{TITULO-EDICION}
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -172,7 +124,7 @@
 		var tab = $('#tabs '+tabId);		
 		$(tabId +' #titulo h1').html(this.tituloNuevo);
 		
-		tab.find('[name="id"]').val(0);
+		tab.find('[name="{LLAVE-PRIMARIA}"]').val(0);
 		me.editado=false;
 	};	
 	this.guardar=function(){
@@ -193,22 +145,7 @@
 		  }
 		});
 		//-----------------------------------
-		
-
-		//-----------------------------------		
-		var selectedIndex = $('[name="fk_categoria_padre"]').wijcombobox('option','selectedIndex');  
-		var selectedItem = $('[name="fk_categoria_padre"]').wijcombobox("option","data");		
-		if (selectedIndex == -1){
-			paramObj['fk_categoria_padre'] =0;
-		}else{
-			if (selectedItem.data == undefined ){
-				paramObj['fk_categoria_padre'] =selectedItem[selectedIndex]['value'];
-			}else{
-				paramObj['fk_categoria_padre'] =selectedItem.data[selectedIndex]['id'];
-			}
-		}
-		//-----------------------------------
-		
+		//{CODIGO-GUARDAR-COMBOS}
 		//-----------------------------------
 		var datos=paramObj;
 		
@@ -283,11 +220,11 @@
 		});
 	};	
 	this.eliminar=function(){
-		var id = $(this.tabId + ' [name="id"]').val();
+		var id = $(this.tabId + ' [name="{LLAVE-PRIMARIA}"]').val();
 		var me=this;
 		
 		var params={};
-		params['id']=id;
+		params['{LLAVE-PRIMARIA}']=id;
 		
 		
 		$.ajax({
@@ -317,7 +254,7 @@
 						// $('#tabs').wijtabs('remove', i);
 					// }
 				// }
-				$(me.tabId).find('[name="id"]').val(0);
+				$(me.tabId).find('[name="{LLAVE-PRIMARIA}"]').val(0);
 					
 				$.gritter.add({
 					position: 'bottom-left',
@@ -332,8 +269,7 @@
 		var me=this;
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
-		
-this.configurarComboCategoria();
+		//{INIT-COMBOS}
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			

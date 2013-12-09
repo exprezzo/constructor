@@ -1,15 +1,15 @@
 <?php
 
-require_once $_PETICION->basePath.'/modelos/categoria.php';
-require_once $_PETICION->basePath.'/modelos/categoria.php';
+require_once $_PETICION->basePath.'/modelos/concepto.php';
+require_once $_PETICION->basePath.'/modelos/unidad.php';
 
-class categorias extends Controlador{
-	var $modelo="categoria";	
+class conceptos extends Controlador{
+	var $modelo="concepto";	
 	
 	
-		function buscarCategoria(){
-			$categoriaMod= new categoriaModelo();
-			$res = $categoriaMod->buscar( array() );
+		function buscarUnidad(){
+			$unidadMod= new unidadModelo();
+			$res = $unidadMod->buscar( array() );
 			echo json_encode( $res );
 		}
 		

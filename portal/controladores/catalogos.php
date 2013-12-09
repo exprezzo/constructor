@@ -3,7 +3,7 @@ require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modulo_modelo.php';
 require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
-require_once $_PETICION->basePath.'/generador.php';
+require_once $_PETICION->basePath.'/generador/generador.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
 	
@@ -136,7 +136,8 @@ class catalogos extends Controlador{
 			$elemento['esNulo'] =$campoTabla['Null'];
 			$elemento['tipo'] =$campoTabla['Type'];
 			$elemento['componente'] ='Text Input';
-			$elemento['comp_config'] ='{}';
+			$config='{"etiqueta":"'.ucwords( $campoTabla['Field'] ).'","requerido":"0","editable":"1","oculto":"0" }';
+			$elemento['comp_config'] = $config;
 			$elementos[] = $elemento;
 			
 		}

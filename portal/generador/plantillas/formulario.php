@@ -2,7 +2,7 @@
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
 	
-	
+	// {RELACIONES}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -52,7 +52,7 @@
 			pk:"id"
 			
 		};				
-		 var editor=new EdicionUnidades();
+		 var editor=new EdicionControlador();
 		 editor.init(config);		
 	});
 </script>
@@ -61,24 +61,12 @@
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
-    	<h1>Nueva Unidad de Medida</h1>
+    	<h1><!--{TITULO-NUEVO}--></h1>
 	</div>
 	<div id="cuerpo">
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
-				
-				<div class="inputBox contenedor_id" style=""  >
-					<label style="">Id:</label>
-					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_nombre" style=""  >
-					<label style="">Nombre:</label>
-					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_abreviacion" style=""  >
-					<label style="">Abreviacion:</label>
-					<input type="text" name="abreviacion" class="entradaDatos" value="<?php echo $this->datos['abreviacion']; ?>" style="width:500px;" />
-				</div>
+				<!-- ELEMENTOS -->
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">

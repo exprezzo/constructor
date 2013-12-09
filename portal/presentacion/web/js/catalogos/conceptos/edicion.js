@@ -1,12 +1,12 @@
-﻿var EdicionCategorias = function(){
+﻿var EdicionConceptos = function(){
 	this.editado=false;
-	this.tituloNuevo='Nueva Categoria';
+	this.tituloNuevo='Nuevo Concepto';
 	this.saveAndClose=false;
 	
-	this.configurarComboCategoria=function(){
+	this.configurarComboUnidad=function(){
 		var me=this;
 		
-		$('select[name="fk_categoria_padre"]').wijcombobox({			
+		$('select[name="fk_um"]').wijcombobox({			
 			showTrigger: true,
 			width:300,
 			minLength:1,
@@ -17,19 +17,19 @@
 			}
 		 });
 		 
-		 $('.contenedor_fk_categoria_padre input[role="textbox"]').bind('focus', function(){			
-			if (me.categoriaEnAjax) return true;			
-			me.setDSCategoria();
-			me.categoriaEnAjax=true;
+		 $('.contenedor_fk_um input[role="textbox"]').bind('focus', function(){			
+			if (me.unidadEnAjax) return true;			
+			me.setDSUnidad();
+			me.unidadEnAjax=true;
 		 });
 	};
 		
 		
-	this.setDSCategoria = function(){		
+	this.setDSUnidad = function(){		
 		
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+'categorias/buscarCategoria',
+			url: kore.url_base+'conceptos/buscarUnidad',
 			dataType: "json", 
 			type:"POST",
 			data: {
@@ -40,7 +40,7 @@
 		}); 
 
 		var myReader = new wijarrayreader([
-		{name:'label', mapping:'nombre' }, 
+		{name:'label', mapping:'abreviacion' }, 
 		{name:'value', mapping:'id' }]); 
 
 		var datasource = new wijdatasource({ 
@@ -48,11 +48,11 @@
 			proxy: proxy 
 		}); 
 	
-		$('select[name="fk_categoria_padre"]').wijcombobox('option','data',datasource);
+		$('select[name="fk_um"]').wijcombobox('option','data',datasource);
 	};
 		
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Categoria?");
+		var r=confirm("¿Eliminar Concepto?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -161,7 +161,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Categoria: ' + getValorCampo('nombre'));
+			$(tabId +' #titulo h1').html('Concepto: ' + getValorCampo('nombre'));
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -196,15 +196,15 @@
 		
 
 		//-----------------------------------		
-		var selectedIndex = $('[name="fk_categoria_padre"]').wijcombobox('option','selectedIndex');  
-		var selectedItem = $('[name="fk_categoria_padre"]').wijcombobox("option","data");		
+		var selectedIndex = $('[name="fk_um"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_um"]').wijcombobox("option","data");		
 		if (selectedIndex == -1){
-			paramObj['fk_categoria_padre'] =0;
+			paramObj['fk_um'] =0;
 		}else{
 			if (selectedItem.data == undefined ){
-				paramObj['fk_categoria_padre'] =selectedItem[selectedIndex]['value'];
+				paramObj['fk_um'] =selectedItem[selectedIndex]['value'];
 			}else{
-				paramObj['fk_categoria_padre'] =selectedItem.data[selectedIndex]['id'];
+				paramObj['fk_um'] =selectedItem.data[selectedIndex]['id'];
 			}
 		}
 		//-----------------------------------
@@ -333,7 +333,7 @@
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
-this.configurarComboCategoria();
+this.configurarComboUnidad();
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			

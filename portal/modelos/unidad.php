@@ -1,29 +1,24 @@
 <?php
-class PlantillaModelo extends Modelo{	
-	//var $tabla;
+class unidadModelo extends Modelo{	
+	var $tabla='exp_um';
+	var $pk='id';
 	
-	function eliminar( $id ){
-		if ( empty($params[$this->pk]) ){
-			throw new Exception("Es necesario el parámetro '{CAMPOLLAVE}'");			
-		};		
-		$id=$params[$this->pk];
-		$sql = 'DELETE FROM '.$this->tabla.' WHERE {CAMPOLLAVE}=:id';		
-		
-		$con = $this->getConexion();
-		$sth = $con->prepare($sql);		
-		$sth->bindValue(':id',$id,PDO::PARAM_INT);
-		
-		$exito = $sth->execute();					
-		
-		return $exito;	
-	}
 	function buscar($params){
 		
 		$pdo = $this->getConexion();
 		$filtros='';
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
-				//buscar()-FILTROS			
+				 
+				if ( $filtro['dataKey']=='id' ) {
+					$filtros .= ' unidad.id like :id OR ';
+				} 
+				if ( $filtro['dataKey']=='nombre' ) {
+					$filtros .= ' unidad.nombre like :nombre OR ';
+				} 
+				if ( $filtro['dataKey']=='abreviacion' ) {
+					$filtros .= ' unidad.abreviacion like :abreviacion OR ';
+				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
 			if ( !empty($filtros) ){
@@ -32,12 +27,23 @@ class PlantillaModelo extends Modelo{
 		}
 		
 		
-		$joins='{buscar()-JOINS}';
+		$joins='';
 						
-		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' {buscar()-nombreModelo} '.$joins.$filtros;				
+		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' unidad '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
-		foreach($params['filtros'] as $filtro){
-			//buscar()-BIND_FILTROS		
+		if ( !empty($params['filtros']) ){
+			foreach($params['filtros'] as $filtro){
+				
+			if ( $filtro['dataKey']=='id' ) {
+				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre' ) {
+				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='abreviacion' ) {
+				$sth->bindValue(':abreviacion','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}		
+			}
 		}
 		$exito = $sth->execute();		
 		if ( !$exito ){
@@ -56,9 +62,9 @@ class PlantillaModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT {CAMPOS-SELECT} FROM '.$this->tabla.' {NOMBRE-MODELO} '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT unidad.id, unidad.nombre, unidad.abreviacion FROM '.$this->tabla.' unidad '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT {CAMPOS-SELECT} FROM '.$this->tabla.' {NOMBRE-MODELO} '.$joins.$filtros;
+			$sql = 'SELECT unidad.id, unidad.nombre, unidad.abreviacion FROM '.$this->tabla.' unidad '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -69,7 +75,16 @@ class PlantillaModelo extends Modelo{
 		
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
-				//buscar()-BIND_FILTROS	
+				
+			if ( $filtro['dataKey']=='id' ) {
+				$sth->bindValue(':id','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre' ) {
+				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='abreviacion' ) {
+				$sth->bindValue(':abreviacion','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}	
 			}
 		}
 		$exito = $sth->execute();
@@ -91,14 +106,19 @@ class PlantillaModelo extends Modelo{
 	
 	function nuevo( $params ){
 		$obj=array();
-		//nuevo()-ATTRIBUTOS
+		
+		$obj['id']='';
+		$obj['nombre']='';
+		$obj['abreviacion']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = '{SQL-obtener}';
+		$sql = 'SELECT unidad.id, unidad.nombre, unidad.abreviacion
+ FROM exp_um AS unidad
+  WHERE unidad.id=:id';
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
-		//{FILTRO-OBTENER}
+		 $sth->BindValue(':id',$llave ); 
 		$exito = $sth->execute();
 		if ( !$exito ){
 			$error =  $this->getError( $sth );
@@ -120,12 +140,18 @@ class PlantillaModelo extends Modelo{
 	
 	function guardar( $datos ){
 	
-		$esNuevo=( empty( $datos['{CAMPOLLAVE}'] ) )? true : false;			
+		$esNuevo=( empty( $datos['id'] ) )? true : false;			
 		$strCampos='';
 		
 		//--------------------------------------------
 		// CAMPOS A GUARDAR
-		//{guardar()-codigoCampos}		
+		 
+		if ( isset( $datos['nombre'] ) ){
+			$strCampos .= ' nombre=:nombre, ';
+		} 
+		if ( isset( $datos['abreviacion'] ) ){
+			$strCampos .= ' abreviacion=:abreviacion, ';
+		}		
 		//--------------------------------------------
 		
 		$strCampos=substr( $strCampos,0,  strlen($strCampos)-2 );
@@ -133,19 +159,25 @@ class PlantillaModelo extends Modelo{
 		
 		if ( $esNuevo ){
 			$sql = 'INSERT INTO '.$this->tabla.' SET '.$strCampos;
-			$msg='{guardar()-MSG_NUEVO}';
+			$msg='UM creada';
 		}else{
-			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE {CAMPOLLAVE}=:{CAMPOLLAVE}';
-			$msg='{guardar()-MSG_ACTUALIZADO}';
+			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE id=:id';
+			$msg='UM actualizada';
 		}
 		
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
 		//--------------------------------------------		
 		// BIND VALUES
-		//{guardar()-codigoBindCampos}		
+		
+		if  ( isset( $datos['nombre'] ) ){
+			$sth->bindValue(':nombre', $datos['nombre'] );
+		}
+		if  ( isset( $datos['abreviacion'] ) ){
+			$sth->bindValue(':abreviacion', $datos['abreviacion'] );
+		}		
 		if ( !$esNuevo)	{
-			$sth->bindValue(':{CAMPOLLAVE}', $datos['{CAMPOLLAVE}'] );
+			$sth->bindValue(':id', $datos['id'] );
 		}	
 		//--------------------------------------------
 		$exito = $sth->execute();
@@ -157,7 +189,7 @@ class PlantillaModelo extends Modelo{
 		if ( $esNuevo ){
 			$idObj=$pdo->lastInsertId();
 		}else{
-			$idObj=$datos['{CAMPOLLAVE}'];
+			$idObj=$datos['id'];
 		}	
 		
 		$obj=$this->obtener( $idObj );

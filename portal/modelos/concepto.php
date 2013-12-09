@@ -1,6 +1,6 @@
 <?php
-class categoriaModelo extends Modelo{	
-	var $tabla='cms_categoria';
+class conceptoModelo extends Modelo{	
+	var $tabla='exp_concepto';
 	var $pk='id';
 	
 	function buscar($params){
@@ -11,16 +11,16 @@ class categoriaModelo extends Modelo{
 			foreach($params['filtros'] as $filtro){
 				 
 				if ( $filtro['dataKey']=='id' ) {
-					$filtros .= ' categoria.id like :id OR ';
+					$filtros .= ' concepto.id like :id OR ';
 				} 
 				if ( $filtro['dataKey']=='nombre' ) {
-					$filtros .= ' categoria.nombre like :nombre OR ';
+					$filtros .= ' concepto.nombre like :nombre OR ';
 				} 
-				if ( $filtro['dataKey']=='fk_categoria_padre' ) {
-					$filtros .= ' categoria.fk_categoria_padre like :fk_categoria_padre OR ';
+				if ( $filtro['dataKey']=='fk_um' ) {
+					$filtros .= ' concepto.fk_um like :fk_um OR ';
 				} 
-				if ( $filtro['dataKey']=='nombre_categoria' ) {
-					$filtros .= ' categoria0.nombre like :nombre_categoria OR ';
+				if ( $filtro['dataKey']=='abreviacion_unidad' ) {
+					$filtros .= ' unidad0.abreviacion like :abreviacion_unidad OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -31,9 +31,9 @@ class categoriaModelo extends Modelo{
 		
 		
 		$joins='
- LEFT JOIN cms_categoria AS categoria0 ON categoria0.id = categoria.fk_categoria_padre';
+ LEFT JOIN exp_um AS unidad0 ON unidad0.id = concepto.fk_um';
 						
-		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' categoria '.$joins.$filtros;				
+		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' concepto '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
 		if ( !empty($params['filtros']) ){
 			foreach($params['filtros'] as $filtro){
@@ -44,11 +44,11 @@ class categoriaModelo extends Modelo{
 			if ( $filtro['dataKey']=='nombre' ) {
 				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='fk_categoria_padre' ) {
-				$sth->bindValue(':fk_categoria_padre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='fk_um' ) {
+				$sth->bindValue(':fk_um','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='nombre_categoria' ) {
-				$sth->bindValue(':nombre_categoria', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='abreviacion_unidad' ) {
+				$sth->bindValue(':abreviacion_unidad', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
 			}
 		}
@@ -69,9 +69,9 @@ class categoriaModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre, categoria0.nombre AS nombre_categoria FROM '.$this->tabla.' categoria '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad FROM '.$this->tabla.' concepto '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre, categoria0.nombre AS nombre_categoria FROM '.$this->tabla.' categoria '.$joins.$filtros;
+			$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad FROM '.$this->tabla.' concepto '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -89,11 +89,11 @@ class categoriaModelo extends Modelo{
 			if ( $filtro['dataKey']=='nombre' ) {
 				$sth->bindValue(':nombre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='fk_categoria_padre' ) {
-				$sth->bindValue(':fk_categoria_padre','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='fk_um' ) {
+				$sth->bindValue(':fk_um','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
-			if ( $filtro['dataKey']=='nombre_categoria' ) {
-				$sth->bindValue(':nombre_categoria', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			if ( $filtro['dataKey']=='abreviacion_unidad' ) {
+				$sth->bindValue(':abreviacion_unidad', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}	
 			}
 		}
@@ -119,15 +119,15 @@ class categoriaModelo extends Modelo{
 		
 		$obj['id']='';
 		$obj['nombre']='';
-		$obj['fk_categoria_padre']='';
-		$obj['nombre_categoria']='';
+		$obj['fk_um']='';
+		$obj['abreviacion_unidad']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT categoria.id, categoria.nombre, categoria.fk_categoria_padre, categoria0.nombre AS nombre_categoria
- FROM cms_categoria AS categoria
- LEFT JOIN cms_categoria AS categoria0 ON categoria0.id = categoria.fk_categoria_padre
-  WHERE categoria.id=:id';
+		$sql = 'SELECT concepto.id, concepto.nombre, concepto.fk_um, unidad0.abreviacion AS abreviacion_unidad
+ FROM exp_concepto AS concepto
+ LEFT JOIN exp_um AS unidad0 ON unidad0.id = concepto.fk_um
+  WHERE concepto.id=:id';
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);
 		 $sth->BindValue(':id',$llave ); 
@@ -161,8 +161,8 @@ class categoriaModelo extends Modelo{
 		if ( isset( $datos['nombre'] ) ){
 			$strCampos .= ' nombre=:nombre, ';
 		} 
-		if ( isset( $datos['fk_categoria_padre'] ) ){
-			$strCampos .= ' fk_categoria_padre=:fk_categoria_padre, ';
+		if ( isset( $datos['fk_um'] ) ){
+			$strCampos .= ' fk_um=:fk_um, ';
 		}		
 		//--------------------------------------------
 		
@@ -171,10 +171,10 @@ class categoriaModelo extends Modelo{
 		
 		if ( $esNuevo ){
 			$sql = 'INSERT INTO '.$this->tabla.' SET '.$strCampos;
-			$msg='Categoria Creada';
+			$msg='Concepto Creado';
 		}else{
 			$sql = 'UPDATE '.$this->tabla.' SET '.$strCampos.' WHERE id=:id';
-			$msg='Categoria Actualizada';
+			$msg='Concepto Actualizado';
 		}
 		
 		$pdo = $this->getConexion();
@@ -185,8 +185,8 @@ class categoriaModelo extends Modelo{
 		if  ( isset( $datos['nombre'] ) ){
 			$sth->bindValue(':nombre', $datos['nombre'] );
 		}
-		if  ( isset( $datos['fk_categoria_padre'] ) ){
-			$sth->bindValue(':fk_categoria_padre', $datos['fk_categoria_padre'] );
+		if  ( isset( $datos['fk_um'] ) ){
+			$sth->bindValue(':fk_um', $datos['fk_um'] );
 		}		
 		if ( !$esNuevo)	{
 			$sth->bindValue(':id', $datos['id'] );

@@ -37,19 +37,7 @@
 			if ( resp.success == true	){
 				title= 'Exito';					
 				icon= kore.url_web+'imagenes/yes.png';				
-				//--------------------
-				var elementos=resp.datos;	
-				
-				
-				var grid=$(gridElementos.targetSelector);
-				var data=grid.wijgrid('data');				
-				data.length=0;
-				for(var i=0; i<elementos.length; i++){
-					data.push(elementos[i]);
-				}
-
-				grid.wijgrid('ensureControl', true);
-				//-----------------------------
+				//--------------------								
 			}else{
 				title= 'Error';
 				icon= kore.url_web+'imagenes/error.png';
@@ -174,7 +162,7 @@
 	};
 	this.init=function(params){
 		this.controlador=params.controlador;
-		this.catalogo=params.catalogo;
+		// this.catalogo=params.catalogo;
 		this.configuracion=params;
 		
 		var tabId='#'+params.tab.id;

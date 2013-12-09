@@ -1,7 +1,25 @@
 <?php
+
 require_once $_PETICION->basePath.'/modelos/pagina.php';
+require_once $_PETICION->basePath.'/modelos/autor.php';
+require_once $_PETICION->basePath.'/modelos/categoria.php';
+
 class paginas extends Controlador{
 	var $modelo="pagina";	
+	
+	
+		function buscarAutor(){
+			$autorMod= new categoriaModelo();
+			$res = $autorMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
+		function buscarCategoria(){
+			$categoriaMod= new categoriaModelo();
+			$res = $categoriaMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();

@@ -23,14 +23,14 @@
 			pk:"id"
 			
 		};				
-		 var lista=new BusquedaCategorias();
+		 var lista=new BusquedaConceptos();
 		 lista.init(config);		
 	});
 </script>
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>Buscar Categoria</h1>
+    	<h1>Conceptos</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">

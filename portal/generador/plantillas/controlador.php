@@ -1,18 +1,9 @@
 <?php
-
-require_once $_PETICION->basePath.'/modelos/categoria.php';
-require_once $_PETICION->basePath.'/modelos/categoria.php';
-
-class categorias extends Controlador{
-	var $modelo="categoria";	
+//{REQUIRE-CLASES}
+class Controlador extends Controlador{
+	var $modelo="{MODELO}";	
 	
-	
-		function buscarCategoria(){
-			$categoriaMod= new categoriaModelo();
-			$res = $categoriaMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
+	//{FUNCIONES-COMBO}
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();

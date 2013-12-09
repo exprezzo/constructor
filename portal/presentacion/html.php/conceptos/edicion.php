@@ -3,6 +3,15 @@
 	$_REQUEST['tabId'] =$id;
 	
 	
+if ( !empty( $this->datos['fk_um'] ) ){
+			$unidad_listado=array();
+			$unidad_listado[]=array('id'=>$this->datos['fk_um'],'abreviacion'=>$this->datos['abreviacion_unidad'] );
+			$this->unidad_listado = $unidad_listado;
+		}else{
+			$mod=new unidadModelo();
+			$objs=$mod->buscar( array() );		
+			$this->unidad_listado = $objs['datos'];
+		}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -52,7 +61,7 @@
 			pk:"id"
 			
 		};				
-		 var editor=new EdicionUnidades();
+		 var editor=new EdicionConceptos();
 		 editor.init(config);		
 	});
 </script>
@@ -61,7 +70,7 @@
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
-    	<h1>Nueva Unidad de Medida</h1>
+    	<h1>Nuevo Concepto</h1>
 	</div>
 	<div id="cuerpo">
 		<div id="contenedorDatos2">
@@ -75,9 +84,15 @@
 					<label style="">Nombre:</label>
 					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_abreviacion" style=""  >
-					<label style="">Abreviacion:</label>
-					<input type="text" name="abreviacion" class="entradaDatos" value="<?php echo $this->datos['abreviacion']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_fk_um" style=""  >
+					<label style="">Fk_um:</label>
+					<select name="fk_um" class="entradaDatos" style="width:250px;">
+						<?php
+							foreach($this->unidad_listado as $unidad){
+								echo '<option value="'.$unidad['id'].' " >'.$unidad['abreviacion'].'</option>';
+							}
+						?>
+					</select>
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
