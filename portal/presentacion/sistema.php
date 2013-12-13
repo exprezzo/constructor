@@ -19,8 +19,8 @@
 	<link href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
 	<?php
 	// $rutaTema='http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css'; 
-	// $rutaTema=getUrlTema('midnight'); 	
-	$rutaTema=getUrlTema('rocket'); 	
+	 $rutaTema=getUrlTema('midnight'); 	
+	// $rutaTema=getUrlTema('rocket'); 	
 	?>
 	<link href="<?php echo $rutaTema; ?>" rel="stylesheet" type="text/css" />
 	
@@ -118,8 +118,8 @@
 		}
 	</script>
 </head>
-
 <body>
+
 
 <div id="global">
 

@@ -1,11 +1,9 @@
 <?php
 	require_once $_PETICION->basePath.'/modelos/Catalogo_modelo.php';
 	$catMod = new catalogoModelo();
-	$catalogos = $catMod->buscar( array() );
+	$catalogos = $catMod->buscar( array() );		
 	$catalogos = $catalogos['datos'];
-	// echo '<pre>';
-	// print_r($catalogos);
-	// echo '</pre>';
+
 ?>
 <ul class="nav">                    	
 	<li>

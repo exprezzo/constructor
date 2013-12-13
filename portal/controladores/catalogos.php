@@ -7,6 +7,20 @@ require_once $_PETICION->basePath.'/generador/generador.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
 	
+	function getCatalogo(){
+		
+		$fk_catalogo=$_POST['fk_catalogo'];
+		
+		$mod=$this->getModelo();
+		$catalogo = $mod->obtener( array('id'=>$fk_catalogo) );
+		
+		$res=array(
+			'success'=>true,
+			'catalogo'=>$catalogo
+		);
+		echo json_encode( $res );
+		
+	}
 	function generarCodigo(){
 		$id=$_POST['id'];
 		

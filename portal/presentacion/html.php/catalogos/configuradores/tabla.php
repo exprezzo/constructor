@@ -28,14 +28,17 @@
 					}
 				?>
 			</select>		
+			
+			<input type="button" value="Cargar Catalogo" id="cargarCatalogo" />
 		</div>				
 		
 		
 	</div>
 </form>
-<script>
+<script type="text/javascript">
 	$( function(){	
 		var configTabla=new ConfigTabla();
 		configTabla.init();		
+		
 	});
 </script>
