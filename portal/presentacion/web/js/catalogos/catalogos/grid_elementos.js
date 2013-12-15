@@ -45,7 +45,7 @@ var GridElementos = function(){
 		
 	};
 	this.configurarComponenteSeleccionado=function(){
-		// console.log( "this.selected" ); console.log( this.selected );
+		
 		if ( this.selected == null ) return false;
 		
 		var componente=this.selected.componente;
@@ -676,7 +676,7 @@ var GridElementos = function(){
 			rec[campo]= (valueOfElement.default != null )? valueOfElement.default : '';		
 		} );
 		
-		// console.log(rec);
+		
 		var nuevo=new Array(rec);
 		
 		var tabId=this.tabId;		

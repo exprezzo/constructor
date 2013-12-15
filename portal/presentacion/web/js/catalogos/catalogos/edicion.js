@@ -328,7 +328,7 @@
 				objId = objId.toLowerCase();
 				$(me.tabId ).attr('objId',objId);				
 				
-				console.log("resp"); console.log(resp.datos);
+				
 				var elementos= ( resp.datos.elementos != null )? resp.datos.elementos : new Array();
 				gridElementos.recargar(elementos);
 				$.gritter.add({

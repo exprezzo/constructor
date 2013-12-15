@@ -83,12 +83,13 @@ class catalogos extends Controlador{
 		
 		$config=$_POST['config'];
 		
-		ob_start();
+		 ob_start();
 		$this->datos=$config;
-		include $template;
 		
-		$buffer = ob_get_flush();
-		ob_end_clean();
+		require_once $template;
+		
+		 $buffer = ob_get_contents();
+		   ob_end_clean();
 		
 		
 		$res=array(
@@ -96,7 +97,7 @@ class catalogos extends Controlador{
 			'msg'=>'Plantilla Obtenida',
 			'datos'=>$buffer
 		);
-		echo json_encode( $res );
+		 echo json_encode( $res );
 		return $res;
 	}
 	function limpiarCadena($valor){
