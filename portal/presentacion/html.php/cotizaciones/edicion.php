@@ -6,6 +6,7 @@
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
+<script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/conceptos_de_cotizacion.js"></script>
 <script>			
 	$( function(){	
 		
@@ -53,7 +54,21 @@
 			
 		};				
 		 var editor=new EdicionCotizaciones();
-		 editor.init(config);		
+		 editor.init(config);	
+		//-----
+		
+		var tabId='#'+config.tab.id;
+		config={
+			padre:editor,
+			tabId:'#<?php echo $_REQUEST['tabId']; ?>',
+			elementos: <?php echo json_encode($this->datos['conceptosDeCotizacion']); ?>,
+			target:'.tabla_conceptos',
+			contenedor:'.contenedor_tabla_conceptos',
+		};
+
+		var conceptosDeCotizacion = new ConceptosDeCotizacion();		
+		conceptosDeCotizacion.init(config);
+				
 	});
 </script>
 <style>
@@ -87,9 +102,16 @@
 					<label style="">Fecha:</label>
 					<input type="text" name="fecha" class="entradaDatos" value="<?php echo $this->datos['fecha']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_concepos" style=""  >
-					<label style="">:</label>
-					<input type="text" name="concepos" class="entradaDatos" value="<?php echo $this->datos['concepos']; ?>" style="width:500px;" />
+				<div class="tabla contenedor_tabla_conceptos" style=""  >
+					<div class="toolbar_detalles" style="margin-right: 44px;">
+						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+					</div>
+					<h1 style="">Conceptos</h1>
+					<table class="tabla_conceptos">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

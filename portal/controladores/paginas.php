@@ -1,7 +1,9 @@
 <?php
 
 require_once $_PETICION->basePath.'/modelos/pagina.php';
+
 require_once $_PETICION->basePath.'/modelos/autor.php';
+
 require_once $_PETICION->basePath.'/modelos/categoria.php';
 
 class paginas extends Controlador{
@@ -9,7 +11,7 @@ class paginas extends Controlador{
 	
 	
 		function buscarAutor(){
-			$autorMod= new categoriaModelo();
+			$autorMod= new autorModelo();
 			$res = $autorMod->buscar( array() );
 			echo json_encode( $res );
 		}

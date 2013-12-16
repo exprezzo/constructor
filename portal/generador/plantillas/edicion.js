@@ -3,6 +3,7 @@
 	this.tituloNuevo='{TITULO NUEVO}';
 	this.saveAndClose=false;
 	//FUNCIONES-COMBO
+	
 	this.borrar=function(){		
 		var r=confirm("{PREGUNTA-ELIMINAR}");
 		if (r==true){

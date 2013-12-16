@@ -57,9 +57,16 @@ require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 				$fk_modelo=$config['target'];
 				$modeloMod = new modelocModelo();
 				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
-				$strRequire .=$this->getRequire( $modeloObj['nombre'] );
+				$strRequire .=$crlf.$this->getRequire( $modeloObj['nombre'] );
 				
 				$codigoCombo .= $this->generarCodigoCombo( $modeloObj['nombre'] );
+			}	else if ( strtolower( $el['componente'] ) ==  'tabla' ){
+				// print_r($config);
+				$fk_catalogo=$config['target'];
+				$catMod = new catalogoModelo();
+				$cat_obj =$catMod->obtener( array('id'=>$fk_catalogo)  );
+				// print_r( $cat_obj );
+				$strRequire .=$crlf.$this->getRequire( $cat_obj['modelo'] );
 			}			
 		}
 		

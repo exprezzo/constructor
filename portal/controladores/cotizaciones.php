@@ -2,6 +2,8 @@
 
 require_once $_PETICION->basePath.'/modelos/cotizacion.php';
 
+require_once $_PETICION->basePath.'/modelos/concepto_cotizacion.php';
+
 class cotizaciones extends Controlador{
 	var $modelo="cotizacion";	
 	

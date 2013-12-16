@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo1.css" />
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/jquery-1.8.3.js" ></script>	
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/funciones.js" ></script>	
+<script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/navegacion_en_tabla.js" ></script>	
 <script src="<?php echo $_PETICION->url_web; ?>libs/jquery-ui-1.9.2.custom/jquery-ui-1.9.2.custom.js"></script>  
 <script src="<?php echo $_PETICION->url_web; ?>libs/blockui.js"></script>  
 <style>

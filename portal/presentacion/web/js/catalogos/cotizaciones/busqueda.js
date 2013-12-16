@@ -204,12 +204,6 @@
 					filterValue: value
 				});
 		
-				data.proxy.options.data.filtering.push({
-					dataKey: "concepos",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
 				
 				
             }
@@ -239,8 +233,7 @@
 { dataKey: "serie", visible:true, headerText: "Serie" },
 { dataKey: "folio", visible:true, headerText: "Folio" },
 { dataKey: "notas", visible:true, headerText: "Notas" },
-{ dataKey: "fecha", visible:true, headerText: "Fecha" },
-{ dataKey: "concepos", visible:true, headerText: "" },
+{ dataKey: "fecha", visible:true, headerText: "Fecha" },
 			]
 		});
 		

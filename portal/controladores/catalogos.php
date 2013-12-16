@@ -81,7 +81,7 @@ class catalogos extends Controlador{
 			echo 'template no encontrado'; return false;
 		}
 		
-		$config=$_POST['config'];
+		$config=empty($_POST['config'])? '' : $_POST['config'] ;
 		
 		 ob_start();
 		$this->datos=$config;

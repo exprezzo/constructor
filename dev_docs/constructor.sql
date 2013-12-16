@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2013-12-08 23:09:46
+Date: 2013-12-15 22:44:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `cms_categoria` (
   `nombre` char(255) DEFAULT NULL,
   `fk_categoria_padre` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cms_categoria
@@ -50,7 +50,7 @@ CREATE TABLE `constructor_elemento_catalogo` (
   PRIMARY KEY (`id`),
   KEY `fk_catalogo` (`fk_catalogo`),
   CONSTRAINT `fk_catalogo` FOREIGN KEY (`fk_catalogo`) REFERENCES `system_catalogos` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of constructor_elemento_catalogo
@@ -92,7 +92,8 @@ INSERT INTO `constructor_elemento_catalogo` VALUES ('107', '', '', 'fk_um', '', 
 INSERT INTO `constructor_elemento_catalogo` VALUES ('108', '', '', 'precio_unitario', '', 'YES', 'decimal(18,6)', 'Text Input', '{\"etiqueta\":\"Precio_unitario\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
 INSERT INTO `constructor_elemento_catalogo` VALUES ('109', '', '', 'importe', '', 'YES', 'decimal(18,6)', 'Text Input', '{\"etiqueta\":\"Importe\",\"requerido\":\"0\",\"editable\":\"1\",\"oculto\":\"0\" }', '48');
 INSERT INTO `constructor_elemento_catalogo` VALUES ('110', '', '', 'fk_cotizacion', '', 'YES', 'int(11)', 'Combo Box', '{\"etiqueta\":\"Fk_cotizacion\",\"requerido\":\"0\",\"oculto\":\"0\",\"editable\":\"1\",\"target\":\"7\",\"campo_a_mostrar\":\"folio\"}', '48');
-INSERT INTO `constructor_elemento_catalogo` VALUES ('111', '', '', 'concepos', '', '', '', 'Tabla', '{\"titulo\":\"Conceptos\",\"requerido\":\"\",\"oculto\":\"\",\"editable\":\"\",\"target\":\"48\"}', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('111', '', '', 'conceptos', '', '', '', 'Tabla', '{\"titulo\":\"Conceptos\",\"editable\":\"\",\"target\":\"48\",\"llave_foranea\":\"fk_cotizacion\",\"config_tabla\":\"[{\\\"id\\\":\\\"104\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"auto_increment\\\",\\\"campo\\\":\\\"id\\\",\\\"llave\\\":\\\"PRI\\\",\\\"esNulo\\\":\\\"NO\\\",\\\"tipo\\\":\\\"int(11)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Id\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"105\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"fk_concepto\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"int(11)\\\",\\\"componente\\\":\\\"Combo Box\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Fk_concepto\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"target\\\\\\\":\\\\\\\"6\\\\\\\",\\\\\\\"campo_a_mostrar\\\\\\\":\\\\\\\"nombre\\\\\\\"}\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"106\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"cantidad\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"decimal(18,6)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Cantidad\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"107\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"fk_um\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"decimal(18,6)\\\",\\\"componente\\\":\\\"Combo Box\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Fk_um\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"target\\\\\\\":\\\\\\\"2\\\\\\\",\\\\\\\"campo_a_mostrar\\\\\\\":\\\\\\\"nombre\\\\\\\"}\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"108\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"precio_unitario\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"decimal(18,6)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Precio_unitario\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"109\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"importe\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"decimal(18,6)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Importe\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"48\\\"},{\\\"id\\\":\\\"110\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"fk_cotizacion\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"int(11)\\\",\\\"componente\\\":\\\"Combo Box\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Fk_cotizacion\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"target\\\\\\\":\\\\\\\"7\\\\\\\",\\\\\\\"campo_a_mostrar\\\\\\\":\\\\\\\"folio\\\\\\\"}\\\",\\\"fk_catalogo\\\":\\\"48\\\"}]\"}', '47');
+INSERT INTO `constructor_elemento_catalogo` VALUES ('113', '', '', 'paginas', '', '', '', 'Tabla', '{\"titulo\":\"Paginas\",\"editable\":\"1\",\"target\":\"40\",\"llave_foranea\":\"autor\",\"config_tabla\":\"[{\\\"id\\\":\\\"58\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"auto_increment\\\",\\\"campo\\\":\\\"id\\\",\\\"llave\\\":\\\"PRI\\\",\\\"esNulo\\\":\\\"NO\\\",\\\"tipo\\\":\\\"int(11)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Id\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"40\\\"},{\\\"id\\\":\\\"59\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"titulo\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"char(255)\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Titulo\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"40\\\"},{\\\"id\\\":\\\"61\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"contenido\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"text\\\",\\\"componente\\\":\\\"Text Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Contenido\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"40\\\"},{\\\"id\\\":\\\"62\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"fk_categoria_pagina\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"int(11)\\\",\\\"componente\\\":\\\"Combo Box\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Fk_categoria_pagina\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"target\\\\\\\":\\\\\\\"5\\\\\\\",\\\\\\\"campo_a_mostrar\\\\\\\":\\\\\\\"nombre\\\\\\\"}\\\",\\\"fk_catalogo\\\":\\\"40\\\"},{\\\"id\\\":\\\"63\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"fecha_creacion\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"datetime\\\",\\\"componente\\\":\\\"Date Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Fecha_creacion\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"40\\\"},{\\\"id\\\":\\\"64\\\",\\\"esDefault\\\":\\\"\\\",\\\"extras\\\":\\\"\\\",\\\"campo\\\":\\\"ultima_edicion\\\",\\\"llave\\\":\\\"\\\",\\\"esNulo\\\":\\\"YES\\\",\\\"tipo\\\":\\\"datetime\\\",\\\"componente\\\":\\\"Date Input\\\",\\\"comp_config\\\":\\\"{\\\\\\\"etiqueta\\\\\\\":\\\\\\\"Ultima_edicion\\\\\\\",\\\\\\\"requerido\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"editable\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"oculto\\\\\\\":\\\\\\\"0\\\\\\\" }\\\",\\\"fk_catalogo\\\":\\\"40\\\"}]\"}', '43');
 
 -- ----------------------------
 -- Table structure for `exp_concepto`
@@ -142,12 +143,13 @@ CREATE TABLE `exp_cotizacion` (
   `notas` char(255) DEFAULT NULL,
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exp_cotizacion
 -- ----------------------------
 INSERT INTO `exp_cotizacion` VALUES ('2', 'A', '1', 'Una Cotozacion', '0000-00-00 00:00:00');
+INSERT INTO `exp_cotizacion` VALUES ('3', '', '', '', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `exp_um`
@@ -320,7 +322,7 @@ CREATE TABLE `system_pagina` (
 -- Records of system_pagina
 -- ----------------------------
 INSERT INTO `system_pagina` VALUES ('1', 'Cerritos', '1 ', 'asdfas', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `system_pagina` VALUES ('6', 'AAA', '1      ', 'BLA bla bla ble ble ble', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `system_pagina` VALUES ('6', 'AAA', '1          ', 'BLA bla bla ble ble ble', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `system_pagina` VALUES ('7', 'Un Titulo', '1', '', '1', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `system_pagina` VALUES ('18', 'Nueva Pagina', '1 ', '', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 

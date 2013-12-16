@@ -5,7 +5,7 @@
 	// {RELACIONES}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
-
+<!-- {SCRIPTS_COMPONENTES} -->
 <script>			
 	$( function(){	
 		
@@ -53,7 +53,9 @@
 			
 		};				
 		 var editor=new EdicionControlador();
-		 editor.init(config);		
+		 editor.init(config);	
+		//-----
+		// {INIT-TABLAS}
 	});
 </script>
 <style>

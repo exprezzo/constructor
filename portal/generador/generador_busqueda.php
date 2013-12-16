@@ -44,6 +44,9 @@ class GeneradorBusqueda{
 		$crlf = "\r\n";
 		$codigoFiltros='';
 		foreach($cat['elementos'] as $el){
+			//los componentes tipo tabla se omiten
+			if ( strtolower( $el['componente'] ) ==  'tabla' ) continue;
+			
 			$config=json_decode($el['comp_config'], true);			
 			if ($el['llave'] != 'PRI')
 			$codigoFiltros .= $this->generarCodigoFiltros($el);
@@ -59,6 +62,8 @@ class GeneradorBusqueda{
 			}else{
 				$visible='true';
 			}
+			
+			if ( strtolower( $el['componente'] ) !=  'tabla' )
 			$columnas.='{ dataKey: "'.$el['campo'].'", visible:'.$visible.', headerText: "'.$config['etiqueta'].'" },'.$crlf;
 		}
 		$columnas=substr($columnas,0, strlen($columnas)-1);

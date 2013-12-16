@@ -1,23 +1,10 @@
 <?php
 class autorModelo extends Modelo{	
 	var $tabla='system_users';
+	var $pk='id';
+	var $campos= array('id', 'nick', 'pass', 'email', 'rol', 'fbid', 'name', 'picture', 'originalName');
 	
-	function eliminar( $id ){
-		if ( empty($params[$this->pk]) ){
-			throw new Exception("Es necesario el parámetro 'id'");			
-		};		
-		$id=$params[$this->pk];
-		$sql = 'DELETE FROM '.$this->tabla.' WHERE id=:id';		
-		
-		$con = $this->getConexion();
-		$sth = $con->prepare($sql);		
-		$sth->bindValue(':id',$id,PDO::PARAM_INT);
-		
-		$exito = $sth->execute();					
-		
-		return $exito;	
-	}
-	function buscar($params = array() ){
+	function buscar($params){
 		
 		$pdo = $this->getConexion();
 		$filtros='';
@@ -25,31 +12,31 @@ class autorModelo extends Modelo{
 			foreach($params['filtros'] as $filtro){
 				 
 				if ( $filtro['dataKey']=='id' ) {
-					$filtros .= ' id like :id OR ';
+					$filtros .= ' autor.id like :id OR ';
 				} 
 				if ( $filtro['dataKey']=='nick' ) {
-					$filtros .= ' nick like :nick OR ';
+					$filtros .= ' autor.nick like :nick OR ';
 				} 
 				if ( $filtro['dataKey']=='pass' ) {
-					$filtros .= ' pass like :pass OR ';
+					$filtros .= ' autor.pass like :pass OR ';
 				} 
 				if ( $filtro['dataKey']=='email' ) {
-					$filtros .= ' email like :email OR ';
+					$filtros .= ' autor.email like :email OR ';
 				} 
 				if ( $filtro['dataKey']=='rol' ) {
-					$filtros .= ' rol like :rol OR ';
+					$filtros .= ' autor.rol like :rol OR ';
 				} 
 				if ( $filtro['dataKey']=='fbid' ) {
-					$filtros .= ' fbid like :fbid OR ';
+					$filtros .= ' autor.fbid like :fbid OR ';
 				} 
 				if ( $filtro['dataKey']=='name' ) {
-					$filtros .= ' name like :name OR ';
+					$filtros .= ' autor.name like :name OR ';
 				} 
 				if ( $filtro['dataKey']=='picture' ) {
-					$filtros .= ' picture like :picture OR ';
+					$filtros .= ' autor.picture like :picture OR ';
 				} 
 				if ( $filtro['dataKey']=='originalName' ) {
-					$filtros .= ' originalName like :originalName OR ';
+					$filtros .= ' autor.originalName like :originalName OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -175,15 +162,17 @@ class autorModelo extends Modelo{
 	function nuevo( $params ){
 		$obj=array();
 		
-		$obj['id']='';
-		$obj['nick']='';
-		$obj['pass']='';
-		$obj['email']='';
-		$obj['rol']='';
-		$obj['fbid']='';
-		$obj['name']='';
-		$obj['picture']='';
-		$obj['originalName']='';
+			$obj['id']='';
+			$obj['nick']='';
+			$obj['pass']='';
+			$obj['email']='';
+			$obj['rol']='';
+			$obj['fbid']='';
+			$obj['name']='';
+			$obj['picture']='';
+			$obj['originalName']='';
+			$obj['paginasDeAutor']=array();
+			
 		return $obj;
 	}
 	function obtener( $llave ){		
@@ -209,6 +198,21 @@ class autorModelo extends Modelo{
 			throw new Exception("El identificador está duplicado"); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}
 		
+				//----------------------------
+				$conceptosMod=new paginaModelo();
+				$params=array(
+					'filtros'=>array(
+						array(
+							'filterValue'=>$modelos[0]['id'],
+							'filterOperator'=>'equals',
+							'dataKey'=>'autor'
+						)
+					)
+				);
+				$paginasDeAutor=$conceptosMod->buscar($params);				
+				$modelos[0]['paginasDeAutor'] =$paginasDeAutor['datos'];
+				//---------------------------
+				
 		return $modelos[0];			
 	}
 	

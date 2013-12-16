@@ -23,6 +23,7 @@ class GeneradorModelo{
 		$campos='';
 		$joins='';		
 		$numJoins=0;
+		$codigoObtenerElementos='';
 		$crlf = "\r\n"; 
 		foreach($cat['elementos'] as $el ){
 		
@@ -38,9 +39,41 @@ class GeneradorModelo{
 				$joins.=$crlf.' LEFT JOIN '.$modeloObj['tabla'].' AS '.$modeloObj['nombre'].$numJoins;
 				$joins.=' ON '.$modeloObj['nombre'].$numJoins.'.'.$modeloObj['llave_primaria'].' = '.$cat['modelo'].'.'.$el['campo'];
 				$numJoins++;
-			}else{
+			}else  if ( strtolower( $el['componente'] ) ==  'tabla' ){
+				// = strtolower( $el['campo'] ) ).'De'.ucfirst( strtolower( $cat['nombre'] ) );
+				//------------------------------------------------------------
+				$config=json_decode($el['comp_config'], true);
+				$fk_catalogo=$config['target'];
+				$catMod = new catalogoModelo();
+				$cat_obj =$catMod->obtener( array('id'=>$fk_catalogo)  );
+				
+				$nombreModelo=$cat_obj['modelo'];
+				$nombreInstancia= strtolower( $el['campo'] ) .'De'.ucfirst( strtolower( $cat['nombre'] ) );
+				
+				//------------------------------------------------------------
+				
+				
+				$codigoObtenerElementos.='
+				//----------------------------
+				$conceptosMod=new '.$nombreModelo.'Modelo();
+				$params=array(
+					\'filtros\'=>array(
+						array(
+							\'filterValue\'=>$modelos[0][\''.$cat['pk_tabla'].'\'],
+							\'filterOperator\'=>\'equals\',
+							\'dataKey\'=>\''.$config['llave_foranea'].'\'
+						)
+					)
+				);
+				$'.$nombreInstancia.'=$conceptosMod->buscar($params);				
+				$modelos[0][\''.$nombreInstancia.'\'] =$'.$nombreInstancia.'[\'datos\'];
+				//---------------------------
+				';
+			}else{				
 				$campos.=$cat['modelo'].'.'.$el['campo'].', ';
-			}					
+				
+				
+			}
 		}
 		
 		$campos = substr($campos, 0, strlen($campos)-2);
@@ -63,6 +96,7 @@ class GeneradorModelo{
 		$modeloStr = str_replace('{CAMPOS-SELECT}', $camposSelect, $modeloStr);
 		
 		$modeloStr = str_replace('{NOMBRE-MODELO}', $cat['modelo'], $modeloStr);
+		$modeloStr = str_replace('// {OBTENER-ELEMENTOS-TABLA}', $codigoObtenerElementos, $modeloStr);
 		
 		
 		//-----------------------------------------------------------------
@@ -70,11 +104,17 @@ class GeneradorModelo{
 		$codigoCampos = '';
 		$codigoBindCampos='';
 		foreach($cat['elementos'] as $el ){
+			//los componentes tipo tabla se omiten
+			if ( strtolower( $el['componente'] ) ==  'tabla' ) continue;
+			
 			if ($el['llave']=='PRI' ) {
 				
 				$modeloStr = str_replace('{CAMPOLLAVE}', $el['campo'], $modeloStr);	
 				continue;
 			}
+			
+			
+			
 			$codigoCampos .=' 
 		if ( isset( $datos[\''.$el['campo'].'\'] ) ){
 			$strCampos .= \' '.$el['campo'].'=:'.$el['campo'].', \';
@@ -94,21 +134,31 @@ class GeneradorModelo{
 		//nuevo()-ATTRIBUTOS
 		$atributos='';
 		foreach($cat['elementos'] as $el ){
-			$atributos.='
-		$obj[\''.$el['campo'].'\']=\'\';';
-			if ( strtolower( $el['componente'] ) ==  'combo box' ){
-				$config=json_decode($el['comp_config'], true);				 
-				$fk_modelo=$config['target'];				
-				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+			//los componentes tipo tabla se omiten
+			if ( strtolower( $el['componente'] ) ==  'tabla' ) {
+				$nombreCampo=$el['campo'].'De'.$cat['nombre'];
+				$atributos.='
+			$obj[\''.$nombreCampo.'\']=array();
+			';
+			}else{
+		
+				$atributos.='
+			$obj[\''.$el['campo'].'\']=\'\';';
+				if ( strtolower( $el['componente'] ) ==  'combo box' ){
+					$config=json_decode($el['comp_config'], true);				 
+					$fk_modelo=$config['target'];				
+					$modeloMod = new modelocModelo();
+					$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+					
+					// $campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '..', ';				
+					$nombreCampo=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
+				$atributos.='
+			$obj[\''.$nombreCampo.'\']=\'\';';
 				
-				// $campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '..', ';				
-				$nombreCampo=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
-			$atributos.='
-		$obj[\''.$nombreCampo.'\']=\'\';';
-			
+				}
 			}
-		}
+			}
+		
 		$modeloStr = str_replace('//nuevo()-ATTRIBUTOS', $atributos, $modeloStr);	
 		//-----------------------------------------------------------------
 		// BUSCAR
@@ -122,6 +172,9 @@ class GeneradorModelo{
 		$numJoins=0;
 		$strArrCampos='';
 		foreach($cat['elementos'] as $el ){			
+			//los componentes tipo tabla se omiten
+			if ( strtolower( $el['componente'] ) ==  'tabla' ) continue;
+			
 			$strArrCampos.='\''.$el['campo'].'\', ';
 			
 			$codigoCampos .=' 

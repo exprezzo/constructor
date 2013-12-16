@@ -1,9 +1,12 @@
 <?php
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
+	
+	
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
+<script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/paginas_de_autor.js"></script>
 <script>			
 	$( function(){	
 		
@@ -50,8 +53,22 @@
 			pk:"id"
 			
 		};				
-		 var editor=new Edicionpaginas();
-		 editor.init(config);		
+		 var editor=new EdicionAutores();
+		 editor.init(config);	
+		//-----
+		
+		var tabId='#'+config.tab.id;
+		config={
+			padre:editor,
+			tabId:'#<?php echo $_REQUEST['tabId']; ?>',
+			elementos: <?php echo json_encode($this->datos['paginasDeAutor']); ?>,
+			target:'.tabla_paginas',
+			contenedor:'.contenedor_tabla_paginas',
+		};
+
+		var paginasDeAutor = new PaginasDeAutor();		
+		paginasDeAutor.init(config);
+				
 	});
 </script>
 <style>
@@ -100,6 +117,20 @@
 				<div class="inputBox contenedor_originalName" style=""  >
 					<label style="">OriginalName:</label>
 					<input type="text" name="originalName" class="entradaDatos" value="<?php echo $this->datos['originalName']; ?>" style="width:500px;" />
+				</div>
+				<div class="tabla contenedor_tabla_paginas" style=""  >
+					<div class="toolbar_detalles" style="margin-right: 44px;">
+						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+					</div>
+					<h1 style="">Paginas</h1>
+					<table class="tabla_paginas">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
+					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-pagina" title="&iquest;Eliminar Pagina?">
+						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Pagina?</p>
+					</div> 
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

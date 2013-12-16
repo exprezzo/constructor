@@ -167,7 +167,7 @@ class GeneradorFormulario{
 		$htmlStr= fread($handle, filesize($filename));
 		fclose($handle);
 		//------------------------------------------
-		$htmlStr=$this->generarHtml( $htmlStr, $cat );
+		$htmlStr=$this->generarHtml( $htmlStr, $cat, $rutaBase );
 		//---------------------------------------NUEVO
 		$filename = $directorio.'edicion.php';
 		$handle = fopen($filename, "w");
@@ -197,7 +197,7 @@ class GeneradorFormulario{
 		return $strRelacion;
 	}
 	
-	function generarHtml($htmlStr, $cat){
+	function generarHtml($htmlStr, $cat, $rutaBase){
 		$tituloNuevo=$cat['titulo_nuevo'];
 		$htmlStr = str_replace('<!--{TITULO-NUEVO}-->', $tituloNuevo, $htmlStr);
 
@@ -210,6 +210,8 @@ class GeneradorFormulario{
 		$campos='';		
 		$crlf = "\r\n"; 
 		$strRelaciones='';
+		$configComponentes='';
+		$scriptsComponentes='';
 		foreach($cat['elementos'] as $el ){
 			$config=json_decode($el['comp_config'], true);				 
 			
@@ -239,6 +241,93 @@ class GeneradorFormulario{
 						?>
 					</select>
 				</div>';
+			}else if ( strtolower( $el['componente'] ) ==  'tabla' ){				
+				$config=json_decode($el['comp_config'], true);
+				//-----
+				$nombreArchivo=$el['campo'].'_de_'.$cat['nombre'];
+				$nombreArchivo=strtolower($nombreArchivo);			
+				$nombreClaseJs=ucfirst( strtolower( $el['campo'] ) ).'De'.ucfirst( strtolower( $cat['nombre'] ) );				
+				//--------------------------------------------
+				$fk_catalogo=$config['target'];				
+				$catMod = new catalogoModelo();
+				$catObj =$catMod->obtener( array('id'=>$fk_catalogo)  );
+				//--------------------------------------------
+				$directorio = $rutaBase.'presentacion/web/js/catalogos/'.$cat['controlador'].'/';
+				if ( !file_exists($directorio)) {
+					mkdir($directorio);
+				}
+				$filename = dirname(__FILE__).'/plantillas/elementos_de_catalogo.js';
+				$handle = fopen($filename, "r");
+				$jsStr= fread($handle, filesize($filename));
+				fclose($handle);
+				//------------------------------------------
+				$jsStr = str_replace('ElementosDeCatalogo', $nombreClaseJs, $jsStr);
+				$jsStr = str_replace('-dialog-confirm-eliminarConcepto', '-dialog-confirm-eliminar-'.$catObj['modelo'], $jsStr);
+				$camposTabla='';
+				$columnas='';
+				$fields='';
+				// print_r($config);
+				$configTabla=json_decode( $config['config_tabla'], true );
+				foreach($configTabla as $elTabla ){
+					
+					$elTablaConfig=json_decode( $elTabla['comp_config'], true ); 
+					$fields.='
+				{ name: "'.$elTabla['campo'].'"},' ;
+					$visible=empty($elTablaConfig['oculto'])? 'true':'false';
+					$columnas.='
+				{ dataKey: "'.$elTabla['campo'].'", visible:'.$visible.', headerText: "'.$elTablaConfig['etiqueta'].'" },';
+				}
+				$columnas=substr($columnas,0, strlen($columnas)-1);
+				$fields=substr($fields,0, strlen($fields)-1);
+				$jsStr = str_replace('//{COLUMNAS}', $columnas, $jsStr);
+				$jsStr = str_replace('//{FIELDS}', $fields, $jsStr);
+				//---------------------------------------
+				$filename = $directorio.$nombreArchivo.'.js';
+				$handle = fopen($filename, "w");
+				$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
+				fclose($handle);
+				//----------------------------------------------
+				
+				
+				$scriptsComponentes.=$crlf.'<script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/'.$nombreArchivo.'.js"></script>';
+				
+				$clase='contenedor_tabla_'.$el['campo'];
+				$claseTabla='tabla_'.$el['campo'];
+				
+				$campos.='
+				<div class="tabla '.$clase.'" style=""  >
+					<div class="toolbar_detalles" style="margin-right: 44px;">
+						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+					</div>
+					<h1 style="">'.$config['titulo'].'</h1>
+					<table class="'.$claseTabla.'">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
+					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-'.$catObj['modelo'].'" title="&iquest;Eliminar '.ucfirst($catObj['modelo']).'?">
+						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar '.ucfirst($catObj['modelo']).'?</p>
+					</div> 
+				</div>';
+				
+				
+				
+				$nombreInstancia = lcfirst ( $nombreClaseJs ); 
+				
+				$configComponentes.='
+		var tabId=\'#\'+config.tab.id;
+		config={
+			padre:editor,
+			tabId:\'#<?php echo $_REQUEST[\'tabId\']; ?>\',
+			elementos: <?php echo json_encode($this->datos[\''.$nombreInstancia.'\']); ?>,
+			target:\'.'.$claseTabla.'\',
+			contenedor:\'.'.$clase.'\',
+		};
+
+		var '.$nombreInstancia.' = new '.$nombreClaseJs.'();		
+		'.$nombreInstancia.'.init(config);
+				';
+				
 			}else{
 				
 				$clase='contenedor_'.$el['campo'];
@@ -252,6 +341,8 @@ class GeneradorFormulario{
 		
 		$htmlStr = str_replace('<!-- ELEMENTOS -->', $campos, $htmlStr);
 		$htmlStr = str_replace('// {RELACIONES}', $strRelaciones, $htmlStr);
+		$htmlStr = str_replace('// {INIT-TABLAS}', $configComponentes, $htmlStr);
+		$htmlStr = str_replace('<!-- {SCRIPTS_COMPONENTES} -->', $scriptsComponentes, $htmlStr);
 		
 		return $htmlStr;
 	}	

@@ -1,9 +1,11 @@
-﻿var Edicionautores = function(){
+﻿var EdicionAutores = function(){
 	this.editado=false;
-	this.tituloNuevo='Nuevo';
+	this.tituloNuevo='Nuevo Autor';
 	this.saveAndClose=false;
+	
+	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Elemento?");
+		var r=confirm("¿Eliminar?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -110,20 +112,20 @@
 		}
 		
 		var tabId = this.tabId;		
-		var id = $(this.tabId + ' [name="'+this.configuracion.pk+'"]').val();
-		if (id>0){			
+		var id = $(this.tabId + ' [name="id"]').val();
+		if (id>0){						
 			$(tabId +' #titulo h1').html('Autor: '+getValorCampo('name'));
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
 		}
-	}
+	};
 	this.nuevo=function(){
 		var tabId=this.tabId;
 		var tab = $('#tabs '+tabId);		
 		$(tabId +' #titulo h1').html(this.tituloNuevo);
 		
-		tab.find('.txtId').val(0);
+		tab.find('[name="id"]').val(0);
 		me.editado=false;
 	};	
 	this.guardar=function(){
@@ -144,6 +146,8 @@
 		  }
 		});
 		//-----------------------------------
+		
+		//-----------------------------------
 		var datos=paramObj;
 		
 				
@@ -157,24 +161,9 @@
 			data: { datos: datos}
 		}).done(function( response ) {
 			$("#contenedorDatos2").unblock(); 
-			var msg, title, icon;
-			try{
-				var resp = eval('(' + response + ')');
-			}catch(err){
-				msg='El servidor ha respondido de manera incorrecta. <br />'+response;
-				title='Error al generar los archivos';
-				icon= kore.url_web+'imagenes/error.png';
-				$.gritter.add({
-					position: 'bottom-left',
-					title:title,
-					text: msg,
-					image: icon,
-					class_name: 'my-sticky-class'
-				});
-			}
-			// var resp = eval('(' + response + ')');
-			msg= (resp.msg)? resp.msg : '';
-			
+			var resp = eval('(' + response + ')');
+			var msg= (resp.msg)? resp.msg : '';
+			var title;
 			
 			if ( resp.success == true	){
 				if (resp.msgType!=undefined && resp.msgType == 'info'){
@@ -232,11 +221,11 @@
 		});
 	};	
 	this.eliminar=function(){
-		var id = $(this.tabId + ' [name="'+this.configuracion.pk+'"]').val();
+		var id = $(this.tabId + ' [name="id"]').val();
 		var me=this;
 		
 		var params={};
-		params[this.configuracion.pk]=id;
+		params['id']=id;
 		
 		
 		$.ajax({
@@ -266,7 +255,7 @@
 						// $('#tabs').wijtabs('remove', i);
 					// }
 				// }
-				$(me.tabId).find('[name="'+me.configuracion.pk+'"]').val(0);
+				$(me.tabId).find('[name="id"]').val(0);
 					
 				$.gritter.add({
 					position: 'bottom-left',
@@ -276,42 +265,31 @@
 					class_name: 'my-sticky-class'
 				});
 			});
-	},
-	
-
-	
-	
+	},	
 	this.configurarFormulario=function(tabId){		
 		var me=this;
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
-		// $(this.tabId+' .frmEdicion textarea').wijtextbox();		
-	
-		
-		
-	
-		
+		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
 	};
-	this.configurarToolbar=function(tabId){		
-			
-			var me=this;
-			
-			$(this.tabId + ' .toolbarEdicion .btnNuevo').click( function(){
-				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
-			});
-			
-			$(this.tabId + ' .toolbarEdicion .btnGuardar').click( function(){
-				me.guardar();
-				me.editado=true;
-			});
-			
-			$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-				var r=confirm("¿Eliminar?");
-				if (r==true){
-				  me.eliminar();
-				  me.editado=false;
-				  me.nuevo();
-				}
-			});
+	this.configurarToolbar=function(tabId){					
+		var me=this;			
+		$(this.tabId + ' .toolbarEdicion .btnNuevo').click( function(){
+			window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
+		});
+		
+		$(this.tabId + ' .toolbarEdicion .btnGuardar').click( function(){
+			me.guardar();
+			me.editado=true;
+		});
+		
+		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
+			var r=confirm("¿Eliminar?");
+			if (r==true){
+			  me.eliminar();
+			  me.editado=false;
+			  me.nuevo();
+			}
+		});
 	};	
 }

@@ -71,7 +71,9 @@ if ( !empty( $this->datos['fk_categoria_pagina'] ) ){
 			
 		};				
 		 var editor=new EdicionPaginas();
-		 editor.init(config);		
+		 editor.init(config);	
+		//-----
+		
 	});
 </script>
 <style>

@@ -287,7 +287,7 @@ var NavegacionEnTabla=function(){
 			var di=$(args.target).parent().attr('dataIndex');					
 			me.padre.prods[index][di]= $(this).val();				
 			
-			// $(me.tabId+' .grid_articulos').wijgrid('doRefresh');
+			
 		});
 		
 		

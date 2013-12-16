@@ -1,5 +1,5 @@
-﻿var Busquedaautores=function(){
-	this.tituloNuevo='Nueva';
+﻿var BusquedaAutores=function(){
+	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
 		gridBusqueda.wijgrid('ensureControl', true);
@@ -44,7 +44,7 @@
 		});
 }
 	this.nuevo=function(){		
-		TabManager.add(kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/nuevo',this.tituloNuevo);
+		TabManager.add(kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/nuevo');
 	};
 	this.activate=function(){
 		// vuelve a renderear estos elementos que presentaban problemas. (correccion de bug)		
@@ -179,16 +179,57 @@
 			reader:new wijarrayreader(campos),
 			loading : function(data){				
 				var value = $( ' input[name="query"]').val();				
+				
 				data.proxy.options.data.filtering.push({
-					 dataKey: "name",
-					 filterOperator: "Contains",
-					 filterValue: value
-				 });
-				// data.proxy.options.data.filtering.push({
-					// dataKey: "descripcion",
-					// filterOperator: "Contains",
-					// filterValue: value
-				// });
+					dataKey: "nick",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "pass",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "email",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "rol",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "fbid",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "name",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "picture",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "originalName",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				
+				
             }
 		});
 				
@@ -212,9 +253,7 @@
 			data:dataSource,
 			showFilter:false,
 			columns: [ 
-			    // { dataKey: "id", hidden:true, visible:true, headerText: "ID" }						
-				
-{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "nick", visible:true, headerText: "Nick" },
 { dataKey: "pass", visible:true, headerText: "Pass" },
 { dataKey: "email", visible:true, headerText: "Email" },
@@ -222,7 +261,7 @@
 { dataKey: "fbid", visible:true, headerText: "Fbid" },
 { dataKey: "name", visible:true, headerText: "Name" },
 { dataKey: "picture", visible:true, headerText: "Picture" },
-{ dataKey: "originalName", visible:true, headerText: "Originalname" }
+{ dataKey: "originalName", visible:true, headerText: "OriginalName" },
 			]
 		});
 		
@@ -238,7 +277,7 @@
 		gridBusqueda.wijgrid({ loaded: function (e) { 
 			$(me.tabId + ' .grid_busqueda tr').bind('dblclick', function (e) { 							
 				var pedidoId=me.selected[me.configuracion.pk];
-				// TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
+				//          TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
 				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar/'+pedidoId;
 			});			
 		} });

@@ -1,7 +1,13 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/autor_modelo.php';
+
+require_once $_PETICION->basePath.'/modelos/autor.php';
+
+require_once $_PETICION->basePath.'/modelos/pagina.php';
+
 class autores extends Controlador{
 	var $modelo="autor";	
+	
+	
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
@@ -13,11 +19,9 @@ class autores extends Controlador{
 	
 	function nuevo(){		
 		$modelo = $this->getModelo();
-		$campos=$modelo->campos;
-		$vista=$this->getVista();				
-		for($i=0; $i<sizeof($campos); $i++){
-			$obj[$campos[$i]]="";
-		}
+		$obj=$modelo->nuevo( array() );
+		
+		$vista=$this->getVista();
 		$vista->datos=$obj;		
 		
 		global $_TEMA_APP;
@@ -64,8 +68,7 @@ class autores extends Controlador{
 			$model->pk=>$id
 		);		
 		
-		$obj=$model->obtener( $params );	
-
+		$obj=$model->obtener( $id );			
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		
 		

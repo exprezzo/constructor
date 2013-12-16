@@ -2,6 +2,7 @@
 class paginaModelo extends Modelo{	
 	var $tabla='system_pagina';
 	var $pk='id';
+	var $campos= array('id', 'titulo', 'autor', 'name_autor', 'contenido', 'fk_categoria_pagina', 'nombre_categoria', 'fecha_creacion', 'ultima_edicion');
 	
 	function buscar($params){
 		
@@ -163,15 +164,15 @@ class paginaModelo extends Modelo{
 	function nuevo( $params ){
 		$obj=array();
 		
-		$obj['id']='';
-		$obj['titulo']='';
-		$obj['autor']='';
-		$obj['name_autor']='';
-		$obj['contenido']='';
-		$obj['fk_categoria_pagina']='';
-		$obj['nombre_categoria']='';
-		$obj['fecha_creacion']='';
-		$obj['ultima_edicion']='';
+			$obj['id']='';
+			$obj['titulo']='';
+			$obj['autor']='';
+			$obj['name_autor']='';
+			$obj['contenido']='';
+			$obj['fk_categoria_pagina']='';
+			$obj['nombre_categoria']='';
+			$obj['fecha_creacion']='';
+			$obj['ultima_edicion']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
