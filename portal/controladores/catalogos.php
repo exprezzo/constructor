@@ -60,7 +60,7 @@ class catalogos extends Controlador{
 		return $res;
 	}
 	function getConfigurador(){
-		
+		$this->selector=empty( $_POST['selector'])? '':$_POST['selector'];
 		$componente=$_POST['componente'];
 		//-----Busca un template para ese componente
 		$componente = addslashes($componente);

@@ -53,6 +53,8 @@
 <script>
 	$( function(){	
 		var configCombo=new ConfigCombo();
-		configCombo.init();		
+		var selector='<?php echo $this->selector; ?>';
+		// alert("SEL: "+selector);
+		configCombo.init(selector);		
 	});
 </script>

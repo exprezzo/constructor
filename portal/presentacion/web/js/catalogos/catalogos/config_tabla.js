@@ -61,7 +61,8 @@ var ConfigTabla=function(){
 		me.selected.comp_config
 		var params={ 
 			componente: componente ,
-			config:config
+			config:config,
+			selector:this.contenedorSel+'-dialog-configurarComponente'
 		};
 		$("#contenedorDatos2").block({ 
 			message: '<h1>Obteniendo Plantilla, espere unos segundos...</h1>'               

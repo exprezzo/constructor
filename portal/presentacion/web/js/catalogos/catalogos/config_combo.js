@@ -3,7 +3,7 @@ var ConfigCombo=function(){
 	this.configurarComboCampos=function(){
 		var me=this;
 		
-		$('.formCompConfig select[name="campo_a_mostrar"]').wijcombobox({			
+		$(this.selector + ' .formCompConfig select[name="campo_a_mostrar"]').wijcombobox({			
             showTrigger: true,
 			width:300,
 			minLength:1,
@@ -31,7 +31,7 @@ var ConfigCombo=function(){
 					// }
 					
 					
-					obj.datasrc.proxy.options.data.fk_catalogo=$('[name="target"]').val();
+					obj.datasrc.proxy.options.data.fk_catalogo=$(me.selector + ' [name="target"]').val();
 				}
                 
 				
@@ -39,7 +39,7 @@ var ConfigCombo=function(){
 		 });
 		 
 		 
-		 $('.formCompConfig .cajaComboCampos input[role="textbox"]').bind('focus', function(){			
+		 $(this.selector + ' .formCompConfig .cajaComboCampos input[role="textbox"]').bind('focus', function(){			
 			if (me.camposEnAjax) return true;			
 			me.setDSCampos();
 			me.camposEnAjax=true;
@@ -48,14 +48,14 @@ var ConfigCombo=function(){
 	this.setDSCampos = function(nombreModelo){
 		
 		
-				
+		
 		var proxy = new wijhttpproxy({
 			url: kore.url_base+'catalogos/getCampos', 
 			dataType: "json", 
 			type:"POST",
 			data: { 				
 				style: "full",
-				fk_catalogo: $('[name="target"]').val()	
+				fk_catalogo: $(me.selector + ' [name="target"]').val()	
 			},
 			key: 'rows'
 		});
@@ -78,12 +78,16 @@ var ConfigCombo=function(){
 			proxy: proxy 
 		}); 
 	
-		$('.formCompConfig select[name="campo_a_mostrar"]').wijcombobox('option','data',datasource);
+		$(this.selector + ' .formCompConfig select[name="campo_a_mostrar"]').wijcombobox('option','data',datasource);
 	};
-	this.init=function(){
-		$('.formCompConfig select[name="target"]').wijcombobox({
+	this.init=function(selector){
+		// alert("SEL2: "+selector);
+		this.selector = selector;
+		// console.log(this.selector + ' .formCompConfig select[name="target"]');
+		$(this.selector + ' .formCompConfig select[name="target"]').wijcombobox({
 			select:function(e, data){				
-				var selector='.formCompConfig select[name="campo_a_mostrar"]';
+				var selector=me.selector + ' .formCompConfig select[name="campo_a_mostrar"]';
+				// console.log("selector"); console.log(selector);
 				$(selector).wijcombobox('option','selectedIndex',-1);							
 				me.setDSCampos(data.label);
 				me.camposEnAjax=true;
