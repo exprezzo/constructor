@@ -1,12 +1,17 @@
 <?php
 class GeneradorControlador{
-	
+	var $funcionesCombo=array();
 	function getRequire($modelo){
 		return '
 require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 	}
 	
 	function generarCodigoCombo( $modelo ){
+		if ( in_array($modelo, $this->funcionesCombo) ) return '';
+		
+		$this->funcionesCombo[]=$modelo;
+		
+		
 		$modMay = ucfirst( $modelo );
 		$codigo='
 		function buscar'.$modMay.'(){

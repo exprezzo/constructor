@@ -13,6 +13,7 @@ require_once $_PETICION->basePath.'/modelos/evento.php';
 class reportes extends Controlador{
 	var $modelo="reporte";	
 	
+	
 		function buscarUsuario(){
 			$usuarioMod= new usuarioModelo();
 			$res = $usuarioMod->buscar( array() );

@@ -1,4 +1,4 @@
-var GridElementos = function(){
+var GridElementosTabla = function(){
 	var me=this;
 	this.aceptarConfig=function(){
 		var paramObj = {};
@@ -143,7 +143,7 @@ var GridElementos = function(){
 		this.tmp_id			= 0;
 		this.tabId			= tabId;
 		this.padre			= padre;
-		this.target = tabId+' .tablaElementos';
+		this.target = '#gridConfigTabla';
 		this.targetSelector = this.target;		
 				
 		var params={
@@ -261,13 +261,13 @@ var GridElementos = function(){
 				}
 			},
 			columns: [
-				{ dataKey: "id", visible:false, headerText: "id", editable:true, valueRequired: true },				
-				{ dataKey: "esDefault", visible:false, headerText: "valor_default", editable:true, valueRequired: true },
-				{ dataKey: "extras", visible:false, headerText: "extra", editable:true, valueRequired: true },
+				{ dataKey: "id", visible:true, headerText: "id", editable:true, valueRequired: true },				
+				{ dataKey: "esDefault", visible:true, headerText: "valor_default", editable:true, valueRequired: true },
+				{ dataKey: "extras", visible:true, headerText: "extra", editable:true, valueRequired: true },
 				{ dataKey: "campo", visible:true, headerText: "nombre", editable:true, valueRequired: true },
 				{ dataKey: "llave", visible:true, headerText: "llave", editable:true, valueRequired: true },				
-				{ dataKey: "esNulo", visible:false, headerText: "permitirNulo", editable:true, valueRequired: true },
-				{ dataKey: "tipo", visible:false, headerText: "tipo", editable:true, valueRequired: true },
+				{ dataKey: "esNulo", visible:true, headerText: "permitirNulo", editable:true, valueRequired: true },
+				{ dataKey: "tipo", visible:true, headerText: "tipo", editable:true, valueRequired: true },
 				{ dataKey: "componente", visible:true, headerText: "Tipo de Componente", editable:true, valueRequired: true },
 				{ dataKey: "comp_config", visible:false, headerText: "Config", editable:true, valueRequired: true }				
 			]
