@@ -149,7 +149,9 @@
 		
 		//-----------------------------------
 		var datos=paramObj;
-		
+		$(tabId+' .tabla_paginas').wijgrid('endEdit');
+				var paginas=$(tabId+' .tabla_paginas').wijgrid('data');
+				datos.paginasDeAutor = paginas;
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -192,6 +194,20 @@
 					image: icon,
 					class_name: 'my-sticky-class'
 				});
+				
+				
+				//--------------------
+				var elementos=resp.datos.paginasDeAutor;	
+
+				var grid=$(me.tabId+" .tabla_paginas");
+				var data=grid.wijgrid('data');				
+				data.length=0;
+				for(var i=0; i<elementos.length; i++){
+					data.push(elementos[i]);
+				}
+
+				grid.wijgrid('ensureControl', true);
+				//-----------------------------
 				
 				if (me.saveAndClose===true){
 					//busca el indice del tab

@@ -112,6 +112,9 @@
 						<thead></thead>
 						<tbody></tbody>
 					</table>
+					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-concepto_cotizacion" title="&iquest;Eliminar Concepto_cotizacion?">
+						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto_cotizacion?</p>
+					</div> 
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

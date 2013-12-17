@@ -121,18 +121,44 @@ class GeneradorFormulario{
 		$funcionesInitCombo='';
 		$codigoGuardarCombo='';
 		$crlf = "\r\n"; 
+		$codigoDatosTabla='';
+		$cargarTablas='';
 		foreach($cat['elementos'] as $el){
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){
 				
 				$funcionesCombo.= $this->generarCodigoCombo( $el, $cat );
 				$funcionesInitCombo.=$crlf.$this->generarInitCombo( $el, $cat  );
 				$codigoGuardarCombo=$crlf.$this->generarCodigoGuardarCombo( $el );
+			}else if ( strtolower( $el['componente'] ) ==  'tabla' ){
+				$clase='tabla_'.$el['campo'];
+				$instancia=$el['campo'].'De'.ucfirst($cat['nombre']);
+				$codigoDatosTabla.='$(tabId+\' .'.$clase.'\').wijgrid(\'endEdit\');
+				var '.$el['campo'].'=$(tabId+\' .'.$clase.'\').wijgrid(\'data\');
+				datos.'.$instancia.' = '.$el['campo'].';';
+				
+				$cargarTablas='
+				//--------------------
+				var elementos=resp.datos.'.$instancia.';	
+
+				var grid=$(me.tabId+" .tabla_'.$el['campo'].'");
+				var data=grid.wijgrid(\'data\');				
+				data.length=0;
+				for(var i=0; i<elementos.length; i++){
+					data.push(elementos[i]);
+				}
+
+				grid.wijgrid(\'ensureControl\', true);
+				//-----------------------------
+				';
+				
 			}
 			
 		}
 		$jsStr = str_replace('//FUNCIONES-COMBO', $funcionesCombo, $jsStr);
 		$jsStr = str_replace('//{INIT-COMBOS}', $funcionesInitCombo, $jsStr);
 		$jsStr = str_replace('//{CODIGO-GUARDAR-COMBOS}', $codigoGuardarCombo, $jsStr);
+		$jsStr = str_replace('//{GUARDAR-TABLAS}', $codigoDatosTabla, $jsStr);
+		$jsStr = str_replace('//{CARGAR-TABLAS}', $cargarTablas, $jsStr);
 		
 		return $jsStr;
 	}

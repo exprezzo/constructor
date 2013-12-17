@@ -306,8 +306,19 @@ class autorModelo extends Modelo{
 			$idObj=$datos['id'];
 		}	
 		
-		$obj=$this->obtener( $idObj );
 		
+		
+		
+		$paginaMod = new paginaModelo();
+		foreach( $datos['paginasDeAutor'] as $el ){
+			$el['autor']=$idObj;
+			$res=$paginaMod->guardar($el);
+			if ( !$res['success'] ){											
+				return $res;
+			}
+			
+		}
+		$obj=$this->obtener( $idObj );
 		return array(
 			'success'=>true,
 			'datos'=>$obj,

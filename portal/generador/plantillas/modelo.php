@@ -149,8 +149,10 @@ class PlantillaModelo extends Modelo{
 			$idObj=$datos['{CAMPOLLAVE}'];
 		}	
 		
-		$obj=$this->obtener( $idObj );
 		
+		
+		//{TABLAS}
+		$obj=$this->obtener( $idObj );
 		return array(
 			'success'=>true,
 			'datos'=>$obj,

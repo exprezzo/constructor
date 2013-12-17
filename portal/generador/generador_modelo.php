@@ -103,12 +103,32 @@ class GeneradorModelo{
 		// GUARDAR
 		$codigoCampos = '';
 		$codigoBindCampos='';
+		$codigoTablas='';
 		foreach($cat['elementos'] as $el ){
 			//los componentes tipo tabla se omiten
-			if ( strtolower( $el['componente'] ) ==  'tabla' ) continue;
 			
-			if ($el['llave']=='PRI' ) {
-				
+			
+			if ( strtolower( $el['componente'] ) ==  'tabla' ){
+				$config=json_decode($el['comp_config'], true);				 
+				$fk_catalogo=$config['target'];
+				$catMod = new catalogoModelo();
+				$catObj =$catMod->obtener( array('id'=>$fk_catalogo)  );
+				$nombreModelo=$catObj['modelo'];
+				$instancia=$el['campo'].'De'.ucfirst($cat['nombre']);
+				$codigoTablas.='
+		$'.$nombreModelo.'Mod = new '.$nombreModelo.'Modelo();
+		foreach( $datos[\''.$instancia.'\'] as $el ){
+			$el[\''.$config['llave_foranea'].'\']=$idObj;
+			$res=$'.$nombreModelo.'Mod->guardar($el);
+			if ( !$res[\'success\'] ){											
+				return $res;
+			}
+			
+		}';
+				continue;
+			} 
+			
+			if ($el['llave']=='PRI' ) {				
 				$modeloStr = str_replace('{CAMPOLLAVE}', $el['campo'], $modeloStr);	
 				continue;
 			}
@@ -130,6 +150,8 @@ class GeneradorModelo{
 		$modeloStr = str_replace('//{guardar()-codigoBindCampos}', $codigoBindCampos, $modeloStr);			
 		$modeloStr = str_replace('{guardar()-MSG_NUEVO}', $cat['msg_creado'], $modeloStr);	
 		$modeloStr = str_replace('{guardar()-MSG_ACTUALIZADO}', $cat['msg_actualizado'], $modeloStr);	
+		$modeloStr = str_replace('//{TABLAS}', $codigoTablas, $modeloStr);	
+		
 		//---------------------------------------NUEVO
 		//nuevo()-ATTRIBUTOS
 		$atributos='';

@@ -109,9 +109,7 @@ var PaginasDeAutor=function (){
 				{ dataKey: "contenido", visible:true, headerText: "Contenido" },
 				{ dataKey: "fk_categoria_pagina", visible:true, headerText: "Fk_categoria_pagina" },
 				{ dataKey: "fecha_creacion", visible:true, headerText: "Fecha_creacion" },
-				{ dataKey: "ultima_edicion", visible:true, headerText: "Ultima_edicion" },
-				{ dataKey: "autor", visible:false, headerText: "Autor" },
-				{ dataKey: "name_autor", visible:false, headerText: "Nombre Autor" },
+				{ dataKey: "ultima_edicion", visible:true, headerText: "Ultima_edicion" }
 			]
 		});
 		var me=this;

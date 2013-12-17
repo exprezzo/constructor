@@ -149,7 +149,7 @@
 		//{CODIGO-GUARDAR-COMBOS}
 		//-----------------------------------
 		var datos=paramObj;
-		
+		//{GUARDAR-TABLAS}
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -193,6 +193,7 @@
 					class_name: 'my-sticky-class'
 				});
 				
+				//{CARGAR-TABLAS}
 				if (me.saveAndClose===true){
 					//busca el indice del tab
 					var idTab=$(me.tabId).attr('id');

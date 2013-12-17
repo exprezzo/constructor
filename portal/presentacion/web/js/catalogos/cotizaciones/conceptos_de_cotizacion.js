@@ -27,7 +27,7 @@ var ConceptosDeCotizacion=function (){
 		this.configurarGrid(this.targetSelector, articulos);		
 		this.configurarToolbar(tabId);		
 		var me = this;
-		$(this.tabId + "-dialog-confirm-eliminarConcepto").wijdialog({
+		$(this.tabId + "-dialog-confirm-eliminar-concepto_cotizacion").wijdialog({
 			autoOpen: false,
             captionButtons: {                  
 				pin: { visible: false },
@@ -63,22 +63,17 @@ var ConceptosDeCotizacion=function (){
 	
 	this.configurarGrid=function(targetSelector, articulos){		
 		var fields=[
-			{ name: "id", default:0},
-			{ name: "cantidad"},
-			{ name: "unidad"},
-			{ name: "fk_um"},
-			{ name: "fk_concepto"},
-			{ name: "descripcion"},
-			{ name: "valorUnitario"},
-			{ name: "importe"},
-			{ name: "noIdentificacion"},					
-			{ name: "impuestos"},			
-			{ name: "eliminado", default:false}
+			
+				{ name: "id"},
+				{ name: "fk_concepto"},
+				{ name: "cantidad"},
+				{ name: "fk_um"},
+				{ name: "precio_unitario"},
+				{ name: "importe"},
+				{ name: "fk_cotizacion"}
 		];
 		
 		this.fields=fields;	
-console.log("targetSelector");		 console.log(targetSelector);		
-console.log("articulos"); console.log(articulos);
 		var gridElementos=$(targetSelector);						
 
 		var me=this;
@@ -89,7 +84,7 @@ console.log("articulos"); console.log(articulos);
 			if(e.keyCode==46 && e.shiftKey){
 				me.recuperar();
 			}else if(e.keyCode==46){
-				$(me.tabId + "-dialog-confirm-eliminarConcepto").wijdialog('open');
+				$(me.tabId + "-dialog-confirm-eliminar-concepto_cotizacion").wijdialog('open');
 			}
 		});
 		
@@ -109,16 +104,14 @@ console.log("articulos"); console.log(articulos);
 				}
 			},
 			columns: [
-				{ dataKey: "id", visible:false, headerText: "Id", editable:true, valueRequired: true},
-				{ dataKey: "descripcion", visible:true, headerText: "Descripcion", editable:true, valueRequired: true },
-				{ dataKey: "fk_concepto", visible:false, headerText: "Fk_concepto", editable:true, valueRequired: true },
-				{ dataKey: "cantidad", visible:true, headerText: "Cantidad", editable:true, valueRequired: true,dataType:'number' },
-				{ dataKey: "unidad", visible:true, headerText: "Unidad", editable:true, valueRequired: true },
-				{ dataKey: "fk_um", visible:false, headerText: "Fk_um", editable:true, valueRequired: true },								
-				{ dataKey: "valorUnitario", visible:true, headerText: "P. Unitario", editable:true, valueRequired: true,dataType:'currency' },
-				{ dataKey: "importe", visible:true, headerText: "Importe", editable:false, valueRequired: true, dataType:'currency'  },
-				{ dataKey: "noIdentificacion", visible:false, headerText: "Noidentificacion", editable:true, valueRequired: true },
-				{ dataKey: "fk_factura", visible:false, headerText: "Fk_factura", editable:true, valueRequired: true },												
+				
+				{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "fk_concepto", visible:true, headerText: "Fk_concepto" },
+				{ dataKey: "cantidad", visible:true, headerText: "Cantidad" },
+				{ dataKey: "fk_um", visible:true, headerText: "Fk_um" },
+				{ dataKey: "precio_unitario", visible:true, headerText: "Precio_unitario" },
+				{ dataKey: "importe", visible:true, headerText: "Importe" },
+				{ dataKey: "fk_cotizacion", visible:true, headerText: "Fk_cotizacion" }
 			]
 		});
 		var me=this;
@@ -202,7 +195,7 @@ console.log("articulos"); console.log(articulos);
 		$(this.target + " tbody tr:eq("+cellInfo.rowIndex()+")").addClass('eliminado');		
 		row.data.eliminado=true;
 		$(this.target).wijgrid("ensureControl", true);
-		this.padre.configBotonesEditada();
+		
 	}
 	this.navegarEnter=function(){		
 		this.seleccionarSiguiente(false, true, true);		
@@ -234,7 +227,7 @@ console.log("articulos"); console.log(articulos);
 		if ( nextCell<0 ){
 			//ir al registro anterior, cambiar de pagina
 			row=cellInfo.row();
-			var data = $(tabId+" .grid_articulos").wijgrid('data');
+			var data = $(this.target).wijgrid('data');
 			var pageSize = $(this.target).wijgrid('option','pageSize');
 			var pageIndex = $(this.target).wijgrid('option','pageIndex');
 			
@@ -378,7 +371,7 @@ console.log("articulos"); console.log(articulos);
 		  .click(function( event ) {
 			
 				// me.eliminar();	
-				$(me.tabId + "-dialog-confirm-eliminarConcepto").wijdialog('open');
+				$(me.tabId + "-dialog-confirm-eliminar-concepto_cotizacion").wijdialog('open');
 		});
 	}
 }

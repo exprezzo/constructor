@@ -242,8 +242,19 @@ class cotizacionModelo extends Modelo{
 			$idObj=$datos['id'];
 		}	
 		
-		$obj=$this->obtener( $idObj );
 		
+		
+		
+		$concepto_cotizacionMod = new concepto_cotizacionModelo();
+		foreach( $datos['conceptosDeCotizacion'] as $el ){
+			$el['fk_cotizacion']=$idObj;
+			$res=$concepto_cotizacionMod->guardar($el);
+			if ( !$res['success'] ){											
+				return $res;
+			}
+			
+		}
+		$obj=$this->obtener( $idObj );
 		return array(
 			'success'=>true,
 			'datos'=>$obj,
