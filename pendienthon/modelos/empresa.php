@@ -231,11 +231,27 @@ class empresaModelo extends Modelo{
 		
 		$usuarioMod = new usuarioModelo();
 		foreach( $datos['usuariosDeEmpresa'] as $el ){
-			$el['fk_empresa']=$idObj;
-			$res=$usuarioMod->guardar($el);
-			if ( !$res['success'] ){											
-				return $res;
-			}
+			if ( !empty($el['eliminado']) ){
+				if ( !empty($el['id']) ){
+					$res = $usuarioMod->eliminar( array('id'=>$el['id']) );
+					if ($res )$res =array('success'=>true);
+				}else{
+					$res=array('success'=>true);
+				}					
+			 }else{
+				unset( $el['eliminado'] );
+				$el['fk_empresa']=$idObj;
+				// if ( empty($concepto['nombre'])  )  continue;
+				$res = $usuarioMod->guardar($el);
+			 }
+			
+			
+			//-----
+			//
+			//$res=$usuarioMod->guardar($el);
+			//if ( !$res['success'] ){											
+			//	return $res;
+			//}
 			
 		}
 		$obj=$this->obtener( $idObj );

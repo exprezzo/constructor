@@ -116,14 +116,31 @@ class GeneradorModelo{
 				$catObj =$catMod->obtener( array('id'=>$fk_catalogo)  );
 				$nombreModelo=$catObj['modelo'];
 				$instancia=$el['campo'].'De'.ucfirst($cat['nombre']);
+				
 				$codigoTablas.='
 		$'.$nombreModelo.'Mod = new '.$nombreModelo.'Modelo();
 		foreach( $datos[\''.$instancia.'\'] as $el ){
-			$el[\''.$config['llave_foranea'].'\']=$idObj;
-			$res=$'.$nombreModelo.'Mod->guardar($el);
-			if ( !$res[\'success\'] ){											
-				return $res;
-			}
+			if ( !empty($el[\'eliminado\']) ){
+				if ( !empty($el[\'id\']) ){
+					$res = $'.$nombreModelo.'Mod->eliminar( array(\'id\'=>$el[\'id\']) );
+					if ($res )$res =array(\'success\'=>true);
+				}else{
+					$res=array(\'success\'=>true);
+				}					
+			 }else{
+				unset( $el[\'eliminado\'] );
+				$el[\''.$config['llave_foranea'].'\']=$idObj;
+				// if ( empty($concepto[\'nombre\'])  )  continue;
+				$res = $'.$nombreModelo.'Mod->guardar($el);
+			 }
+			
+			
+			//-----
+			//
+			//$res=$'.$nombreModelo.'Mod->guardar($el);
+			//if ( !$res[\'success\'] ){											
+			//	return $res;
+			//}
 			
 		}';
 				continue;

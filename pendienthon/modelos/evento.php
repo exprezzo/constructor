@@ -2,7 +2,7 @@
 class eventoModelo extends Modelo{	
 	var $tabla='pendienthon_evento';
 	var $pk='id';
-	var $campos= array('id', 'fecha', 'descripcion', 'fk_autor', 'estado', 'fk_reporte', 'num_reporte_reporte');
+	var $campos= array('id', 'fecha', 'descripcion', 'fk_autor', 'nombre_usuario', 'estado', 'fk_reporte', 'num_reporte_reporte');
 	
 	function buscar($params){
 		
@@ -23,6 +23,9 @@ class eventoModelo extends Modelo{
 				if ( $filtro['dataKey']=='fk_autor' ) {
 					$filtros .= ' evento.fk_autor like :fk_autor OR ';
 				} 
+				if ( $filtro['dataKey']=='nombre_usuario' ) {
+					$filtros .= ' usuario0.nombre like :nombre_usuario OR ';
+				} 
 				if ( $filtro['dataKey']=='estado' ) {
 					$filtros .= ' evento.estado like :estado OR ';
 				} 
@@ -30,7 +33,7 @@ class eventoModelo extends Modelo{
 					$filtros .= ' evento.fk_reporte like :fk_reporte OR ';
 				} 
 				if ( $filtro['dataKey']=='num_reporte_reporte' ) {
-					$filtros .= ' reporte0.num_reporte like :num_reporte_reporte OR ';
+					$filtros .= ' reporte1.num_reporte like :num_reporte_reporte OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -41,7 +44,8 @@ class eventoModelo extends Modelo{
 		
 		
 		$joins='
- LEFT JOIN pendienthon_reporte AS reporte0 ON reporte0.id = evento.fk_reporte';
+ LEFT JOIN pendienthon_usuarios AS usuario0 ON usuario0.id = evento.fk_autor
+ LEFT JOIN pendienthon_reporte AS reporte1 ON reporte1.id = evento.fk_reporte';
 						
 		$sql = 'SELECT COUNT(*) as total FROM '.$this->tabla.' evento '.$joins.$filtros;				
 		$sth = $pdo->prepare($sql);		
@@ -59,6 +63,9 @@ class eventoModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='fk_autor' ) {
 				$sth->bindValue(':fk_autor','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre_usuario' ) {
+				$sth->bindValue(':nombre_usuario', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
 			if ( $filtro['dataKey']=='estado' ) {
 				$sth->bindValue(':estado','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
@@ -88,9 +95,9 @@ class eventoModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, evento.estado, evento.fk_reporte, reporte0.num_reporte AS num_reporte_reporte FROM '.$this->tabla.' evento '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, usuario0.nombre AS nombre_fk_autor, evento.estado, evento.fk_reporte, reporte1.num_reporte AS num_reporte_fk_reporte FROM '.$this->tabla.' evento '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, evento.estado, evento.fk_reporte, reporte0.num_reporte AS num_reporte_reporte FROM '.$this->tabla.' evento '.$joins.$filtros;
+			$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, usuario0.nombre AS nombre_fk_autor, evento.estado, evento.fk_reporte, reporte1.num_reporte AS num_reporte_fk_reporte FROM '.$this->tabla.' evento '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -113,6 +120,9 @@ class eventoModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='fk_autor' ) {
 				$sth->bindValue(':fk_autor','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='nombre_usuario' ) {
+				$sth->bindValue(':nombre_usuario', '%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}
 			if ( $filtro['dataKey']=='estado' ) {
 				$sth->bindValue(':estado','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
@@ -149,15 +159,17 @@ class eventoModelo extends Modelo{
 			$obj['fecha']='';
 			$obj['descripcion']='';
 			$obj['fk_autor']='';
+			$obj['nombre_usuario']='';
 			$obj['estado']='';
 			$obj['fk_reporte']='';
 			$obj['num_reporte_reporte']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, evento.estado, evento.fk_reporte, reporte0.num_reporte AS num_reporte_reporte
+		$sql = 'SELECT evento.id, evento.fecha, evento.descripcion, evento.fk_autor, usuario0.nombre AS nombre_fk_autor, evento.estado, evento.fk_reporte, reporte1.num_reporte AS num_reporte_fk_reporte
  FROM pendienthon_evento AS evento
- LEFT JOIN pendienthon_reporte AS reporte0 ON reporte0.id = evento.fk_reporte
+ LEFT JOIN pendienthon_usuarios AS usuario0 ON usuario0.id = evento.fk_autor
+ LEFT JOIN pendienthon_reporte AS reporte1 ON reporte1.id = evento.fk_reporte
   WHERE evento.id=:id';
 		$pdo = $this->getConexion();
 		$sth = $pdo->prepare($sql);

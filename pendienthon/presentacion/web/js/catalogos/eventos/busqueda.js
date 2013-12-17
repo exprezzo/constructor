@@ -193,7 +193,7 @@
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "fk_autor",
+					dataKey: "nombre_usuario",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -238,9 +238,10 @@
 				{ dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "fecha", visible:true, headerText: "Fecha" },
 { dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "fk_autor", visible:true, headerText: "Fk_autor" },
+{ dataKey: "nombre_fk_autor", visible:true, headerText: "Autor" },
+{ dataKey: "fk_autor", visible:false, headerText: "Autor" },
 { dataKey: "estado", visible:true, headerText: "Estado" },
-{ dataKey: "num_reporte_reporte", visible:true, headerText: "num_reporte reporte" },
+{ dataKey: "num_reporte_fk_reporte", visible:true, headerText: "Fk_reporte" },
 { dataKey: "fk_reporte", visible:false, headerText: "Fk_reporte" },
 			]
 		});

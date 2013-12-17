@@ -3,7 +3,55 @@
 	this.tituloNuevo='Nuevo Evento';
 	this.saveAndClose=false;
 	
-	this.configurarComboReporte=function(){
+	this.configurarComboFk_autor=function(){
+		var me=this;
+		
+		$('select[name="fk_autor"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,			
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_autor input[role="textbox"]').bind('focus', function(){			
+			if (me.Fk_autorEnAjax) return true;			
+			me.setDSFk_autor();
+			me.Fk_autorEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_autor = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/eventos/buscarUsuario',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_autor"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_reporte=function(){
 		var me=this;
 		
 		$('select[name="fk_reporte"]').wijcombobox({			
@@ -18,14 +66,14 @@
 		 });
 		 
 		 $('.contenedor_fk_reporte input[role="textbox"]').bind('focus', function(){			
-			if (me.reporteEnAjax) return true;			
-			me.setDSReporte();
-			me.reporteEnAjax=true;
+			if (me.Fk_reporteEnAjax) return true;			
+			me.setDSFk_reporte();
+			me.Fk_reporteEnAjax=true;
 		 });
 	};
 		
 		
-	this.setDSReporte = function(){		
+	this.setDSFk_reporte = function(){		
 		
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
@@ -197,6 +245,21 @@
 		
 
 		//-----------------------------------		
+		var selectedIndex = $('[name="fk_autor"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_autor"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_autor'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_autor'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_autor'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
 		var selectedIndex = $('[name="fk_reporte"]').wijcombobox('option','selectedIndex');  
 		var selectedItem = $('[name="fk_reporte"]').wijcombobox("option","data");		
 		if (selectedIndex == -1){
@@ -335,7 +398,8 @@
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
-this.configurarComboReporte();
+this.configurarComboFk_autor();
+this.configurarComboFk_reporte();
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			

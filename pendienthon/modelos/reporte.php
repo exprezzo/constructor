@@ -315,11 +315,27 @@ class reporteModelo extends Modelo{
 		
 		$eventoMod = new eventoModelo();
 		foreach( $datos['eventosDeReporte'] as $el ){
-			$el['fk_reporte']=$idObj;
-			$res=$eventoMod->guardar($el);
-			if ( !$res['success'] ){											
-				return $res;
-			}
+			if ( !empty($el['eliminado']) ){
+				if ( !empty($el['id']) ){
+					$res = $eventoMod->eliminar( array('id'=>$el['id']) );
+					if ($res )$res =array('success'=>true);
+				}else{
+					$res=array('success'=>true);
+				}					
+			 }else{
+				unset( $el['eliminado'] );
+				$el['fk_reporte']=$idObj;
+				// if ( empty($concepto['nombre'])  )  continue;
+				$res = $eventoMod->guardar($el);
+			 }
+			
+			
+			//-----
+			//
+			//$res=$eventoMod->guardar($el);
+			//if ( !$res['success'] ){											
+			//	return $res;
+			//}
 			
 		}
 		$obj=$this->obtener( $idObj );

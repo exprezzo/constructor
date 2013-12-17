@@ -2,12 +2,20 @@
 
 require_once $_PETICION->basePath.'/modelos/evento.php';
 
+require_once $_PETICION->basePath.'/modelos/usuario.php';
+
 require_once $_PETICION->basePath.'/modelos/reporte.php';
 
 class eventos extends Controlador{
 	var $modelo="evento";	
 	
 	
+		function buscarUsuario(){
+			$usuarioMod= new usuarioModelo();
+			$res = $usuarioMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
 		function buscarReporte(){
 			$reporteMod= new reporteModelo();
 			$res = $reporteMod->buscar( array() );

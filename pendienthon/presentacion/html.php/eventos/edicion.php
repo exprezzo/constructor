@@ -3,14 +3,25 @@
 	$_REQUEST['tabId'] =$id;
 	
 	
+if ( !empty( $this->datos['fk_autor'] ) ){
+			
+			$fk_autor_listado=array();
+			$fk_autor_listado[]=array('id'=>$this->datos['fk_autor'],'nombre'=>$this->datos['nombre_fk_autor'] );
+			$this->fk_autor_listado = $fk_autor_listado;
+		}else{
+			$mod=new usuarioModelo();
+			$objs=$mod->buscar( array() );		
+			$this->fk_autor_listado = $objs['datos'];
+		}
 if ( !empty( $this->datos['fk_reporte'] ) ){
-			$reporte_listado=array();
-			$reporte_listado[]=array('id'=>$this->datos['fk_reporte'],'num_reporte'=>$this->datos['num_reporte_reporte'] );
-			$this->reporte_listado = $reporte_listado;
+			
+			$fk_reporte_listado=array();
+			$fk_reporte_listado[]=array('id'=>$this->datos['fk_reporte'],'num_reporte'=>$this->datos['num_reporte_fk_reporte'] );
+			$this->fk_reporte_listado = $fk_reporte_listado;
 		}else{
 			$mod=new reporteModelo();
 			$objs=$mod->buscar( array() );		
-			$this->reporte_listado = $objs['datos'];
+			$this->fk_reporte_listado = $objs['datos'];
 		}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
@@ -91,8 +102,14 @@ if ( !empty( $this->datos['fk_reporte'] ) ){
 					<input type="text" name="descripcion" class="entradaDatos" value="<?php echo $this->datos['descripcion']; ?>" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_fk_autor" style=""  >
-					<label style="">Fk_autor:</label>
-					<input type="text" name="fk_autor" class="entradaDatos" value="<?php echo $this->datos['fk_autor']; ?>" style="width:500px;" />
+					<label style="">Autor:</label>
+					<select name="fk_autor" class="entradaDatos" style="width:250px;">
+						<?php
+							foreach($this->fk_autor_listado as $usuario){
+								echo '<option value="'.$usuario['id'].' " >'.$usuario['nombre'].'</option>';
+							}
+						?>
+					</select>
 				</div>
 				<div class="inputBox contenedor_estado" style=""  >
 					<label style="">Estado:</label>
@@ -102,7 +119,7 @@ if ( !empty( $this->datos['fk_reporte'] ) ){
 					<label style="">Fk_reporte:</label>
 					<select name="fk_reporte" class="entradaDatos" style="width:250px;">
 						<?php
-							foreach($this->reporte_listado as $reporte){
+							foreach($this->fk_reporte_listado as $reporte){
 								echo '<option value="'.$reporte['id'].' " >'.$reporte['num_reporte'].'</option>';
 							}
 						?>
