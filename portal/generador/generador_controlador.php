@@ -22,7 +22,7 @@ require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 		// CREAR CONTROLADOR
 		$directorio = $rutaBase.'controladores/';
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		$filename = dirname(__FILE__).'/plantillas/controlador.php';
 		$handle = fopen($filename, "r");
@@ -54,9 +54,13 @@ require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){
 			
-				$fk_modelo=$config['target'];
-				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+				$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
+				
 				$strRequire .=$crlf.$this->getRequire( $modeloObj['nombre'] );
 				
 				$codigoCombo .= $this->generarCodigoCombo( $modeloObj['nombre'] );

@@ -1,9 +1,11 @@
-﻿var Edicionmodulos = function(){
+﻿var EdicionModulos = function(){
 	this.editado=false;
-	this.tituloNuevo='Nuevo';
+	this.tituloNuevo='';
 	this.saveAndClose=false;
+	
+	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Elemento?");
+		var r=confirm("");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -110,20 +112,20 @@
 		}
 		
 		var tabId = this.tabId;		
-		var id = $(this.tabId + ' [name="'+this.configuracion.pk+'"]').val();
-		if (id>0){			
-			$(tabId +' #titulo h1').html(this.configuracion.catalogo.modelo +':'+id);
+		var id = $(this.tabId + ' [name="id"]').val();
+		if (id>0){						
+			$(tabId +' #titulo h1').html();
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
 		}
-	}
+	};
 	this.nuevo=function(){
 		var tabId=this.tabId;
 		var tab = $('#tabs '+tabId);		
 		$(tabId +' #titulo h1').html(this.tituloNuevo);
 		
-		tab.find('.txtId').val(0);
+		tab.find('[name="id"]').val(0);
 		me.editado=false;
 	};	
 	this.guardar=function(){
@@ -143,6 +145,8 @@
 			paramObj[kv.name] = kv.value;
 		  }
 		});
+		//-----------------------------------
+		
 		//-----------------------------------
 		var datos=paramObj;
 		
@@ -189,6 +193,7 @@
 					class_name: 'my-sticky-class'
 				});
 				
+				
 				if (me.saveAndClose===true){
 					//busca el indice del tab
 					var idTab=$(me.tabId).attr('id');
@@ -217,11 +222,11 @@
 		});
 	};	
 	this.eliminar=function(){
-		var id = $(this.tabId + ' [name="'+this.configuracion.pk+'"]').val();
+		var id = $(this.tabId + ' [name="id"]').val();
 		var me=this;
 		
 		var params={};
-		params[this.configuracion.pk]=id;
+		params['id']=id;
 		
 		
 		$.ajax({
@@ -251,7 +256,7 @@
 						// $('#tabs').wijtabs('remove', i);
 					// }
 				// }
-				$(me.tabId).find('[name="'+me.configuracion.pk+'"]').val(0);
+				$(me.tabId).find('[name="id"]').val(0);
 					
 				$.gritter.add({
 					position: 'bottom-left',
@@ -261,42 +266,31 @@
 					class_name: 'my-sticky-class'
 				});
 			});
-	},
-	
-
-	
-	
+	},	
 	this.configurarFormulario=function(tabId){		
 		var me=this;
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
-		// $(this.tabId+' .frmEdicion textarea').wijtextbox();		
-	
-		
-		
-	
-		
+		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
 	};
-	this.configurarToolbar=function(tabId){		
-			
-			var me=this;
-			
-			$(this.tabId + ' .toolbarEdicion .btnNuevo').click( function(){
-				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
-			});
-			
-			$(this.tabId + ' .toolbarEdicion .btnGuardar').click( function(){
-				me.guardar();
-				me.editado=true;
-			});
-			
-			$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-				var r=confirm("¿Eliminar?");
-				if (r==true){
-				  me.eliminar();
-				  me.editado=false;
-				  me.nuevo();
-				}
-			});
+	this.configurarToolbar=function(tabId){					
+		var me=this;			
+		$(this.tabId + ' .toolbarEdicion .btnNuevo').click( function(){
+			window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
+		});
+		
+		$(this.tabId + ' .toolbarEdicion .btnGuardar').click( function(){
+			me.guardar();
+			me.editado=true;
+		});
+		
+		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
+			var r=confirm("¿Eliminar?");
+			if (r==true){
+			  me.eliminar();
+			  me.editado=false;
+			  me.nuevo();
+			}
+		});
 	};	
 }

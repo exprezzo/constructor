@@ -3,9 +3,12 @@ class GeneradorFormulario{
 	
 	function generarCodigoGuardarCombo( $el ){
 		$config=json_decode($el['comp_config'], true);
-		$fk_modelo=$config['target'];				
-		$modeloMod = new modelocModelo();
-		$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+		$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 		
 		$campo=$el['campo'];
 		$codigo='
@@ -28,9 +31,12 @@ class GeneradorFormulario{
 	}
 	function generarInitCombo( $el ){
 		$config=json_decode($el['comp_config'], true);
-		$fk_modelo=$config['target'];				
-		$modeloMod = new modelocModelo();
-		$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+		$fk_catalogo=$config['target'];	
+		$catMod=new catalogoModelo();
+		$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+		$modeloObj['nombre'] = $resCat['modelo'];
+		$modeloObj['tabla'] = $resCat['tabla'];
+		$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 		
 		$nombreModelo=ucfirst($modeloObj['nombre']);
 		$codigo='this.configurarCombo'.$nombreModelo.'();';
@@ -38,9 +44,12 @@ class GeneradorFormulario{
 	}
 	function generarCodigoCombo( $el, $cat ){
 		$config=json_decode($el['comp_config'], true);
-		$fk_modelo=$config['target'];				
-		$modeloMod = new modelocModelo();
-		$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+		$fk_catalogo=$config['target'];	
+		$catMod=new catalogoModelo();
+		$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+		$modeloObj['nombre'] = $resCat['modelo'];
+		$modeloObj['tabla'] = $resCat['tabla'];
+		$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 				
 		$modelo=ucfirst ( $modeloObj['nombre'] );
 		$modelo_min=strtolower( $modeloObj['nombre'] );
@@ -82,7 +91,7 @@ class GeneradorFormulario{
 		
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+\''.$cat['controlador'].'/buscar'.$modelo.'\',
+			url: kore.url_base+kore.modulo+\'/'.$cat['controlador'].'/buscar'.$modelo.'\',
 			dataType: "json", 
 			type:"POST",
 			data: {
@@ -165,7 +174,7 @@ class GeneradorFormulario{
 	function generarJS($cat, $rutaBase){
 		$directorio = $rutaBase.'presentacion/web/js/catalogos/'.$cat['controlador'].'/';
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		$filename = dirname(__FILE__).'/plantillas/edicion.js';
 		$handle = fopen($filename, "r");
@@ -186,7 +195,7 @@ class GeneradorFormulario{
 		// CREAR HTML
 		$directorio = $rutaBase.'presentacion/html.php/'.$cat['controlador'].'/';
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		$filename = dirname(__FILE__).'/plantillas/formulario.php';
 		$handle = fopen($filename, "r");
@@ -243,10 +252,13 @@ class GeneradorFormulario{
 			
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){				
 				
-				// $campos.=$cat['modelo'].'.'.$el['campo'].', ';				
-				$fk_modelo=$config['target'];				
-				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+				$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
+				
 				
 				$strRelaciones.=$crlf.$this->getStrRelacion($modeloObj, $el, $config);
 				
@@ -280,7 +292,7 @@ class GeneradorFormulario{
 				//--------------------------------------------
 				$directorio = $rutaBase.'presentacion/web/js/catalogos/'.$cat['controlador'].'/';
 				if ( !file_exists($directorio)) {
-					mkdir($directorio);
+					mkdir($directorio,'0777', true);
 				}
 				$filename = dirname(__FILE__).'/plantillas/elementos_de_catalogo.js';
 				$handle = fopen($filename, "r");

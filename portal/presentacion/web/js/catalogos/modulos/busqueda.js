@@ -1,5 +1,5 @@
-﻿var Busquedamodulos=function(){
-	this.tituloNuevo='Nueva';
+﻿var BusquedaModulos=function(){
+	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
 		gridBusqueda.wijgrid('ensureControl', true);
@@ -44,7 +44,7 @@
 		});
 }
 	this.nuevo=function(){		
-		TabManager.add(kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/nuevo',this.tituloNuevo);
+		TabManager.add(kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/nuevo');
 	};
 	this.activate=function(){
 		// vuelve a renderear estos elementos que presentaban problemas. (correccion de bug)		
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar?");
+			var r=confirm("");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar?");
+						var r=confirm("");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -179,12 +179,39 @@
 			reader:new wijarrayreader(campos),
 			loading : function(data){				
 				var value = $( ' input[name="query"]').val();				
-				//{CAMPOS_BUSQUEDA}
-				// data.proxy.options.data.filtering.push({
-					// dataKey: "descripcion",
-					// filterOperator: "Contains",
-					// filterValue: value
-				// });
+				
+				data.proxy.options.data.filtering.push({
+					dataKey: "nombre",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "icono",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "nombre_interno",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "ruta_base",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "orden",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				
+				
             }
 		});
 				
@@ -208,14 +235,12 @@
 			data:dataSource,
 			showFilter:false,
 			columns: [ 
-			    // { dataKey: "id", hidden:true, visible:true, headerText: "ID" }						
-				
-{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "nombre", visible:true, headerText: "Nombre" },
 { dataKey: "icono", visible:true, headerText: "Icono" },
 { dataKey: "nombre_interno", visible:true, headerText: "Nombre_interno" },
 { dataKey: "ruta_base", visible:true, headerText: "Ruta_base" },
-{ dataKey: "orden", visible:true, headerText: "Orden" }
+{ dataKey: "orden", visible:true, headerText: "Orden" },
 			]
 		});
 		
@@ -231,7 +256,7 @@
 		gridBusqueda.wijgrid({ loaded: function (e) { 
 			$(me.tabId + ' .grid_busqueda tr').bind('dblclick', function (e) { 							
 				var pedidoId=me.selected[me.configuracion.pk];
-				// TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
+				//          TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
 				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar/'+pedidoId;
 			});			
 		} });

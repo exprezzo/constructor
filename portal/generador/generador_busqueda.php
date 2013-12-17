@@ -7,9 +7,12 @@ class GeneradorBusqueda{
 		
 		if ( strtolower( $el['componente'] ) ==  'combo box' ){
 			$visible='false';
-			$fk_modelo=$config['target'];				
-			$modeloMod = new modelocModelo();
-			$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+			$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 			
 			$dataKey =$config['campo_a_mostrar'].'_'.$modeloObj ['nombre'];
 			$filtro='
@@ -52,9 +55,12 @@ class GeneradorBusqueda{
 			$codigoFiltros .= $this->generarCodigoFiltros($el);
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){
 				$visible='false';
-				$fk_modelo=$config['target'];				
-				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+				$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 		
 				$dataKey=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
 				$etiqueta=$config['campo_a_mostrar'].' '.$modeloObj['nombre'];
@@ -75,7 +81,7 @@ class GeneradorBusqueda{
 	function generarJS($cat, $rutaBase){
 		$directorio = $rutaBase.'presentacion/web/js/catalogos/'.$cat['controlador'].'/';
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		$filename = dirname(__FILE__).'/plantillas/busqueda.js';
 		$handle = fopen($filename, "r");
@@ -94,7 +100,7 @@ class GeneradorBusqueda{
 		// CREAR CONTROLADOR		
 		$directorio = $rutaBase.'presentacion/html.php/'.$cat['controlador'].'/';
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		$filename = dirname(__FILE__).'/plantillas/busqueda.php';
 		$handle = fopen($filename, "r");

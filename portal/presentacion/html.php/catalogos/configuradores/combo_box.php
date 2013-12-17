@@ -3,7 +3,7 @@
 </style>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/config_combo.js"></script>
 <?php 
-	$mod = new modelocModelo();
+	$mod = new catalogoModelo();
 	$res=$mod->buscar(array());
 	$modelos=$res['datos'];
 	// print_r( $this->datos );
@@ -27,7 +27,7 @@
 			<input type="text" name="editable" class="entradaDatos" style="width:200px;" value="<?php echo $this->datos['editable']; ?>" />
 		</div>
 		<div class="inputBox" style=""  >
-			<label style="">Modelo Target:</label>
+			<label style="">Modulo:</label>
 			<select name="target" class="entradaDatos" style="width:200px;">
 				<?php
 					foreach($modelos as $mod){

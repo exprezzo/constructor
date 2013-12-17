@@ -13,29 +13,25 @@ var ConfigCombo=function(){
 			},
 			search: function (e, obj) { 
 				if (obj.datasrc.proxy != undefined ){
-					obj.datasrc.proxy.options.data.filtering = new Array();
+					// obj.datasrc.proxy.options.data.filtering = new Array();
 					
-					var paramObj=new Array();
+					// var paramObj=new Array();
 						
-					var selector='.formCompConfig select[name="target"]';
-					var selectedIndex = $(selector).wijcombobox('option','selectedIndex');  
-					var selectedItem = $(selector).wijcombobox("option","data");		
-					if (selectedIndex == -1){
-						paramObj['nombreModelo'] ='';
-					}else{
-						if (selectedItem.data == undefined ){
-							paramObj['nombreModelo'] =selectedItem[selectedIndex]['label'];
-						}else{
-							paramObj['nombreModelo'] =selectedItem.data[selectedIndex]['nombre'];
-						}
-					}
+					// var selector='.formCompConfig select[name="target"]';
+					// var selectedIndex = $(selector).wijcombobox('option','selectedIndex');  
+					// var selectedItem = $(selector).wijcombobox("option","data");		
+					// if (selectedIndex == -1){
+						// paramObj['nombreModelo'] ='';
+					// }else{
+						// if (selectedItem.data == undefined ){
+							// paramObj['nombreModelo'] =selectedItem[selectedIndex]['label'];
+						// }else{
+							// paramObj['nombreModelo'] =selectedItem.data[selectedIndex]['nombre'];
+						// }
+					// }
 					
 					
-					obj.datasrc.proxy.options.data.filtering.push({
-						 dataKey: "nombreModelo",						 
-						 filterOperator: "equals",
-						 filterValue: paramObj['nombreModelo']
-					 });
+					obj.datasrc.proxy.options.data.fk_catalogo=$('[name="target"]').val();
 				}
                 
 				
@@ -51,31 +47,7 @@ var ConfigCombo=function(){
 	};
 	this.setDSCampos = function(nombreModelo){
 		
-		if (nombreModelo==null){
-			var selector='.formCompConfig select[name="target"]';
-			var selectedIndex = $(selector).wijcombobox('option','selectedIndex');  
-			var selectedItem = $(selector).wijcombobox("option","data");		
-			var paramObj=new Array();
-			if (selectedIndex == -1){
-				paramObj['nombreModelo'] ='';
-			}else{
-				if (selectedItem.data == undefined ){
-					paramObj['nombreModelo'] =selectedItem[selectedIndex]['label'];
-				}else{
-					paramObj['nombreModelo'] =selectedItem.data[selectedIndex]['nombre'];
-				}
-			}
-						
-			nombreModelo = paramObj['nombreModelo'];
-		}
 		
-		
-		var filtering = new Array({
-			 dataKey: "nombreModelo",			 
-			 filterOperator: "equals",
-			 filterValue: nombreModelo
-		 });
-				
 				
 		var proxy = new wijhttpproxy({
 			url: kore.url_base+'catalogos/getCampos', 
@@ -83,7 +55,7 @@ var ConfigCombo=function(){
 			type:"POST",
 			data: { 				
 				style: "full",
-				filtering:filtering				
+				fk_catalogo: $('[name="target"]').val()	
 			},
 			key: 'rows'
 		});

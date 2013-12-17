@@ -31,23 +31,19 @@ class catalogos extends Controlador{
 		 echo json_encode( $res );
 	}
 	function getCampos(){
-		$filtros=$_POST['filtering'];
-		$modelo='';
-		foreach($filtros as $filtro){
-			if ($filtro['dataKey'] == 'nombreModelo'){
-				$modelo=$filtro['filterValue'];
-			}
-		}
+		
 		global $_PETICION;
-		require_once $_PETICION->basePath.'modelos/'.$modelo.'.php';
-		$clase=$modelo.'Modelo';
-		$mod = new $clase();
-		$arrCampos=$mod->campos;
-		$campos=array();
-		foreach($arrCampos as $key=>$value){
+		// require_once $_PETICION->basePath.'modelos/'.$modelo.'.php';
+		// $clase=$modelo.'Modelo';
+		$fk_catalogo=$_POST['fk_catalogo'];
+		$params=array('id'=>$fk_catalogo);
+		$catMod = new CatalogoModelo();
+		$res=$catMod->obtener( $params );
+		
+		foreach($res['elementos'] as $el){
 			$campos[]=array(
-				'id'=>$value,
-				'nombre'=>$value,
+				'id'=>$el['id'],
+				'nombre'=>$el['campo'],
 			);
 		}
 		

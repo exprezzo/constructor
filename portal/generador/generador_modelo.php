@@ -4,7 +4,7 @@ class GeneradorModelo{
 	function generar($cat, $rutaBase){
 		$directorio = $rutaBase.'modelos/';		
 		if ( !file_exists($directorio)) {
-			mkdir($directorio);
+			mkdir($directorio,'0777', true);
 		}
 		
 		
@@ -27,17 +27,18 @@ class GeneradorModelo{
 		$crlf = "\r\n"; 
 		foreach($cat['elementos'] as $el ){
 		
-			if ( strtolower( $el['componente'] ) ==  'combo box' ){				
+			if ( strtolower( $el['componente'] ) ==  'combo box' ){
 				$campos.=$cat['modelo'].'.'.$el['campo'].', ';
 				
 				$config=json_decode($el['comp_config'], true);				 
-				$fk_modelo=$config['target'];				
-				$modeloMod = new modelocModelo();
-				$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+				$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+
 				
-				$campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '.$config['campo_a_mostrar'].'_'.$modeloObj['nombre'].', ';				
-				$joins.=$crlf.' LEFT JOIN '.$modeloObj['tabla'].' AS '.$modeloObj['nombre'].$numJoins;
-				$joins.=' ON '.$modeloObj['nombre'].$numJoins.'.'.$modeloObj['llave_primaria'].' = '.$cat['modelo'].'.'.$el['campo'];
+				$campos.=$resCat['modelo'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '.$config['campo_a_mostrar'].'_'.$resCat['modelo'].', ';				
+				$joins.=$crlf.' LEFT JOIN '.$resCat['tabla'].' AS '.$resCat['modelo'].$numJoins;
+				$joins.=' ON '.$resCat['modelo'].$numJoins.'.'.$resCat['pk_tabla'].' = '.$cat['modelo'].'.'.$el['campo'];
 				$numJoins++;
 			}else  if ( strtolower( $el['componente'] ) ==  'tabla' ){
 				// = strtolower( $el['campo'] ) ).'De'.ucfirst( strtolower( $cat['nombre'] ) );
@@ -167,12 +168,13 @@ class GeneradorModelo{
 				$atributos.='
 			$obj[\''.$el['campo'].'\']=\'\';';
 				if ( strtolower( $el['componente'] ) ==  'combo box' ){
-					$config=json_decode($el['comp_config'], true);				 
-					$fk_modelo=$config['target'];				
-					$modeloMod = new modelocModelo();
-					$modeloObj =$modeloMod->obtener( array('id'=>$fk_modelo)  );
+					$config=json_decode($el['comp_config'], true);		
 					
-					// $campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '..', ';				
+					$fk_catalogo=$config['target'];	
+					$catMod=new catalogoModelo();
+					$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+					$modeloObj['nombre'] = $resCat['modelo'];
+			
 					$nombreCampo=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
 				$atributos.='
 			$obj[\''.$nombreCampo.'\']=\'\';';
@@ -210,9 +212,16 @@ class GeneradorModelo{
 			if ( strtolower( $el['componente'] ) ==  'combo box' ){
 				
 				$config    = json_decode($el['comp_config'], true);				 
-				$fk_modelo = $config['target'];				
-				$modeloMod = new modelocModelo();
-				$modeloObj = $modeloMod->obtener( array('id'=>$fk_modelo)  );
+				// $fk_modelo = $config['target'];				
+				// $modeloMod = new modelocModelo();
+				// $modeloObj = $modeloMod->obtener( array('id'=>$fk_modelo)  );
+				
+				$fk_catalogo=$config['target'];	
+				$catMod=new catalogoModelo();
+				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+				$modeloObj['nombre'] = $resCat['modelo'];
+				$modeloObj['tabla'] = $resCat['tabla'];
+				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 				
 				$strArrCampos.='\''.$config['campo_a_mostrar'].'_'.$modeloObj['nombre'].'\', ';
 				

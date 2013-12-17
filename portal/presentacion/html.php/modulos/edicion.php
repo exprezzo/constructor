@@ -1,7 +1,8 @@
-
 <?php
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
+	
+	
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -45,86 +46,59 @@
 				nombre:'<?php echo $_PETICION->modulo; ?>'
 			},
 			catalogo:{
-				nombre:'Modulos',
-				modelo:'Modulo'
+				nombre:'Paginas',
+				modelo:'Pagina'
 			},			
 			pk:"id"
 			
 		};				
-		 var editor=new Edicionmodulos();
-		 editor.init(config);		
+		 var editor=new EdicionModulos();
+		 editor.init(config);	
+		//-----
+		
 	});
 </script>
 <style>
-.entradaDatos, input[role="textbox"]{
-	/* float:right; */
-	background-color:#f2f2f2  !important;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	border-top: 0px;
-	border-right: 0px;
-	border-left: 0px;
-	border-bottom-color:#508b96  !important;
-	border-bottom-style:solid !important;
-	border-bottom-width:1px  !important;
-	-webkit-box-shadow: 0px 3px #d6e6e9  !important;
-    -moz-box-shadow: 0px 3px #d6e6e9  !important;
-	box-shadow: 0px 3px #d6e6e9  !important;
-	/* width:365px; */
-	height:23px;
-	/*height:43px;*/
-	/* margin-bottom:25px; */
-	font-family:"OpenSans-Light", sans-serif;
-	font-size:17px;
-	
-	color:black  !important;
-}
+
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
     	<h1></h1>
 	</div>
-	<div id="cuerpo" >				
+	<div id="cuerpo">
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
 				
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_id" style=""  >
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_nombre" style=""  >
 					<label style="">Nombre:</label>
 					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_icono" style=""  >
 					<label style="">Icono:</label>
 					<input type="text" name="icono" class="entradaDatos" value="<?php echo $this->datos['icono']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_nombre_interno" style=""  >
 					<label style="">Nombre_interno:</label>
 					<input type="text" name="nombre_interno" class="entradaDatos" value="<?php echo $this->datos['nombre_interno']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_ruta_base" style=""  >
 					<label style="">Ruta_base:</label>
 					<input type="text" name="ruta_base" class="entradaDatos" value="<?php echo $this->datos['ruta_base']; ?>" style="width:500px;" />
 				</div>
-
-				<div class="inputBox" style=""  >
+				<div class="inputBox contenedor_orden" style=""  >
 					<label style="">Orden:</label>
 					<input type="text" name="orden" class="entradaDatos" value="<?php echo $this->datos['orden']; ?>" style="width:500px;" />
 				</div>
-
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>
