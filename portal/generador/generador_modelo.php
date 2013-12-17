@@ -36,7 +36,7 @@ class GeneradorModelo{
 				$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
 
 				
-				$campos.=$resCat['modelo'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '.$config['campo_a_mostrar'].'_'.$resCat['modelo'].', ';				
+				$campos.=$resCat['modelo'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '.$config['campo_a_mostrar'].'_'.$el['campo'].', ';				
 				$joins.=$crlf.' LEFT JOIN '.$resCat['tabla'].' AS '.$resCat['modelo'].$numJoins;
 				$joins.=' ON '.$resCat['modelo'].$numJoins.'.'.$resCat['pk_tabla'].' = '.$cat['modelo'].'.'.$el['campo'];
 				$numJoins++;

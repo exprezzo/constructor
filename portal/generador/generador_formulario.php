@@ -39,7 +39,7 @@ class GeneradorFormulario{
 		$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 		
 		$nombreModelo=ucfirst($modeloObj['nombre']);
-		$codigo='this.configurarCombo'.$nombreModelo.'();';
+		$codigo='this.configurarCombo'.ucfirst($el['campo']).'();';
 		return $codigo;
 	}
 	function generarCodigoCombo( $el, $cat ){
@@ -64,14 +64,14 @@ class GeneradorFormulario{
 	
 		
 		$configurarCombo='
-	this.configurarCombo'.$modelo.'=function(){
+	this.configurarCombo'.ucfirst($el['campo']).'=function(){
 		var me=this;
 		
 		$(\'select[name="'.$campo.'"]\').wijcombobox({			
 			showTrigger: true,
 			width:300,
 			minLength:1,
-			autoFilter:true,			
+			autoFilter:false,			
 			select : function (e, data) {						
 			},
 			search: function (e, obj) { 						
@@ -79,15 +79,15 @@ class GeneradorFormulario{
 		 });
 		 
 		 $(\'.'.$claseContenedor.' input[role="textbox"]\').bind(\'focus\', function(){			
-			if (me.'.$modelo_min.'EnAjax) return true;			
-			me.setDS'.$modelo.'();
-			me.'.$modelo_min.'EnAjax=true;
+			if (me.'.ucfirst($el['campo']).'EnAjax) return true;			
+			me.setDS'.ucfirst($el['campo']).'();
+			me.'.ucfirst($el['campo']).'EnAjax=true;
 		 });
 	};
 		
 		';
 		$setDs='
-	this.setDS'.$modelo.' = function(){		
+	this.setDS'.ucfirst($el['campo']).' = function(){		
 		
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
@@ -137,7 +137,7 @@ class GeneradorFormulario{
 				
 				$funcionesCombo.= $this->generarCodigoCombo( $el, $cat );
 				$funcionesInitCombo.=$crlf.$this->generarInitCombo( $el, $cat  );
-				$codigoGuardarCombo=$crlf.$this->generarCodigoGuardarCombo( $el );
+				$codigoGuardarCombo.=$crlf.$this->generarCodigoGuardarCombo( $el );
 			}else if ( strtolower( $el['componente'] ) ==  'tabla' ){
 				$clase='tabla_'.$el['campo'];
 				$instancia=$el['campo'].'De'.ucfirst($cat['nombre']);
@@ -218,16 +218,19 @@ class GeneradorFormulario{
 	}
 	function getStrRelacion($modeloObj, $el, $config){
 		$campo_a_mostrar = $config['campo_a_mostrar'];
-		$campo_dato = $config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
+		
 		$campo=$el['campo'];
+		$campo_dato = $config['campo_a_mostrar'].'_'.$campo;
+		
 		$strRelacion='if ( !empty( $this->datos[\''.$campo.'\'] ) ){
-			$'.$modeloObj['nombre'].'_listado=array();
-			$'.$modeloObj['nombre'].'_listado[]=array(\''.$modeloObj['llave_primaria'].'\'=>$this->datos[\''.$el['campo'].'\'],\''.$campo_a_mostrar.'\'=>$this->datos[\''.$campo_dato.'\'] );
-			$this->'.$modeloObj['nombre'].'_listado = $'.$modeloObj['nombre'].'_listado;
+			
+			$'.$campo.'_listado=array();
+			$'.$campo.'_listado[]=array(\''.$modeloObj['llave_primaria'].'\'=>$this->datos[\''.$el['campo'].'\'],\''.$campo_a_mostrar.'\'=>$this->datos[\''.$campo_dato.'\'] );
+			$this->'.$campo.'_listado = $'.$campo.'_listado;
 		}else{
 			$mod=new '.$modeloObj['nombre'].'Modelo();
 			$objs=$mod->buscar( array() );		
-			$this->'.$modeloObj['nombre'].'_listado = $objs[\'datos\'];
+			$this->'.$campo.'_listado = $objs[\'datos\'];
 		}';
 		return $strRelacion;
 	}
@@ -273,7 +276,7 @@ class GeneradorFormulario{
 					<label style="">'.$config['etiqueta'].':</label>
 					<select name="'.$el['campo'].'" class="entradaDatos" style="width:250px;">
 						<?php
-							foreach($this->'.$modeloObj['nombre'].'_listado as $'.$modeloObj['nombre'].'){
+							foreach($this->'.$el['campo'].'_listado as $'.$modeloObj['nombre'].'){
 								echo \'<option value="\'.$'.$modeloObj['nombre'].'[\''.$modeloObj['llave_primaria'].'\'].\' " >\'.$'.$modeloObj['nombre'].'[\''.$config['campo_a_mostrar'].'\'].\'</option>\';
 							}
 						?>

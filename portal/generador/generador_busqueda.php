@@ -62,8 +62,8 @@ class GeneradorBusqueda{
 				$modeloObj['tabla'] = $resCat['tabla'];
 				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 		
-				$dataKey=$config['campo_a_mostrar'].'_'.$modeloObj['nombre'];
-				$etiqueta=$config['campo_a_mostrar'].' '.$modeloObj['nombre'];
+				$dataKey=$config['campo_a_mostrar'].'_'.$el['campo'];
+				$etiqueta=$config['etiqueta'];
 				$columnas.='{ dataKey: "'.$dataKey.'", visible:true, headerText: "'.$etiqueta.'" },'.$crlf;
 			}else{
 				$visible='true';

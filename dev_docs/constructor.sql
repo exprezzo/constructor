@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-12-2013 a las 19:40:39
+-- Tiempo de generación: 17-12-2013 a las 22:32:42
 -- Versión del servidor: 5.6.11
 -- Versión de PHP: 5.5.3
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `constructor_elemento_catalogo` (
   `fk_catalogo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_catalogo` (`fk_catalogo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=154 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=198 ;
 
 --
 -- Volcado de datos para la tabla `constructor_elemento_catalogo`
@@ -113,7 +113,7 @@ INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo
 (133, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0" }', 50),
 (134, '', '', 'controlador', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Controlador","requerido":"0","editable":"1","oculto":"0" }', 50),
 (135, '', '', 'modelo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Modelo","requerido":"0","editable":"1","oculto":"0" }', 50),
-(136, '', '', 'tabla', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Tabla","requerido":"0","editable":"1","oculto":"0" }', 50),
+(136, '', '', 'tabla', '', 'YES', 'char(255)', 'Combo Box', '{"etiqueta":"Tabla","requerido":"0","oculto":"0","editable":"1","target":"52","campo_a_mostrar":"nombre"}', 50),
 (137, 'id', '', 'pk_tabla', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Pk_tabla","requerido":"0","editable":"1","oculto":"0" }', 50),
 (138, '', '', 'icono', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Icono","requerido":"0","editable":"1","oculto":"0" }', 50),
 (139, '', '', 'titulo_nuevo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Titulo_nuevo","requerido":"0","editable":"1","oculto":"0" }', 50),
@@ -130,7 +130,63 @@ INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo
 (150, '', '', 'icono', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Icono","requerido":"0","editable":"1","oculto":"0" }', 51),
 (151, '', '', 'nombre_interno', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre_interno","requerido":"0","editable":"1","oculto":"0" }', 51),
 (152, '', '', 'ruta_base', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Ruta_base","requerido":"0","editable":"1","oculto":"0" }', 51),
-(153, '', '', 'orden', '', 'YES', 'int(11)', 'Text Input', '{"etiqueta":"Orden","requerido":"0","editable":"1","oculto":"0" }', 51);
+(153, '', '', 'orden', '', 'YES', 'int(11)', 'Text Input', '{"etiqueta":"Orden","requerido":"0","editable":"1","oculto":"0" }', 51),
+(154, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 52),
+(155, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0" }', 52),
+(156, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 53),
+(157, '', '', 'esDefault', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"EsDefault","requerido":"0","editable":"1","oculto":"0" }', 53),
+(158, '', '', 'extras', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Extras","requerido":"0","editable":"1","oculto":"0" }', 53),
+(159, '', '', 'campo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Campo","requerido":"0","editable":"1","oculto":"0" }', 53),
+(160, '', '', 'llave', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Llave","requerido":"0","editable":"1","oculto":"0" }', 53),
+(161, '', '', 'esNulo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"EsNulo","requerido":"0","editable":"1","oculto":"0" }', 53),
+(162, '', '', 'tipo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Tipo","requerido":"0","editable":"1","oculto":"0" }', 53),
+(163, '', '', 'componente', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Componente","requerido":"0","editable":"1","oculto":"0" }', 53),
+(164, '', '', 'comp_config', '', 'YES', 'text', 'Text Input', '{"etiqueta":"Comp_config","requerido":"0","editable":"1","oculto":"0" }', 53),
+(165, '', '', 'fk_catalogo', 'MUL', 'YES', 'int(11)', 'Text Input', '{"etiqueta":"Fk_catalogo","requerido":"0","editable":"1","oculto":"0" }', 53),
+(166, '', '', 'elementos', '', '', '', 'tabla', '{"titulo":"Elementos","editable":"1","target":"53","llave_foranea":"fk_catalogo","config_tabla":"[{\\"id\\":\\"156\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"157\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"esDefault\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"EsDefault\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"158\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"extras\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Extras\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"159\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"campo\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Campo\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"160\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"llave\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Llave\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"161\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"esNulo\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"EsNulo\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"162\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"tipo\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Tipo\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"163\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"componente\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Componente\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"164\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"comp_config\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"text\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Comp_config\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"},{\\"id\\":\\"165\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_catalogo\\",\\"llave\\":\\"MUL\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_catalogo\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"53\\"}]"}', 50),
+(167, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 54),
+(168, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0" }', 54),
+(169, '', '', 'descripcion', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0" }', 54),
+(170, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 55),
+(171, '', '', 'nick', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nick","requerido":"0","editable":"1","oculto":"0" }', 55),
+(172, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0" }', 55),
+(173, '', '', 'email', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Email","requerido":"0","editable":"1","oculto":"0" }', 55),
+(174, '', '', 'pass', '', 'NO', 'text', 'Text Input', '{"etiqueta":"Pass","requerido":"0","editable":"1","oculto":"0" }', 55),
+(175, '', '', 'ip_login', '', 'NO', 'char(50)', 'Text Input', '{"etiqueta":"Ip_login","requerido":"0","editable":"1","oculto":"0" }', 55),
+(176, '', '', 'last_login', '', 'NO', 'datetime', 'Text Input', '{"etiqueta":"Last_login","requerido":"0","editable":"1","oculto":"0" }', 55),
+(177, '', '', 'fk_rol', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Fk_rol","requerido":"0","oculto":"0","editable":"1","target":"54","campo_a_mostrar":"nombre"}', 55),
+(178, '', '', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 56),
+(179, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0" }', 56),
+(180, '', '', 'contacto', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Contacto","requerido":"0","editable":"1","oculto":"0" }', 56),
+(181, '', '', 'logo', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Logo","requerido":"0","editable":"1","oculto":"0" }', 56),
+(182, '', '', 'fk_empresa', '', '', '', 'Combo Box', '{"etiqueta":"Empresa","requerido":"1","oculto":"0","editable":"1","target":"56","campo_a_mostrar":"nombre"}', 55),
+(183, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 57),
+(184, '', '', 'descripcion', '', 'NO', 'text', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0" }', 57),
+(185, '', '', 'num_reporte', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Numero de Reporte","requerido":"0","oculto":"0","editable":"1"}', 57),
+(186, '', '', 'fk_autor', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Autor","requerido":"0","oculto":"0","editable":"1","target":"55","campo_a_mostrar":"nombre"}', 57),
+(187, '', '', 'fk_solicitante', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Solicitante","requerido":"0","oculto":"0","editable":"1","target":"55","campo_a_mostrar":"nombre"}', 57),
+(188, '', '', 'fk_empresa', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Empresa","requerido":"0","oculto":"0","editable":"1","target":"56","campo_a_mostrar":"nombre"}', 57),
+(189, '', '', 'status', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Status","requerido":"0","editable":"1","oculto":"0" }', 57),
+(190, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","requerido":"0","editable":"1","oculto":"0" }', 58),
+(191, '', '', 'fecha', '', 'NO', 'datetime', 'Text Input', '{"etiqueta":"Fecha","requerido":"0","editable":"1","oculto":"0" }', 58),
+(192, '', '', 'descripcion', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0" }', 58),
+(193, '', '', 'fk_autor', '', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Fk_autor","requerido":"0","editable":"1","oculto":"0" }', 58),
+(194, '', '', 'estado', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Estado","requerido":"0","editable":"1","oculto":"0" }', 58),
+(195, '', '', 'fk_reporte', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Fk_reporte","requerido":"0","oculto":"0","editable":"1","target":"57","campo_a_mostrar":"num_reporte"}', 58),
+(196, '', '', 'eventos', '', '', '', 'Tabla', '{"titulo":"Eventos","editable":"1","target":"58","llave_foranea":"fk_reporte","config_tabla":"[{\\"id\\":\\"190\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"58\\"},{\\"id\\":\\"191\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fecha\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"datetime\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fecha\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"58\\"},{\\"id\\":\\"192\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"descripcion\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Descripcion\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"58\\"},{\\"id\\":\\"193\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_autor\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_autor\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"58\\"},{\\"id\\":\\"194\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"estado\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Estado\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"58\\"},{\\"id\\":\\"195\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_reporte\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_reporte\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"57\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"num_reporte\\\\\\"}\\",\\"fk_catalogo\\":\\"58\\"}]"}', 57),
+(197, '', '', 'usuarios', '', '', '', 'Tabla', '{"titulo":"Usuarios","editable":"1","target":"55","llave_foranea":"fk_empresa","config_tabla":"[{\\"id\\":\\"170\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"171\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"nick\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Nick\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"172\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"nombre\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Nombre\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"173\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"email\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Email\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"174\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"pass\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"text\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Pass\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"175\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"ip_login\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(50)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Ip_login\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"176\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"last_login\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"datetime\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Last_login\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\" }\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"177\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_rol\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_rol\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"54\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"55\\"},{\\"id\\":\\"182\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_empresa\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"\\",\\"tipo\\":\\"\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Empresa\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"56\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"55\\"}]"}', 56);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `constructor_tabla`
+--
+
+CREATE TABLE IF NOT EXISTS `constructor_tabla` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -230,6 +286,131 @@ INSERT INTO `exp_um` (`id`, `nombre`, `abreviacion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pendienthon_empresa`
+--
+
+CREATE TABLE IF NOT EXISTS `pendienthon_empresa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) NOT NULL,
+  `contacto` char(255) NOT NULL,
+  `logo` char(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_2` (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `pendienthon_empresa`
+--
+
+INSERT INTO `pendienthon_empresa` (`id`, `nombre`, `contacto`, `logo`) VALUES
+(1, 'Soluciones Triples', '', ''),
+(2, 'Demo', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pendienthon_evento`
+--
+
+CREATE TABLE IF NOT EXISTS `pendienthon_evento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` datetime NOT NULL,
+  `descripcion` char(255) NOT NULL,
+  `fk_autor` int(11) NOT NULL,
+  `estado` char(255) NOT NULL,
+  `fk_reporte` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `pendienthon_evento`
+--
+
+INSERT INTO `pendienthon_evento` (`id`, `fecha`, `descripcion`, `fk_autor`, `estado`, `fk_reporte`) VALUES
+(1, '0000-00-00 00:00:00', 'wqasdf', 0, '', 1),
+(2, '0000-00-00 00:00:00', 'sadf', 0, '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pendienthon_reporte`
+--
+
+CREATE TABLE IF NOT EXISTS `pendienthon_reporte` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` text NOT NULL,
+  `num_reporte` char(255) NOT NULL,
+  `fk_autor` int(11) NOT NULL,
+  `fk_solicitante` int(11) NOT NULL,
+  `fk_empresa` int(11) NOT NULL,
+  `status` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `pendienthon_reporte`
+--
+
+INSERT INTO `pendienthon_reporte` (`id`, `descripcion`, `num_reporte`, `fk_autor`, `fk_solicitante`, `fk_empresa`, `status`) VALUES
+(1, 'Las camaras no funcionan', '150', 3, 2, 2, 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pendienthon_usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `pendienthon_usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nick` char(255) NOT NULL,
+  `nombre` char(255) NOT NULL,
+  `email` char(255) NOT NULL,
+  `pass` text NOT NULL,
+  `ip_login` char(50) NOT NULL,
+  `last_login` datetime NOT NULL,
+  `fk_rol` int(11) NOT NULL,
+  `fk_empresa` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `pendienthon_usuarios`
+--
+
+INSERT INTO `pendienthon_usuarios` (`id`, `nick`, `nombre`, `email`, `pass`, `ip_login`, `last_login`, `fk_rol`, `fk_empresa`) VALUES
+(1, 'cesar', 'Cesar', 'email@cesar.com', '', '', '0000-00-00 00:00:00', 1, 0),
+(2, 'diego', 'Diego', '', '', '', '0000-00-00 00:00:00', 1, 1),
+(3, 'carlos', 'Carlos', '', '', '', '0000-00-00 00:00:00', 1, 1),
+(4, 'secre', 'secre', '', '', '', '0000-00-00 00:00:00', 4, 2),
+(5, '', '', '', '', '', '0000-00-00 00:00:00', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pentienthon_rol`
+--
+
+CREATE TABLE IF NOT EXISTS `pentienthon_rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) NOT NULL,
+  `descripcion` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `pentienthon_rol`
+--
+
+INSERT INTO `pentienthon_rol` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Tecnico', ''),
+(2, 'Supervisor', ''),
+(3, 'Auxiliar', ''),
+(4, 'Trabajador', '');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `system_acl`
 --
 
@@ -275,7 +456,7 @@ CREATE TABLE IF NOT EXISTS `system_catalogos` (
   `msg_cambios` char(255) DEFAULT NULL,
   `campos_busqueda` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
 --
 -- Volcado de datos para la tabla `system_catalogos`
@@ -295,7 +476,14 @@ INSERT INTO `system_catalogos` (`id`, `fk_modulo`, `nombre`, `controlador`, `mod
 (47, 2, 'Cotizacion', 'cotizaciones', 'cotizacion', 'exp_cotizacion', 'id', '', 'Nueva Cotizacion', '''Cotizacion: ''+getValorCampo(''serie'')+''  ''+getValorCampo(''folio'')', 'Cotizaciones', 'Cotizacion Creada', 'Cotizacion Actualizada', 'Â¿Eliminar Cotizacion?', 'Cotizacion Eliminada', '', ''),
 (48, 2, 'concepto_cotizacion', 'conceptos_cotizacion', 'concepto_cotizacion', 'exp_conceptos_cotizacion', 'id', '', 'Nuevo Concepto de Cotizacion', '''Concepto: ''+getValorCampo(''fk_concepto'')', 'Conceptos de Cotizacion', 'Concepto Creado', 'Concepto Actualizado', 'Â¿Eliminar Concepto?', 'Concepto Eliminado', '', ''),
 (50, 3, 'Catalogos', 'catalogos', 'Catalogo', 'system_catalogos', 'id', 'http://png.findicons.com/files/icons/577/refresh_cl/48/windows_view_icon.png', 'Nuevo Catalogo', '''Catalogo: '' + getValorCampo(''nombre'')', '''Buscar Catalogos''', 'Catalogo Creado', 'Catalogo Actualizado', 'Eliminar Catalogo', 'Catalogo Eliminado', 'Ha hecho cambios en el catalogo,¿Guardar antes de salir?', 'nombre'),
-(51, 3, 'Modulos', 'modulos', 'Modulo', 'system_modulos', 'id', 'http://png.findicons.com/files/icons/1681/siena/48/puzzle_yellow.png', 'Nuevo Modulo', '''Modulo:'' + getValorCampo(''nombre'')', 'Modulos', 'Modulo Creado', 'Modulo Actualizado', '¿Eliminar Modulo?', 'Modulo Eliminado', '¿Guardar cambios?', '');
+(51, 3, 'Modulos', 'modulos', 'Modulo', 'system_modulos', 'id', 'http://png.findicons.com/files/icons/1681/siena/48/puzzle_yellow.png', 'Nuevo Modulo', '''Modulo:'' + getValorCampo(''nombre'')', 'Modulos', 'Modulo Creado', 'Modulo Actualizado', '¿Eliminar Modulo?', 'Modulo Eliminado', '¿Guardar cambios?', ''),
+(52, 3, 'Tablas', 'tablas', 'tabla', 'constructor_elemento_catalogo', 'id', '', 'Nueva Tabla', '''Tabla: '' + getValorCampo(''nombre'')', 'Tablas', 'Tabla Creada', 'Tabla Actualizada', '¿Eliminar Tabla?', 'Tabla Eliminada', '¿Guardar los cambios en la tabla?', ''),
+(53, 3, 'Elementos De Catalogo', 'elementos_de_catalogo', 'elemento_de_catalogo', 'constructor_elemento_catalogo', 'id', '', 'Nuevo Elemento', '''Elemento: '' + getValorCampo(''nombre'')', 'Elementos de Catalogo', 'Elemento Creado', 'Elemento Actualizado', '¿Eliminar Elemento?', 'Elemento eliminado', '¿Guardar los cambios en el elemento?', ''),
+(54, 4, 'Roles', 'roles', 'rol', 'pentienthon_rol', 'id', '', 'Nuevo Rol', '''Rol: '' + getValorCampo(''nombre'')', 'Roles', 'Rol Creado', 'Rol Actualizado', '¿Eliminar Rol?', 'Rol Eliminado', '', ''),
+(55, 4, 'Usuario Pendienthon', 'usuarios', 'usuario', 'pendienthon_usuarios', 'id', '', 'Nuevo Usuario', '''Usuario: '' + getValorCampo(''nombre'')', 'Usuarios', 'Usuario Creado', 'Usuario Actualizado', '¿Eliminar Usuario?', 'Usuario Eliminado', '¿Guardar Cambios en el Usuario?', ''),
+(56, 4, 'Empresa', 'empresas', 'empresa', 'pendienthon_empresa', 'id', '', 'Nueva Empresa', '''Empresa: '' + getValorCampo(''nombre'')', 'Empresas', 'Empresa Creada', 'Empresa Actualizada', '¿Eliminar Empresa?', 'Empresa Eliminada', '¿Guardar Cambios en la Empresa?', ''),
+(57, 4, 'Reporte', 'reportes', 'reporte', 'pendienthon_reporte', 'id', '', 'Nuevo Reporte', '''Reporte: '' + getValorCampo(''num_reporte'')', 'Reportes', 'Nuevo Reporte', 'Reporte Actualizado', '¿Eliminar Reporte?', 'Reporte Eliminado', '¿Guardar Cambios en el Reporte?', ''),
+(58, 4, 'Evento', 'eventos', 'evento', 'pendienthon_evento', 'id', '', 'Nuevo Evento', '''Evento: '' + getValorCampo(''descripcion'')', 'Eventos', 'Evento Creado', 'Evento Actualizado', '¿Eliminar Evento ?', 'Evento Eliminado', '¿Guardar cambios en el Evento ?', '');
 
 -- --------------------------------------------------------
 
@@ -371,7 +559,7 @@ CREATE TABLE IF NOT EXISTS `system_modulos` (
   `ruta_base` char(255) DEFAULT NULL,
   `orden` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `system_modulos`
@@ -380,7 +568,8 @@ CREATE TABLE IF NOT EXISTS `system_modulos` (
 INSERT INTO `system_modulos` (`id`, `nombre`, `icono`, `nombre_interno`, `ruta_base`, `orden`) VALUES
 (1, 'backend', 'http://png.findicons.com/files/icons/1681/siena/48/puzzle_yellow.png', 'backend', '/modulos/', 0),
 (2, 'Portal', 'http://png-1.findicons.com/files/icons/2003/business/64/shopping_full.png', 'portal', '/', 0),
-(3, 'Constructor', '', 'constructor', '/', 0);
+(3, 'Constructor', '', 'constructor', '/', 0),
+(4, 'Pendienthon', '', 'pendienthon', '/', 0);
 
 -- --------------------------------------------------------
 
