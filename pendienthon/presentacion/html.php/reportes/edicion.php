@@ -112,7 +112,7 @@ if ( !empty( $this->datos['fk_empresa'] ) ){
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
 				
-				<div class="inputBox contenedor_id" style=""  >
+				<div class="inputBox contenedor_id oculto" style=""  >
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
@@ -121,7 +121,7 @@ if ( !empty( $this->datos['fk_empresa'] ) ){
 					<input type="text" name="descripcion" class="entradaDatos" value="<?php echo $this->datos['descripcion']; ?>" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_num_reporte" style=""  >
-					<label style="">Numero de Reporte:</label>
+					<label style="">No de Reporte:</label>
 					<input type="text" name="num_reporte" class="entradaDatos" value="<?php echo $this->datos['num_reporte']; ?>" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_fk_autor" style=""  >
@@ -159,11 +159,12 @@ if ( !empty( $this->datos['fk_empresa'] ) ){
 					<input type="text" name="status" class="entradaDatos" value="<?php echo $this->datos['status']; ?>" style="width:500px;" />
 				</div>
 				<div class="tabla contenedor_tabla_eventos" style=""  >
+					
+					<h1 style="">Eventos</h1>
 					<div class="toolbar_detalles" style="margin-right: 44px;">
 						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
 						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 					</div>
-					<h1 style="">Eventos</h1>
 					<table class="tabla_eventos">
 						<thead></thead>
 						<tbody></tbody>

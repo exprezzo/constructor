@@ -182,7 +182,7 @@
 					<label style="">Modelo:</label>
 					<input type="text" name="modelo" class="entradaDatos" value="<?php echo $this->datos['modelo']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox " style=""  >
+				<div class="inputBox " style="display:none;"  >
 					<label style="">Campos_busqueda:</label>
 					<input type="text" name="campos_busqueda" class="entradaDatos" value="<?php echo $this->datos['campos_busqueda']; ?>" style="width:500px;" />
 				</div>

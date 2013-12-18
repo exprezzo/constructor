@@ -220,12 +220,14 @@ var EventosDeReporte=function (){
 			},
 			columns: [
 				
-				{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "id", visible:false, headerText: "Id" },
 				{ dataKey: "fecha", visible:true, headerText: "Fecha" },
 				{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-				{ dataKey: "fk_autor", visible:true, headerText: "Autor" },
+				{ dataKey: "nombre_fk_autor", visible:true, headerText: "Autor" },
+				{ dataKey: "fk_autor", visible:false, headerText: "Autor" },
 				{ dataKey: "estado", visible:true, headerText: "Estado" },
-				{ dataKey: "fk_reporte", visible:true, headerText: "Fk_reporte" }
+				{ dataKey: "num_reporte_fk_reporte", visible:true, headerText: "Reporte" },
+				{ dataKey: "fk_reporte", visible:false, headerText: "Reporte" }
 			]
 		});
 		var me=this;

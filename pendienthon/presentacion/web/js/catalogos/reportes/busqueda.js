@@ -243,7 +243,7 @@
 			columns: [ 
 				{ dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "num_reporte", visible:true, headerText: "Numero de Reporte" },
+{ dataKey: "num_reporte", visible:true, headerText: "No de Reporte" },
 { dataKey: "nombre_fk_autor", visible:true, headerText: "Autor" },
 { dataKey: "fk_autor", visible:false, headerText: "Autor" },
 { dataKey: "nombre_fk_solicitante", visible:true, headerText: "Solicitante" },

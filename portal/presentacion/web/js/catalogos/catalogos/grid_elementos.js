@@ -263,7 +263,7 @@ var GridElementos = function(){
 			columns: [
 				{ dataKey: "id", visible:false, headerText: "id", editable:true, valueRequired: true },				
 				{ dataKey: "esDefault", visible:false, headerText: "valor_default", editable:true, valueRequired: true },
-				{ dataKey: "extras", visible:false, headerText: "extra", editable:true, valueRequired: true },
+				{ dataKey: "extras", visible:true, headerText: "extra", editable:true, valueRequired: true },
 				{ dataKey: "campo", visible:true, headerText: "nombre", editable:true, valueRequired: true },
 				{ dataKey: "llave", visible:true, headerText: "llave", editable:true, valueRequired: true },				
 				{ dataKey: "esNulo", visible:false, headerText: "permitirNulo", editable:true, valueRequired: true },

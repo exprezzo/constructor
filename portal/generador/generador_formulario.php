@@ -321,11 +321,16 @@ class GeneradorFormulario{
 		fclose($handle);
 		//------------------------------------------
 		$htmlStr=$this->generarHtml( $htmlStr, $cat, $rutaBase );
-		//---------------------------------------NUEVO
+		//---------------------------------------
 		$filename = $directorio.'edicion.php';
-		$handle = fopen($filename, "w");
-		$htmlStr= fwrite($handle, $htmlStr, strlen($htmlStr));
-		fclose($handle);
+		
+		//antes de escribir el html, revisa que no exista
+		if ( !file_exists( $filename ) ){
+			$handle = fopen($filename, "w");
+			$htmlStr= fwrite($handle, $htmlStr, strlen($htmlStr));
+			fclose($handle);
+		}
+		
 		//----------------------------------------------
 		$res = $this->generarJS($cat, $rutaBase);
 		
@@ -388,7 +393,9 @@ class GeneradorFormulario{
 				// $joins.=' ON '.$modeloObj['nombre'].$numJoins.'.'.$modeloObj['llave_primaria'].' = '.$cat['modelo'].'.'.$el['campo'];
 				// $numJoins++;
 				
+				
 				$clase='contenedor_'.$el['campo'];
+				if ( !empty($config['oculto']) ) $clase.=' oculto';
 				$campos.='
 				<div class="inputBox '.$clase.'" style=""  >
 					<label style="">'.$config['etiqueta'].':</label>
@@ -425,27 +432,30 @@ class GeneradorFormulario{
 				$camposTabla='';
 				$columnas='';
 				$fields='';
-				// print_r($config);
+				
 				$configTabla=json_decode( $config['config_tabla'], true );
 				$funcionesComboTabla='';
 				$codigoBeforeEditCombo='';
 				$codigoBeforeUpdateCombo='';
 				foreach($configTabla as $elTabla ){
 					
-					
-					$elTablaConfig=json_decode( $elTabla['comp_config'], true ); 
-					 // print_r($elTabla);
+					$elTablaConfig=json_decode( $elTabla['comp_config'], true ); 					 
+					$visible=empty($elTablaConfig['oculto'])? 'true':'false';
 					if ( strtolower( $elTabla['componente'] ) ==  'combo box' ){		
 						$funcionesComboTabla.=$this->generarFuncionComboTabla($elTabla);
 						$codigoBeforeEditCombo.=$this->generarCodigoBeforeEditCombo($elTabla);
 						$codigoBeforeUpdateCombo .=$this->generarCodigoBeforeUpdateCombo($elTabla);
+						
+						
+						$columnas.='
+				{ dataKey: "'.$elTablaConfig['campo_a_mostrar'].'_'.$elTabla['campo'].'", visible:'.$visible.', headerText: "'.$elTablaConfig['etiqueta'].'" },';
+				
+						$visible='false';
 					}
-					
-					
-					
+										
 					$fields.='
 				{ name: "'.$elTabla['campo'].'"},' ;
-					$visible=empty($elTablaConfig['oculto'])? 'true':'false';
+					
 					$columnas.='
 				{ dataKey: "'.$elTabla['campo'].'", visible:'.$visible.', headerText: "'.$elTablaConfig['etiqueta'].'" },';
 				}
@@ -471,11 +481,12 @@ class GeneradorFormulario{
 				
 				$campos.='
 				<div class="tabla '.$clase.'" style=""  >
+					
+					<h1 style="">'.$config['titulo'].'</h1>
 					<div class="toolbar_detalles" style="margin-right: 44px;">
 						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
 						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 					</div>
-					<h1 style="">'.$config['titulo'].'</h1>
 					<table class="'.$claseTabla.'">
 						<thead></thead>
 						<tbody></tbody>
@@ -506,6 +517,7 @@ class GeneradorFormulario{
 			}else{
 				
 				$clase='contenedor_'.$el['campo'];
+				if ( !empty($config['oculto']) ) $clase.=' oculto';
 				$campos.='
 				<div class="inputBox '.$clase.'" style=""  >
 					<label style="">'.$config['etiqueta'].':</label>
