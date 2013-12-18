@@ -1,6 +1,122 @@
-
 var EventosDeReporte=function (){	
-
+	
+	this.configurarComboFk_autor=function(target){		
+		var tabId=this.tabId;
+		var me=this;
+		var fields=[										
+			
+			{name:'value',mapping: 'id' }, 
+			{name: 'nick' }, 
+			{name:'label',mapping: 'nombre' }, 
+			{name: 'email' }, 
+			{name: 'pass' }, 
+			{name: 'ip_login' }, 
+			{name: 'last_login' }, 
+			{name: 'fk_rol' }, 
+			{name: 'fk_empresa' }
+		];
+		
+		var myReader = new wijarrayreader(fields);
+		
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/usuarios/buscar',
+			dataType:"json",
+			type:'POST'
+		});
+		
+		var datasource = new wijdatasource({
+			reader:  new wijarrayreader(fields),
+			proxy: proxy,
+			loaded: function (data) {},
+			loading: function (dataSource, userData) {                            								
+				dataSource.proxy.options.data=dataSource.proxy.options.data || {};				 
+				dataSource.proxy.options.data.nombre = (userData) ?  userData.value : '';				 
+            }
+		});
+		
+		datasource.reader.read= function (datasource) {			
+			var totalRows=datasource.data.totalRows;			
+			datasource.data = datasource.data.rows;
+			datasource.data.totalRows = totalRows;
+			myReader.read(datasource);
+		};			
+		
+		datasource.load();	
+		
+		var combo=target.wijcombobox({
+			data: datasource,
+			showTrigger: true,
+			minLength: 1,
+			forceSelectionText: false,
+			autoFilter: true,			
+			search: function (e, obj) {},
+			select: function (e, item) 
+			{						
+				me.usuario=item;
+				
+				return true;
+			}
+		});
+		combo.focus().select();			
+	};
+	this.configurarComboFk_reporte=function(target){		
+		var tabId=this.tabId;
+		var me=this;
+		var fields=[										
+			
+			{name:'value',mapping: 'id' }, 
+			{name: 'descripcion' }, 
+			{name:'label',mapping: 'num_reporte' }, 
+			{name: 'fk_autor' }, 
+			{name: 'fk_solicitante' }, 
+			{name: 'fk_empresa' }, 
+			{name: 'status' }, 
+			{name: 'eventos' }
+		];
+		
+		var myReader = new wijarrayreader(fields);
+		
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/reportes/buscar',
+			dataType:"json",
+			type:'POST'
+		});
+		
+		var datasource = new wijdatasource({
+			reader:  new wijarrayreader(fields),
+			proxy: proxy,
+			loaded: function (data) {},
+			loading: function (dataSource, userData) {                            								
+				dataSource.proxy.options.data=dataSource.proxy.options.data || {};				 
+				dataSource.proxy.options.data.nombre = (userData) ?  userData.value : '';				 
+            }
+		});
+		
+		datasource.reader.read= function (datasource) {			
+			var totalRows=datasource.data.totalRows;			
+			datasource.data = datasource.data.rows;
+			datasource.data.totalRows = totalRows;
+			myReader.read(datasource);
+		};			
+		
+		datasource.load();	
+		
+		var combo=target.wijcombobox({
+			data: datasource,
+			showTrigger: true,
+			minLength: 1,
+			forceSelectionText: false,
+			autoFilter: true,			
+			search: function (e, obj) {},
+			select: function (e, item) 
+			{						
+				me.reporte=item;
+				
+				return true;
+			}
+		});
+		combo.focus().select();			
+	};
 	this.init=function(config){
 		var tabId=config.tabId, 
 			padre = config.padre, 			
@@ -107,7 +223,7 @@ var EventosDeReporte=function (){
 				{ dataKey: "id", visible:true, headerText: "Id" },
 				{ dataKey: "fecha", visible:true, headerText: "Fecha" },
 				{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-				{ dataKey: "fk_autor", visible:true, headerText: "Fk_autor" },
+				{ dataKey: "fk_autor", visible:true, headerText: "Autor" },
 				{ dataKey: "estado", visible:true, headerText: "Estado" },
 				{ dataKey: "fk_reporte", visible:true, headerText: "Fk_reporte" }
 			]
@@ -170,6 +286,91 @@ var EventosDeReporte=function (){
             });	
 		this.numCols=$(targetSelector+' thead th').length;		
 		
+		gridElementos.wijgrid({ beforeCellEdit: function(e, args) {
+			switch (args.cell.column().dataKey) {
+				
+			case "nombre_fk_autor":
+				var w,h;
+				var domCel = args.cell.tableCell();
+				w = $(domCel).width() ;
+				h = $(domCel).height() ;
+				
+				var combo=
+				$("<input />")
+					.val(args.cell.value())
+					.appendTo(args.cell.container().empty());
+					
+				combo.css('width',	w-5 );
+				combo.css('height',	h-7 );
+				
+				args.handled = true;
+				
+				me.configurarComboFk_autor(combo);						
+			break;
+			case "num_reporte_fk_reporte":
+				var w,h;
+				var domCel = args.cell.tableCell();
+				w = $(domCel).width() ;
+				h = $(domCel).height() ;
+				
+				var combo=
+				$("<input />")
+					.val(args.cell.value())
+					.appendTo(args.cell.container().empty());
+					
+				combo.css('width',	w-5 );
+				combo.css('height',	h-7 );
+				
+				args.handled = true;
+				
+				me.configurarComboFk_reporte(combo);						
+			break;
+				default:						
+					var domCel = args.cell.tableCell();						
+					var w,h;
+					w = $(domCel).width() -0;
+					h = $(domCel).height() -0;
+					var input=$("<input />")
+						.val(args.cell.value())
+						.appendTo(args.cell.container().empty()).focus().select();							
+					input.css('width',	w );
+					input.css('height',	h );
+					
+					
+						
+					args.handled = true;
+					return true;
+				break;
+			};
+		}});
+		
+		gridElementos.wijgrid({beforeCellUpdate:function(e, args) {
+				switch (args.cell.column().dataKey) {
+					
+			case "nombre_fk_autor":
+				args.value = args.cell.container().find("input").val();
+
+				if (me.usuario!=undefined){
+					var row=args.cell.row();					
+					row.data.fk_autor = me.usuario.value;					
+					gridElementos.wijgrid('ensureControl',true);					
+				}
+				break;
+			case "num_reporte_fk_reporte":
+				args.value = args.cell.container().find("input").val();
+
+				if (me.reporte!=undefined){
+					var row=args.cell.row();					
+					row.data.fk_reporte = me.reporte.value;					
+					gridElementos.wijgrid('ensureControl',true);					
+				}
+				break;
+					default:						
+						args.value = args.cell.container().find("input").val();	
+						var row=args.cell.row();						
+						gridElementos.wijgrid('ensureControl',true);
+				}
+		}});
 		// $(tabId + " .grid_articulos").on("blur", ".wijmo-wijgrid-innercell input" , function(){				
 			// $(tabId + " .grid_articulos").wijgrid("endEdit");			
 		// });

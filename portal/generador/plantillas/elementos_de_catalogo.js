@@ -1,6 +1,5 @@
-
 var ElementosDeCatalogo=function (){	
-
+	//{FUNCIONES-COMBO-TABLA}
 	this.init=function(config){
 		var tabId=config.tabId, 
 			padre = config.padre, 			
@@ -158,6 +157,37 @@ var ElementosDeCatalogo=function (){
             });	
 		this.numCols=$(targetSelector+' thead th').length;		
 		
+		gridElementos.wijgrid({ beforeCellEdit: function(e, args) {
+			switch (args.cell.column().dataKey) {
+				//{COMBOS-BEFORE-EDIT}
+				default:						
+					var domCel = args.cell.tableCell();						
+					var w,h;
+					w = $(domCel).width() -0;
+					h = $(domCel).height() -0;
+					var input=$("<input />")
+						.val(args.cell.value())
+						.appendTo(args.cell.container().empty()).focus().select();							
+					input.css('width',	w );
+					input.css('height',	h );
+					
+					
+						
+					args.handled = true;
+					return true;
+				break;
+			};
+		}});
+		
+		gridElementos.wijgrid({beforeCellUpdate:function(e, args) {
+				switch (args.cell.column().dataKey) {
+					//{COMBOS-BEFORE-UPDATE}
+					default:						
+						args.value = args.cell.container().find("input").val();	
+						var row=args.cell.row();						
+						gridElementos.wijgrid('ensureControl',true);
+				}
+		}});
 		// $(tabId + " .grid_articulos").on("blur", ".wijmo-wijgrid-innercell input" , function(){				
 			// $(tabId + " .grid_articulos").wijgrid("endEdit");			
 		// });

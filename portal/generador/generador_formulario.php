@@ -1,6 +1,123 @@
 <?php
 class GeneradorFormulario{
+	function generarCodigoBeforeEditCombo($el){
+		
+		$elTablaConfig=json_decode( $el['comp_config'], true ); 
+		
+		return '
+			case "'.$elTablaConfig['campo_a_mostrar'].'_'.$el['campo'].'":
+				var w,h;
+				var domCel = args.cell.tableCell();
+				w = $(domCel).width() ;
+				h = $(domCel).height() ;
+				
+				var combo=
+				$("<input />")
+					.val(args.cell.value())
+					.appendTo(args.cell.container().empty());
+					
+				combo.css(\'width\',	w-5 );
+				combo.css(\'height\',	h-7 );
+				
+				args.handled = true;
+				
+				me.configurarCombo'.ucfirst($el['campo']).'(combo);						
+			break;';
+	}
 	
+	function generarCodigoBeforeUpdateCombo($el){
+		$elTablaConfig=json_decode( $el['comp_config'], true ); 
+		
+		$fk_catalogo=$elTablaConfig['target'];	
+		$catMod=new catalogoModelo();
+		$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+		
+		return '
+			case "'.$elTablaConfig['campo_a_mostrar'].'_'.$el['campo'].'":
+				args.value = args.cell.container().find("input").val();
+
+				if (me.'.$resCat['modelo'].'!=undefined){
+					var row=args.cell.row();					
+					row.data.'.$el['campo'].' = me.'.$resCat['modelo'].'.value;					
+					gridElementos.wijgrid(\'ensureControl\',true);					
+				}
+				break;';
+	}
+	function generarFuncionComboTabla($el){
+		// print_r( $el );
+		$elTablaConfig=json_decode( $el['comp_config'], true ); 
+		$fk_catalogo=$elTablaConfig['target'];	
+		$catMod=new catalogoModelo();
+		$resCat=$catMod->obtener( array('id'=>$fk_catalogo) );
+		$campos='';
+		$crlf = "\r\n"; 
+		 // print_r($resCat); exit;
+		foreach($resCat['elementos'] as $elem ){
+			if ( $elem['llave']=='PRI' ){
+				$campos.='
+			{name:\'value\',mapping: \''.$elem['campo'].'\' }, ';					
+			}else if( $elem['campo'] == $elTablaConfig['campo_a_mostrar'] ){
+				$campos.='
+			{name:\'label\',mapping: \''.$elem['campo'].'\' }, ';	
+			}else{
+				$campos.='
+			{name: \''.$elem['campo'].'\' }, ';					
+			}
+			
+		}
+		$campos= substr($campos,0, strlen($campos) -2 );
+		return '
+	this.configurarCombo'.ucfirst($el['campo']).'=function(target){		
+		var tabId=this.tabId;
+		var me=this;
+		var fields=[										
+			'.$campos.'
+		];
+		
+		var myReader = new wijarrayreader(fields);
+		
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+\'/'.$resCat['controlador'].'/buscar\',
+			dataType:"json",
+			type:\'POST\'
+		});
+		
+		var datasource = new wijdatasource({
+			reader:  new wijarrayreader(fields),
+			proxy: proxy,
+			loaded: function (data) {},
+			loading: function (dataSource, userData) {                            								
+				dataSource.proxy.options.data=dataSource.proxy.options.data || {};				 
+				dataSource.proxy.options.data.nombre = (userData) ?  userData.value : \'\';				 
+            }
+		});
+		
+		datasource.reader.read= function (datasource) {			
+			var totalRows=datasource.data.totalRows;			
+			datasource.data = datasource.data.rows;
+			datasource.data.totalRows = totalRows;
+			myReader.read(datasource);
+		};			
+		
+		datasource.load();	
+		
+		var combo=target.wijcombobox({
+			data: datasource,
+			showTrigger: true,
+			minLength: 1,
+			forceSelectionText: false,
+			autoFilter: true,			
+			search: function (e, obj) {},
+			select: function (e, item) 
+			{						
+				me.'.$resCat['modelo'].'=item;
+				
+				return true;
+			}
+		});
+		combo.focus().select();			
+	};';
+	}
 	function generarCodigoGuardarCombo( $el ){
 		$config=json_decode($el['comp_config'], true);
 		$fk_catalogo=$config['target'];	
@@ -169,6 +286,7 @@ class GeneradorFormulario{
 		$jsStr = str_replace('//{GUARDAR-TABLAS}', $codigoDatosTabla, $jsStr);
 		$jsStr = str_replace('//{CARGAR-TABLAS}', $cargarTablas, $jsStr);
 		
+		
 		return $jsStr;
 	}
 	function generarJS($cat, $rutaBase){
@@ -309,9 +427,22 @@ class GeneradorFormulario{
 				$fields='';
 				// print_r($config);
 				$configTabla=json_decode( $config['config_tabla'], true );
+				$funcionesComboTabla='';
+				$codigoBeforeEditCombo='';
+				$codigoBeforeUpdateCombo='';
 				foreach($configTabla as $elTabla ){
 					
+					
 					$elTablaConfig=json_decode( $elTabla['comp_config'], true ); 
+					 // print_r($elTabla);
+					if ( strtolower( $elTabla['componente'] ) ==  'combo box' ){		
+						$funcionesComboTabla.=$this->generarFuncionComboTabla($elTabla);
+						$codigoBeforeEditCombo.=$this->generarCodigoBeforeEditCombo($elTabla);
+						$codigoBeforeUpdateCombo .=$this->generarCodigoBeforeUpdateCombo($elTabla);
+					}
+					
+					
+					
 					$fields.='
 				{ name: "'.$elTabla['campo'].'"},' ;
 					$visible=empty($elTablaConfig['oculto'])? 'true':'false';
@@ -322,6 +453,9 @@ class GeneradorFormulario{
 				$fields=substr($fields,0, strlen($fields)-1);
 				$jsStr = str_replace('//{COLUMNAS}', $columnas, $jsStr);
 				$jsStr = str_replace('//{FIELDS}', $fields, $jsStr);
+				$jsStr = str_replace('//{FUNCIONES-COMBO-TABLA}', $funcionesComboTabla, $jsStr);
+				$jsStr = str_replace('//{COMBOS-BEFORE-EDIT}', $codigoBeforeEditCombo, $jsStr);
+				$jsStr = str_replace('//{COMBOS-BEFORE-UPDATE}', $codigoBeforeUpdateCombo, $jsStr);
 				//---------------------------------------
 				$filename = $directorio.$nombreArchivo.'.js';
 				$handle = fopen($filename, "w");
