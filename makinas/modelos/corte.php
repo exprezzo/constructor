@@ -2,7 +2,7 @@
 class corteModelo extends Modelo{	
 	var $tabla='makinas_corte';
 	var $pk='id';
-	var $campos= array('id', 'fk_maquina', 'nombre_maquina', 'fk_cliente', 'nombre_cliente', 'fk_pdv', 'nombre_punto_de_venta', 'fk_tecnico', 'nombre_tecnico', 'cont_entrada', 'cont_salida', 'saldo_contadores', 'dato_de_la_placa', 'monto', 'fecha', 'fk_serie', 'serie_serie', 'folio');
+	var $campos= array('id', 'fk_maquina', 'nombre_maquina', 'fk_cliente', 'nombre_cliente', 'fk_pdv', 'nombre_punto_de_venta', 'fk_tecnico', 'nombre_tecnico', 'cont_entrada', 'cont_salida', 'saldo_contadores', 'dato_de_la_placa', 'monto', 'fecha', 'fk_serie', 'serie_serie', 'folio', 'diferencia');
 	
 	function buscar($params){
 		
@@ -65,7 +65,12 @@ class corteModelo extends Modelo{
 				if ( $filtro['dataKey']=='folio' ) {
 					$filtros .= ' corte.folio like :folio OR ';
 				}			
+				if ( $filtro['dataKey']=='diferencia' ) {
+					$filtros .= ' corte.diferencia like :diferencia OR ';
+				}	
+
 			}
+
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
 			if ( !empty($filtros) ){
 				$filtros=' WHERE '.$filtros;
@@ -139,6 +144,11 @@ class corteModelo extends Modelo{
 			if ( $filtro['dataKey']=='folio' ) {
 				$sth->bindValue(':folio','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
+			if ( $filtro['dataKey']=='diferencia' ) {
+				$sth->bindValue(':diferencia','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+
+
 			}
 		}
 		$exito = $sth->execute();		
@@ -158,9 +168,9 @@ class corteModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio FROM '.$this->tabla.' corte '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio, corte.diferencia FROM '.$this->tabla.' corte '.$joins.$filtros.'ORDER BY  corte.fecha DESC limit :start,:limit';
 		}else{
-			$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio FROM '.$this->tabla.' corte '.$joins.$filtros;
+			$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio, corte.diferencia FROM '.$this->tabla.' corte '.$joins.$filtros.'ORDER BY  corte.fecha DESC';
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -226,6 +236,11 @@ class corteModelo extends Modelo{
 			if ( $filtro['dataKey']=='folio' ) {
 				$sth->bindValue(':folio','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}	
+			if ( $filtro['dataKey']=='diferencia' ) {
+				$sth->bindValue(':diferencia','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}	
+
+
 			}
 		}
 		$exito = $sth->execute();
@@ -257,19 +272,20 @@ class corteModelo extends Modelo{
 			$obj['nombre_punto_de_venta']='';
 			$obj['fk_tecnico']='';
 			$obj['nombre_tecnico']='';
-			$obj['cont_entrada']='';
-			$obj['cont_salida']='';
-			$obj['saldo_contadores']='';
+			$obj['cont_entrada']=0;
+			$obj['cont_salida']=0;
+			$obj['saldo_contadores']=0;
 			$obj['dato_de_la_placa']='';
-			$obj['monto']='';
+			$obj['monto']=0;
 			$obj['fecha']='';
 			$obj['fk_serie']='';
 			$obj['serie_serie']='';
 			$obj['folio']='';
+			$obj['diferencia']='0.00';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio
+		$sql = 'SELECT corte.id, corte.fk_maquina, maquina0.nombre AS nombre_fk_maquina, corte.fk_cliente, cliente1.nombre AS nombre_fk_cliente, corte.fk_pdv, punto_de_venta2.nombre AS nombre_fk_pdv, corte.fk_tecnico, tecnico3.nombre AS nombre_fk_tecnico, corte.cont_entrada, corte.cont_salida, corte.saldo_contadores, corte.dato_de_la_placa, corte.monto, corte.fecha, corte.fk_serie, serie4.serie AS serie_fk_serie, corte.folio, corte.diferencia
  FROM makinas_corte AS corte
  LEFT JOIN makinas_maquina AS maquina0 ON maquina0.id = corte.fk_maquina
  LEFT JOIN makina_cliente AS cliente1 ON cliente1.id = corte.fk_cliente
@@ -366,6 +382,11 @@ class corteModelo extends Modelo{
 		if ( isset( $datos['folio'] ) ){
 			$strCampos .= ' folio=:folio, ';
 		}		
+		if ( isset( $datos['diferencia'] ) ){
+			$strCampos .= ' diferencia=:diferencia, ';
+		}	
+
+
 		//--------------------------------------------
 		
 		$strCampos=substr( $strCampos,0,  strlen($strCampos)-2 );
@@ -420,6 +441,11 @@ class corteModelo extends Modelo{
 		if  ( isset( $datos['folio'] ) ){
 			$sth->bindValue(':folio', $datos['folio'] );
 		}		
+		if  ( isset( $datos['diferencia'] ) ){
+			$sth->bindValue(':diferencia', $datos['diferencia'] );
+		}
+
+
 		if ( !$esNuevo)	{
 			$sth->bindValue(':id', $datos['id'] );
 		}	
@@ -442,6 +468,7 @@ class corteModelo extends Modelo{
 		
 		
 		
+
 		try{
 			$obj=$this->obtener( $idObj );
 		}catch(Exception $err){

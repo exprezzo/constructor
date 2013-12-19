@@ -170,8 +170,8 @@
     <div id="pie">
     	<div id="contenedorMenu4">
         <ul>
-        	<li><a href="<?php echo $_PETICION->url_app;?>paginas/inicio">Inicio</a></li>            
-            <li>Ayuda</li>
+        	<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'; ?>paginas/inicio">Inicio</a></li>
+			<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/';?>paginas/catalogos">Catalogos</a></li>            
         </ul>
         </div>
     </div>

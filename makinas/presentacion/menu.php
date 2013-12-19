@@ -27,12 +27,10 @@
 		</ul>
 	</li>
 	<li>
-		<a href="#">Configuración<span class="flecha">∨</span></a>
-		
+		<a href="#">Documentos<span class="flecha">∨</span></a>
+		<ul>
+			<li><a href="/constructor/makinas/cortes/buscar" class="elemento">Cortes<span class="flecha">∨</span></a></li>
+		</ul>
 	</li>                                        
-	<li>
-		<a href="#">Ayuda<span class="flecha">∨</span></a>
-		
-		
-	</li>
+	
 </ul>

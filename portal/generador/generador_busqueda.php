@@ -91,10 +91,12 @@ class GeneradorBusqueda{
 		//------------------------------------------
 		$jsStr=$this->generarCodigoJs( $jsStr, $cat );
 		//---------------------------------------
-		$filename = $directorio.'busqueda.js';
-		$handle = fopen($filename, "w");
-		$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
-		fclose($handle);
+		if ( !file_exists( $filename ) ){
+			$filename = $directorio.'busqueda.js';
+			$handle = fopen($filename, "w");
+			$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
+			fclose($handle);
+		}
 		//----------------------------------------------
 	}
 	function generar($cat, $rutaBase){
@@ -111,9 +113,11 @@ class GeneradorBusqueda{
 		$conStr=$this->generarCodigo( $conStr, $cat );
 		//---------------------------------------NUEVO
 		$filename = $directorio.'busqueda.php';
-		$handle = fopen($filename, "w");
-		$conStr= fwrite($handle, $conStr, strlen($conStr));
-		fclose($handle);
+		if ( !file_exists( $filename ) ){
+			$handle = fopen($filename, "w");
+			$conStr= fwrite($handle, $conStr, strlen($conStr));
+			fclose($handle);
+		}
 		//----------------------------------------------				
 		$res = $this->generarJS($cat, $rutaBase);
 		

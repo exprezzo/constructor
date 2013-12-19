@@ -278,23 +278,25 @@
 			showFilter:false,
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
+{ dataKey: "fk_serie", visible:false, headerText: "Serie" },
+{ dataKey: "serie_fk_serie", visible:true, headerText: "Serie" },
+{ dataKey: "folio", visible:true, headerText: "Folio" },
+{ dataKey: "fecha", visible:true, headerText: "Fecha" },
 { dataKey: "nombre_fk_maquina", visible:true, headerText: "Maquina" },
 { dataKey: "fk_maquina", visible:false, headerText: "Maquina" },
 { dataKey: "nombre_fk_cliente", visible:true, headerText: "Cliente" },
 { dataKey: "fk_cliente", visible:false, headerText: "Cliente" },
-{ dataKey: "nombre_fk_pdv", visible:true, headerText: "PDV" },
+{ dataKey: "nombre_fk_pdv", visible:false, headerText: "PDV" },
 { dataKey: "fk_pdv", visible:false, headerText: "PDV" },
 { dataKey: "nombre_fk_tecnico", visible:true, headerText: "Tecnico" },
 { dataKey: "fk_tecnico", visible:false, headerText: "Tecnico" },
 { dataKey: "cont_entrada", visible:true, headerText: "Cont Entrada" },
 { dataKey: "cont_salida", visible:true, headerText: "Cont Salida" },
 { dataKey: "saldo_contadores", visible:true, headerText: "Saldo" },
-{ dataKey: "dato_de_la_placa", visible:true, headerText: "Dato De La Placa" },
+{ dataKey: "dato_de_la_placa", visible:true, headerText: "Placa" },
 { dataKey: "monto", visible:true, headerText: "Monto" },
-{ dataKey: "fecha", visible:true, headerText: "Fecha" },
-{ dataKey: "serie_fk_serie", visible:true, headerText: "Serie" },
-{ dataKey: "fk_serie", visible:false, headerText: "Serie" },
-{ dataKey: "folio", visible:true, headerText: "Folio" },
+
+
 			]
 		});
 		

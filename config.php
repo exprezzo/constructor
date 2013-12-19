@@ -1,5 +1,5 @@
 <?php
-$_DEFAULT_APP='portal';
+$_DEFAULT_APP='makinas';
 
 include_once('../'.$_DEFAULT_APP.'/config.php');
 

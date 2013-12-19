@@ -109,7 +109,7 @@
 			width:300,
 			minLength:1,
 			autoFilter:false,	
-			forceSelectionText:true,
+			// forceSelectionText:true,
 			select : function (e, data) {						
 			},
 			search: function (e, obj) { 						

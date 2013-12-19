@@ -470,10 +470,13 @@ class GeneradorFormulario{
 				$jsStr = str_replace('//{COMBOS-BEFORE-EDIT}', $codigoBeforeEditCombo, $jsStr);
 				$jsStr = str_replace('//{COMBOS-BEFORE-UPDATE}', $codigoBeforeUpdateCombo, $jsStr);
 				//---------------------------------------
+				
 				$filename = $directorio.$nombreArchivo.'.js';
-				$handle = fopen($filename, "w");
-				$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
-				fclose($handle);
+				if ( !file_exists( $filename ) ){
+					$handle = fopen($filename, "w");
+					$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
+					fclose($handle);
+				}
 				//----------------------------------------------
 				
 				

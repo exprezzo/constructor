@@ -182,7 +182,7 @@ if ( !empty( $this->datos['fk_municipio'] ) ){
 						?>
 					</select>
 				</div>
-				<div class="tabla contenedor_tabla_pdvs" style=""  >
+				<div class="tabla contenedor_tabla_pdvs" style="display:none;"  >
 					
 					<h1 style="">Puntos de Venta</h1>
 					<div class="toolbar_detalles" style="margin-right: 44px;">

@@ -64,7 +64,19 @@ if ( !empty( $this->datos['id'] ) ){
 		}
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
-
+<style type="text/css">
+	.contenedor_diferencia div.wijmo-wijinput{
+		background: transparent !important;
+	}
+	.contenedor_diferencia  input[name="diferencia"]{
+		background-color: transparent !important;
+		box-shadow:none !important;
+		padding:3px 0;
+		text-align:right;
+		color:white !important;
+	}
+	
+</style>
 <script>			
 	$( function(){	
 		
@@ -116,12 +128,16 @@ if ( !empty( $this->datos['id'] ) ){
 		//-----
 		$('[name="fecha"]').wijinputdate({showTrigger:true, dateFormat:'dd/MM/yyyy'});
 		$('[name="hora"]').wijinputdate({showTrigger:false,  dateFormat:'HH:mm'});
-		var options={};
-		$('[name="cont_entrada"]').wijinputnumber(options);
+		var options={showGroup:true};
+		 $('[name="cont_entrada"]').wijinputnumber(options);
 		$('[name="cont_salida"]').wijinputnumber(options);
-		$('[name="saldo_contadores"]').wijinputnumber({readonly: true});
+		 $('[name="diferencia"]').wijinputnumber(options);
+		
+		$('[name="saldo_contadores"]').wijinputnumber({});
 		
 		$('[name="monto"]').wijinputnumber(options);
+		
+		
 		
 	});
 </script>
@@ -179,7 +195,7 @@ if ( !empty( $this->datos['id'] ) ){
 						?>
 					</select>
 				</div>
-				<div class="inputBox contenedor_fk_pdv" style=""  >
+				<div class="inputBox contenedor_fk_pdv" style="display:none;"  >
 					<label style="">PDV:</label>
 					<select name="fk_pdv" class="entradaDatos" style="width:250px;">
 						<?php
@@ -201,15 +217,19 @@ if ( !empty( $this->datos['id'] ) ){
 				</div>
 				<div class="inputBox contenedor_cont_entrada" style=""  >
 					<label style="">Cont Entrada:</label>
-					<input type="text" name="cont_entrada" class="entradaDatos" value="<?php echo $this->datos['cont_entrada']; ?>" style="width:200px;" />
+					<input type="text" name="cont_entrada" class="entradaDatos" value="<?php echo $this->datos['cont_entrada']; ?>" style="width:200px; text-align:right;" />
 				</div>
 				<div class="inputBox contenedor_cont_salida" style=""  >
 					<label style="">Cont Salida:</label>
-					<input type="text" name="cont_salida" class="entradaDatos" value="<?php echo $this->datos['cont_salida']; ?>" style="width:200px;" />
+					<input type="text" name="cont_salida" class="entradaDatos" value="<?php echo $this->datos['cont_salida']; ?>" style="width:200px; text-align:right;" />
+				</div>
+				<div class="inputBox contenedor_diferencia" style=""  >
+					<label style="">Diferencia:</label>
+					<input type="text" name="diferencia" class="entradaDatos" value="<?php echo $this->datos['diferencia']; ?>" style="width:200px; text-align:right;" />
 				</div>
 				<div class="inputBox contenedor_saldo_contadores" style=""  >
-					<label style="">Diferencia:</label>
-					<input readonly type="text" name="saldo_contadores" class="entradaDatos" value="<?php echo $this->datos['saldo_contadores']; ?>" style="width:200px;" />
+					<label style="">Saldo:</label>
+					<input type="text" name="saldo_contadores" class="entradaDatos" value="<?php echo $this->datos['saldo_contadores']; ?>" style="width:200px; text-align:right;" />
 				</div>
 				<div class="inputBox contenedor_dato_de_la_placa" style=""  >
 					<label style="vertical-align:top;">Dato De La Placa:</label>
@@ -218,7 +238,7 @@ if ( !empty( $this->datos['id'] ) ){
 				</div>
 				<div class="inputBox contenedor_monto" style=""  >
 					<label style="">Monto:</label>
-					<input type="text" name="monto" class="entradaDatos" value="<?php echo $this->datos['monto']; ?>" style="width:200px;" />
+					<input type="text" name="monto" class="entradaDatos" value="<?php echo $this->datos['monto']; ?>" style="width:200px; text-align:right;" />
 				</div>
 				
 				
