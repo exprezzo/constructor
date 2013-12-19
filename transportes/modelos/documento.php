@@ -306,6 +306,8 @@ class documentoModelo extends Modelo{
 			$obj['medio_de_transporte']='';
 			$obj['datos_del_vehiculo']='';
 			$obj['datos_del_chofer']='';
+			$obj['conceptosDeDocumento']=array();
+			
 		return $obj;
 	}
 	function obtener( $llave ){		
@@ -336,6 +338,21 @@ class documentoModelo extends Modelo{
 			throw new Exception("El identificador está duplicado"); //TODO: agregar numero de error, crear una exception MiEscepcion
 		}
 		
+				//----------------------------
+				$conceptosMod=new concepto_documentoModelo();
+				$params=array(
+					'filtros'=>array(
+						array(
+							'filterValue'=>$modelos[0]['id'],
+							'filterOperator'=>'equals',
+							'dataKey'=>'fk_documento'
+						)
+					)
+				);
+				$conceptosDeDocumento=$conceptosMod->buscar($params);				
+				$modelos[0]['conceptosDeDocumento'] =$conceptosDeDocumento['datos'];
+				//---------------------------
+				
 		return $modelos[0];			
 	}
 	
@@ -480,6 +497,31 @@ class documentoModelo extends Modelo{
 		
 		
 		
+		$concepto_documentoMod = new concepto_documentoModelo();
+		foreach( $datos['conceptosDeDocumento'] as $el ){
+			if ( !empty($el['eliminado']) ){
+				if ( !empty($el['id']) ){
+					$res = $concepto_documentoMod->eliminar( array('id'=>$el['id']) );
+					if ($res )$res =array('success'=>true);
+				}else{
+					$res=array('success'=>true);
+				}					
+			 }else{
+				unset( $el['eliminado'] );
+				$el['fk_documento']=$idObj;
+				// if ( empty($concepto['nombre'])  )  continue;
+				$res = $concepto_documentoMod->guardar($el);
+			 }
+			
+			
+			//-----
+			//
+			//$res=$concepto_documentoMod->guardar($el);
+			//if ( !$res['success'] ){											
+			//	return $res;
+			//}
+			
+		}
 		$obj=$this->obtener( $idObj );
 		return array(
 			'success'=>true,

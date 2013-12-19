@@ -27,7 +27,7 @@
 			<input type="text" name="editable" class="entradaDatos" style="width:200px;" value="<?php echo $this->datos['editable']; ?>" />
 		</div>
 		<div class="inputBox" style=""  >
-			<label style="">Modulo:</label>
+			<label style="">Catalogo:</label>
 			<select name="target" class="entradaDatos" style="width:200px;">
 				<?php
 					foreach($modelos as $mod){

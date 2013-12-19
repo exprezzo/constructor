@@ -229,7 +229,7 @@
 			data:dataSource,
 			showFilter:false,
 			columns: [ 
-				{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "id", visible:false, headerText: "Id" },
 { dataKey: "nombre", visible:true, headerText: "Nombre" },
 { dataKey: "domicilio", visible:true, headerText: "Domicilio" },
 { dataKey: "email", visible:true, headerText: "Email" },

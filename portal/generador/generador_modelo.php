@@ -275,9 +275,11 @@ class GeneradorModelo{
 		}
 		
 		$filename = $directorio.$cat['modelo'].'.php';
-		$handle = fopen($filename, "w");
-		$modeloStr= fwrite($handle, $modeloStr, strlen($modeloStr));
-		fclose($handle);
+		if ( !file_exists( $filename ) ){
+			$handle = fopen($filename, "w");
+			$modeloStr= fwrite($handle, $modeloStr, strlen($modeloStr));
+			fclose($handle);
+		}
 		return array(
 			'success'=>true,
 			'msg'=>'ModGen. Construido.'

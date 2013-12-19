@@ -180,102 +180,6 @@
 			loading : function(data){				
 				var value = $( ' input[name="query"]').val();				
 				
-				data.proxy.options.data.filtering.push({
-					dataKey: "fk_modulo",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "controlador",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "modelo",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "tabla",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "pk_tabla",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "icono",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "titulo_nuevo",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "titulo_edicion",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "titulo_busqueda",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "msg_creado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "msg_actualizado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "pregunta_eliminar",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "msg_eliminado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "msg_cambios",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "campos_busqueda",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
 				
 				
             }
@@ -301,23 +205,7 @@
 			data:dataSource,
 			showFilter:false,
 			columns: [ 
-				{ dataKey: "id", visible:true, headerText: "Id" },
-{ dataKey: "fk_modulo", visible:true, headerText: "Fk_modulo" },
-{ dataKey: "nombre", visible:true, headerText: "Nombre" },
-{ dataKey: "controlador", visible:true, headerText: "Controlador" },
-{ dataKey: "modelo", visible:true, headerText: "Modelo" },
-{ dataKey: "tabla", visible:true, headerText: "Tabla" },
-{ dataKey: "pk_tabla", visible:true, headerText: "Pk_tabla" },
-{ dataKey: "icono", visible:true, headerText: "Icono" },
-{ dataKey: "titulo_nuevo", visible:true, headerText: "Titulo_nuevo" },
-{ dataKey: "titulo_edicion", visible:true, headerText: "Titulo_edicion" },
-{ dataKey: "titulo_busqueda", visible:true, headerText: "Titulo_busqueda" },
-{ dataKey: "msg_creado", visible:true, headerText: "Msg_creado" },
-{ dataKey: "msg_actualizado", visible:true, headerText: "Msg_actualizado" },
-{ dataKey: "pregunta_eliminar", visible:true, headerText: "Pregunta_eliminar" },
-{ dataKey: "msg_eliminado", visible:true, headerText: "Msg_eliminado" },
-{ dataKey: "msg_cambios", visible:true, headerText: "Msg_cambios" },
-{ dataKey: "campos_busqueda", visible:true, headerText: "Campos_busqueda" },
+				
 			]
 		});
 		

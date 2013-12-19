@@ -161,9 +161,25 @@
 			data: { datos: datos}
 		}).done(function( response ) {
 			$("#contenedorDatos2").unblock(); 
-			var resp = eval('(' + response + ')');
-			var msg= (resp.msg)? resp.msg : '';
-			var title;
+			var msg;
+			var title;	
+			try{
+					var resp = eval('(' + response + ')');
+			}catch(err){
+				msg='El servidor ha respondido de manera incorrecta. <br />'+response;
+				title='Error Al Guardar';
+				icon= kore.url_web+'imagenes/error.png';
+				$.gritter.add({
+					position: 'bottom-left',
+					title:title,
+					text: msg,
+					image: icon,
+					class_name: 'my-sticky-class'
+				});
+				return false;
+			}			
+			msg= (resp.msg)? resp.msg : '';
+			
 			
 			if ( resp.success == true	){
 				if (resp.msgType!=undefined && resp.msgType == 'info'){
@@ -235,9 +251,24 @@
 
 				data: params
 			}).done(function( response ) {		
-				var resp = eval('(' + response + ')');
-				var msg= (resp.msg)? resp.msg : '';
-				var title;
+				var msg;
+				var title;	
+				try{
+						var resp = eval('(' + response + ')');
+				}catch(err){
+					msg='El servidor ha respondido de manera incorrecta. <br />'+response;
+					title='Error Al Intentar Eliminar';
+					icon= kore.url_web+'imagenes/error.png';
+					$.gritter.add({
+						position: 'bottom-left',
+						title:title,
+						text: msg,
+						image: icon,
+						class_name: 'my-sticky-class'
+					});
+					return false;
+				}			
+				msg= (resp.msg)? resp.msg : '';
 				if ( resp.success == true	){					
 					icon=kore.url_web+'imagenes/yes.png';
 					title= 'Success';									
@@ -285,7 +316,7 @@
 		});
 		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-			var r=confirm("¿Eliminar?");
+			var r=confirm("{PREGUNTA-ELIMINAR}");
 			if (r==true){
 			  me.eliminar();
 			  me.editado=false;

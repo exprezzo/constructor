@@ -37,9 +37,12 @@ require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 		$conStr=$this->generarCodigo( $conStr, $cat );
 		//---------------------------------------NUEVO
 		$filename = $directorio.$cat['controlador'].'.php';
-		$handle = fopen($filename, "w");
-		$conStr= fwrite($handle, $conStr, strlen($conStr));
-		fclose($handle);
+		if ( !file_exists( $filename ) ){
+			$handle = fopen($filename, "w");
+			$conStr= fwrite($handle, $conStr, strlen($conStr));
+			fclose($handle);
+		}
+		
 		//----------------------------------------------		
 		return array(
 			'success'=>true,

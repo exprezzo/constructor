@@ -188,14 +188,15 @@ class GeneradorFormulario{
 			showTrigger: true,
 			width:300,
 			minLength:1,
-			autoFilter:false,			
+			autoFilter:false,	
+			forceSelectionText:true,
 			select : function (e, data) {						
 			},
 			search: function (e, obj) { 						
 			}
 		 });
 		 
-		 $(\'.'.$claseContenedor.' input[role="textbox"]\').bind(\'focus\', function(){			
+		 $(\'.'.$claseContenedor.' input[role="textbox"]\').bind(\'keypress\', function(){			
 			if (me.'.ucfirst($el['campo']).'EnAjax) return true;			
 			me.setDS'.ucfirst($el['campo']).'();
 			me.'.ucfirst($el['campo']).'EnAjax=true;
@@ -302,9 +303,11 @@ class GeneradorFormulario{
 		$jsStr=$this->generarCodigoJs( $jsStr, $cat );
 		//---------------------------------------
 		$filename = $directorio.'edicion.js';
-		$handle = fopen($filename, "w");
-		$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
-		fclose($handle);
+		if ( !file_exists( $filename ) ){
+			$handle = fopen($filename, "w");
+			$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
+			fclose($handle);
+		}
 		//----------------------------------------------
 	}
 	
@@ -339,13 +342,13 @@ class GeneradorFormulario{
 			'msg'=>'FormGem. Generado '
 		);
 	}
-	function getStrRelacion($modeloObj, $el, $config){
+	function getStrRelacion($modeloObj, $el, $config, $resCat){
 		$campo_a_mostrar = $config['campo_a_mostrar'];
 		
 		$campo=$el['campo'];
 		$campo_dato = $config['campo_a_mostrar'].'_'.$campo;
 		
-		$strRelacion='if ( !empty( $this->datos[\''.$campo.'\'] ) ){
+		$strRelacion='if ( !empty( $this->datos[\''.$resCat['pk_tabla'].'\'] ) ){
 			
 			$'.$campo.'_listado=array();
 			$'.$campo.'_listado[]=array(\''.$modeloObj['llave_primaria'].'\'=>$this->datos[\''.$el['campo'].'\'],\''.$campo_a_mostrar.'\'=>$this->datos[\''.$campo_dato.'\'] );
@@ -386,7 +389,7 @@ class GeneradorFormulario{
 				$modeloObj['llave_primaria'] = $resCat['pk_tabla'];
 				
 				
-				$strRelaciones.=$crlf.$this->getStrRelacion($modeloObj, $el, $config);
+				$strRelaciones.=$crlf.$this->getStrRelacion($modeloObj, $el, $config, $resCat);
 				
 				// $campos.=$modeloObj['nombre'].$numJoins.'.'.$config['campo_a_mostrar'].' AS '.$config['campo_a_mostrar'].'_'.$modeloObj['nombre'].', ';				
 				// $joins.=$crlf.' LEFT JOIN '.$modeloObj['tabla'].' AS '.$modeloObj['nombre'].$numJoins;

@@ -12,6 +12,8 @@ require_once $_PETICION->basePath.'/modelos/socio.php';
 
 require_once $_PETICION->basePath.'/modelos/socio.php';
 
+require_once $_PETICION->basePath.'/modelos/concepto_documento.php';
+
 class documentos extends Controlador{
 	var $modelo="documento";	
 	

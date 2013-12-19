@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Documento?");
+			var r=confirm("Â¿Eliminar Documento?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Documento?");
+						var r=confirm("Â¿Eliminar Documento?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -304,8 +304,8 @@
 				{ dataKey: "fecha_creacion", visible:true, headerText: "Creado" },
 { dataKey: "nombre_fk_tipo_de_documento", visible:true, headerText: "Tipo de Doc." },
 { dataKey: "fk_tipo_de_documento", visible:false, headerText: "Tipo de Doc." },
-{ dataKey: "nombre_fk_serie", visible:true, headerText: "Fk_serie" },
-{ dataKey: "fk_serie", visible:false, headerText: "Fk_serie" },
+{ dataKey: "nombre_fk_serie", visible:true, headerText: "Serie" },
+{ dataKey: "fk_serie", visible:false, headerText: "Serie" },
 { dataKey: "folio", visible:true, headerText: "Folio" },
 { dataKey: "id", visible:true, headerText: "Id" },
 { dataKey: "nombre_fk_transportador", visible:true, headerText: "Transportador" },

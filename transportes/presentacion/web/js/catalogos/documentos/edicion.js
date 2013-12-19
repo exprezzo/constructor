@@ -245,7 +245,7 @@
 		
 	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Documento?");
+		var r=confirm("Â¿Eliminar Documento?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -464,7 +464,9 @@
 		
 		//-----------------------------------
 		var datos=paramObj;
-		
+		$(tabId+' .tabla_conceptos').wijgrid('endEdit');
+				var conceptos=$(tabId+' .tabla_conceptos').wijgrid('data');
+				datos.conceptosDeDocumento = conceptos;
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -508,6 +510,19 @@
 					class_name: 'my-sticky-class'
 				});
 				
+				
+				//--------------------
+				var elementos=resp.datos.conceptosDeDocumento;	
+
+				var grid=$(me.tabId+" .tabla_conceptos");
+				var data=grid.wijgrid('data');				
+				data.length=0;
+				for(var i=0; i<elementos.length; i++){
+					data.push(elementos[i]);
+				}
+
+				grid.wijgrid('ensureControl', true);
+				//-----------------------------
 				
 				if (me.saveAndClose===true){
 					//busca el indice del tab

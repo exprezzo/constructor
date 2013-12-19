@@ -66,7 +66,8 @@ class GeneradorBusqueda{
 				$etiqueta=$config['etiqueta'];
 				$columnas.='{ dataKey: "'.$dataKey.'", visible:true, headerText: "'.$etiqueta.'" },'.$crlf;
 			}else{
-				$visible='true';
+				// $visible='true';
+				$visible=empty($config['oculto'])? 'true':'false';
 			}
 			
 			if ( strtolower( $el['componente'] ) !=  'tabla' )
