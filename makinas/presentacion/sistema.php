@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Constructor</title>
+<title>Cortes</title>
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/reset.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo1.css" />
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/jquery-1.8.3.js" ></script>	
@@ -145,7 +145,7 @@
                     <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
                     <ul class="nav" style="display:inline-block;clear:both;">  
 						<li>
-							<a href="#" class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
+							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/editar/<?php echo $_SESSION['user']['id']; ?>" class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
 							<ul>
 								
 								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app ?>usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>

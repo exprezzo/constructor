@@ -186,11 +186,7 @@
 					filterValue: value
 				});
 		
-				data.proxy.options.data.filtering.push({
-					dataKey: "pass",
-					filterOperator: "Contains",
-					filterValue: value
-				});
+				
 		
 				data.proxy.options.data.filtering.push({
 					dataKey: "email",
@@ -255,7 +251,7 @@
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
 { dataKey: "username", visible:true, headerText: "Username" },
-{ dataKey: "pass", visible:true, headerText: "Pass" },
+{ dataKey: "pass", visible:false, headerText: "Pass" },
 { dataKey: "email", visible:true, headerText: "Email" },
 { dataKey: "nombre", visible:true, headerText: "Nombre" },
 { dataKey: "ultima_conexion", visible:true, headerText: "Ultima_conexion" },

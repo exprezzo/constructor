@@ -138,9 +138,9 @@ class UsuarioModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT Usuario.id, Usuario.username, Usuario.pass, Usuario.email, Usuario.nombre, Usuario.ultima_conexion, Usuario.creado, Usuario.fk_rol, Usuario.ip FROM '.$this->tabla.' Usuario '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT Usuario.id, Usuario.username, Usuario.email, Usuario.nombre, Usuario.ultima_conexion, Usuario.creado, Usuario.fk_rol, Usuario.ip FROM '.$this->tabla.' Usuario '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT Usuario.id, Usuario.username, Usuario.pass, Usuario.email, Usuario.nombre, Usuario.ultima_conexion, Usuario.creado, Usuario.fk_rol, Usuario.ip FROM '.$this->tabla.' Usuario '.$joins.$filtros;
+			$sql = 'SELECT Usuario.id, Usuario.username, Usuario.email, Usuario.nombre, Usuario.ultima_conexion, Usuario.creado, Usuario.fk_rol, Usuario.ip FROM '.$this->tabla.' Usuario '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -331,9 +331,31 @@ class UsuarioModelo extends Modelo{
 		//--------------------------------------------
 		$exito = $sth->execute();
 		if ( !$exito ){
-			$error =  $this->getError( $sth );
-			throw new Exception($error['msg']);
+			
+			$error=$sth->errorInfo();						
+			$msg=$error[2];						
+			$datos=array();
+			$errCode=$error[1];
+			
+			if ( $errCode==1062 ){
+				$aparece = strstr ($msg, 'for key \'email\'');
+				if ( strlen($aparece)>0 ){
+					$msg = utf8_encode('Ese email ya existe, escoja otro');
+				}
+				
+				$aparece = strstr ($msg, 'for key \'nick\'');
+				if ( strlen($aparece)>0 ){
+					$msg = utf8_encode('Ese usuario ya existe, escoja otro');
+				}				
+				
+			}
+			return array(
+				'success'=>false,
+				'msg'=>$msg
+			);
 		}
+		
+		
 		
 		if ( $esNuevo ){
 			$idObj=$pdo->lastInsertId();

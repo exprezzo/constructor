@@ -79,7 +79,11 @@
 				</div>
 				<div class="inputBox contenedor_pass" style=""  >
 					<label style="">Pass:</label>
-					<input type="text" name="pass" class="entradaDatos" value="<?php echo $this->datos['pass']; ?>" style="width:500px;" />
+					<input type="text" name="pass" class="entradaDatos" value="" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedor_pass" style=""  >
+					<label style="">Confirmacion:</label>
+					<input type="text" name="confirmacion" class="entradaDatos" value="" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_email" style=""  >
 					<label style="">Email:</label>

@@ -90,7 +90,27 @@ class usuarios extends Controlador{
 	function guardar(){
 		$modelo=$this->getModelo();
 		$esNuevo = empty( $_POST['datos'][$modelo->pk] );
+		global $_PETICION;
+		$id=$_POST['datos'][$modelo->pk];
 		
+		if ( ( !empty($_POST['datos']['pass']) || !empty($_POST['datos']['confirmacion']) ) && ($_POST['datos']['pass'] != $_POST['datos']['confirmacion']) ){
+			$respuesta = array(
+				'success'	=>false,
+				'msg'		=>'Las contraseñas no coinciden'
+			);
+			echo json_encode( $respuesta );
+			return $respuesta;
+		}
+		if ( $_SESSION['user']['fk_rol'] != 1 && $_SESSION['user']['id'] != $id ){
+			$respuesta = array(
+				'success'	=>false,
+				'msg'		=>'No tiene permiso para editar este usuario',
+				'titulo'	=>'Mensaje de la capa de seguridad'
+			);
+			
+			echo json_encode($respuesta);
+			return $respuesta;
+		}
 		ob_start();
 		$res = parent::guardar();
 		ob_end_clean();
