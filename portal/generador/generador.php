@@ -14,7 +14,7 @@ class GeneradorDeCodigo{
 		
 		// compone la ruta donde se guardaran los archivos
 		$modMod = new moduloModelo();
-		$modulo = $modMod->obtener( array('id'=>$fk_modulo ) );		
+		$modulo = $modMod->obtener( $fk_modulo  );		
 		$rutaBase='..'.$modulo['ruta_base'].$modulo['nombre_interno'].'/';
 				
 		//crea el modelo

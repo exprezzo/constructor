@@ -14,6 +14,10 @@
 			<label>Titulo</label>
 			<input name="titulo"  class="entradaDatos" value="<?php echo $this->datos['titulo']; ?>" />
 		</div>				
+		<div class="inputBox">
+			<label>Ayuda</label>
+			<input name="ayuda" class="entradaDatos" value="<?php echo $this->datos['ayuda']; ?>" />
+		</div>
 		<div class="inputBox" style=""  >
 			<label style="">Editable:</label>
 			<input type="text" name="editable" class="entradaDatos" style="width:200px;" value="<?php echo $this->datos['editable']; ?>" />

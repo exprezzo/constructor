@@ -1,11 +1,11 @@
-﻿var EdicionModulos = function(){
+﻿var EdicionUsuarios = function(){
 	this.editado=false;
-	this.tituloNuevo='Nuevo Modulo';
+	this.tituloNuevo='Nuevo Usuario';
 	this.saveAndClose=false;
 	
 	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Modulo?");
+		var r=confirm("¿Eliminar Usuario?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -114,7 +114,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Modulo: ' + getValorCampo('nombre'));
+			$(tabId +' #titulo h1').html('Usuario: ' + getValorCampo('nombre'));
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -316,7 +316,7 @@
 		});
 		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-			var r=confirm("¿Eliminar Modulo?");
+			var r=confirm("¿Eliminar Usuario?");
 			if (r==true){
 			  me.eliminar();
 			  me.editado=false;

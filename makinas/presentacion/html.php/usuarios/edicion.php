@@ -2,7 +2,7 @@
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
 	
-	
+	$this->datos['pass']='';
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
 
@@ -52,7 +52,7 @@
 			pk:"id"
 			
 		};				
-		 var editor=new EdicionModulos();
+		 var editor=new EdicionUsuarios();
 		 editor.init(config);	
 		//-----
 		
@@ -63,7 +63,7 @@
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
-    	<h1>Nuevo Modulo</h1>
+    	<h1>Nuevo Usuario</h1>
 	</div>
 	<div id="cuerpo">
 		<div id="contenedorDatos2">
@@ -73,25 +73,37 @@
 					<label style="">Id:</label>
 					<input type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
+				<div class="inputBox contenedor_username" style=""  >
+					<label style="">Username:</label>
+					<input type="text" name="username" class="entradaDatos" value="<?php echo $this->datos['username']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedor_pass" style=""  >
+					<label style="">Pass:</label>
+					<input type="text" name="pass" class="entradaDatos" value="<?php echo $this->datos['pass']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedor_email" style=""  >
+					<label style="">Email:</label>
+					<input type="text" name="email" class="entradaDatos" value="<?php echo $this->datos['email']; ?>" style="width:500px;" />
+				</div>
 				<div class="inputBox contenedor_nombre" style=""  >
 					<label style="">Nombre:</label>
 					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_icono" style=""  >
-					<label style="">Icono:</label>
-					<input type="text" name="icono" class="entradaDatos" value="<?php echo $this->datos['icono']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_ultima_conexion" style=""  >
+					<label style="">Ultima_conexion:</label>
+					<input type="text" name="ultima_conexion" class="entradaDatos" value="<?php echo $this->datos['ultima_conexion']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_nombre_interno" style=""  >
-					<label style="">Nombre_interno:</label>
-					<input type="text" name="nombre_interno" class="entradaDatos" value="<?php echo $this->datos['nombre_interno']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_creado" style=""  >
+					<label style="">Creado:</label>
+					<input type="text" name="creado" class="entradaDatos" value="<?php echo $this->datos['creado']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_ruta_base" style=""  >
-					<label style="">Ruta_base:</label>
-					<input type="text" name="ruta_base" class="entradaDatos" value="<?php echo $this->datos['ruta_base']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_fk_rol" style=""  >
+					<label style="">Fk_rol:</label>
+					<input type="text" name="fk_rol" class="entradaDatos" value="<?php echo $this->datos['fk_rol']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_orden" style=""  >
-					<label style="">Orden:</label>
-					<input type="text" name="orden" class="entradaDatos" value="<?php echo $this->datos['orden']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_ip" style=""  >
+					<label style="">Ip:</label>
+					<input type="text" name="ip" class="entradaDatos" value="<?php echo $this->datos['ip']; ?>" style="width:500px;" />
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

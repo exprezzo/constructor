@@ -1,6 +1,6 @@
 <?php
 require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
-require_once $_PETICION->basePath.'/modelos/modulo_modelo.php';
+include_once $_PETICION->basePath.'/modelos/modulo.php';
 require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
 require_once $_PETICION->basePath.'/generador/generador.php';

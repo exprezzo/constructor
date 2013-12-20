@@ -1,4 +1,4 @@
-﻿var BusquedaModulos=function(){
+﻿var BusquedaUsuarios=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("");
+			var r=confirm("¿Eliminar Usuario?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("");
+						var r=confirm("¿Eliminar Usuario?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -181,31 +181,49 @@
 				var value = $( ' input[name="query"]').val();				
 				
 				data.proxy.options.data.filtering.push({
+					dataKey: "username",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "pass",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "email",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
 					dataKey: "nombre",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "icono",
+					dataKey: "ultima_conexion",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_interno",
+					dataKey: "creado",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "ruta_base",
+					dataKey: "fk_rol",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "orden",
+					dataKey: "ip",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -235,12 +253,15 @@
 			data:dataSource,
 			showFilter:false,
 			columns: [ 
-				{ dataKey: "id", visible:true, headerText: "Id" },
+				{ dataKey: "id", visible:false, headerText: "Id" },
+{ dataKey: "username", visible:true, headerText: "Username" },
+{ dataKey: "pass", visible:true, headerText: "Pass" },
+{ dataKey: "email", visible:true, headerText: "Email" },
 { dataKey: "nombre", visible:true, headerText: "Nombre" },
-{ dataKey: "icono", visible:true, headerText: "Icono" },
-{ dataKey: "nombre_interno", visible:true, headerText: "Nombre_interno" },
-{ dataKey: "ruta_base", visible:true, headerText: "Ruta_base" },
-{ dataKey: "orden", visible:true, headerText: "Orden" },
+{ dataKey: "ultima_conexion", visible:true, headerText: "Ultima_conexion" },
+{ dataKey: "creado", visible:true, headerText: "Creado" },
+{ dataKey: "fk_rol", visible:true, headerText: "Fk_rol" },
+{ dataKey: "ip", visible:true, headerText: "Ip" },
 			]
 		});
 		

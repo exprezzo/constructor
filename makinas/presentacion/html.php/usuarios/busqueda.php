@@ -23,14 +23,14 @@
 			pk:"id"
 			
 		};				
-		 var lista=new BusquedaModulos();
+		 var lista=new BusquedaUsuarios();
 		 lista.init(config);		
 	});
 </script>
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>Modulos</h1>
+    	<h1>Buscar Usuario</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">

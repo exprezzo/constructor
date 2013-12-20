@@ -15,6 +15,10 @@
 			<input name="etiqueta"  class="entradaDatos" value="<?php echo $this->datos['etiqueta']; ?>" />
 		</div>
 		<div class="inputBox">
+			<label>Ayuda</label>
+			<input name="ayuda" class="entradaDatos" value="<?php echo $this->datos['ayuda']; ?>" />
+		</div>
+		<div class="inputBox">
 			<label>Requerido</label>
 			<input name="requerido"  class="entradaDatos" value="<?php echo $this->datos['requerido']; ?>" />
 		</div>

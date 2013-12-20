@@ -91,8 +91,9 @@ class GeneradorBusqueda{
 		//------------------------------------------
 		$jsStr=$this->generarCodigoJs( $jsStr, $cat );
 		//---------------------------------------
+		$filename = $directorio.'busqueda.js';
 		if ( !file_exists( $filename ) ){
-			$filename = $directorio.'busqueda.js';
+			
 			$handle = fopen($filename, "w");
 			$jsStr= fwrite($handle, $jsStr, strlen($jsStr));
 			fclose($handle);

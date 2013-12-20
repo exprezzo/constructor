@@ -1,28 +1,40 @@
+<?php
+if ( !empty($_SESSION['isLoged'] ) ){
+				
+									
+		header('Location:'.$_PETICION->url_app.'usuarios/buscar');
+	
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Constructor</title>
+<title>FACTURA</title>
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/reset.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo1.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo_login.css" />
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/jquery-1.8.3.js" ></script>	
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/funciones.js" ></script>	
-<script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/navegacion_en_tabla.js" ></script>	
 <script src="<?php echo $_PETICION->url_web; ?>libs/jquery-ui-1.9.2.custom/jquery-ui-1.9.2.custom.js"></script>  
-<script src="<?php echo $_PETICION->url_web; ?>libs/blockui.js"></script>  
-<style>
-	.blockUI h1{color:black;} 
-	#contenedorDatos2 > .ui-widget.wijmo-wijgrid {z-index:0; }
-	div[role="combobox"] input[role="textbox"]{border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; height:21px !important; font-size:1em !important; }
-	div[role="combobox"] .wijmo-wijcombobox-trigger{height:31px !important;}
-	div.oculto{display:none;}
-</style>
+
 <!--Wijmo Widgets CSS-->	
 	<link href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
 	<?php
 	// $rutaTema='http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css'; 
-	 $rutaTema=getUrlTema('midnight'); 	
-	// $rutaTema=getUrlTema('rocket'); 	
+	// $rutaTema=getUrlTema('midnight'); 
+	if  ( $_PETICION->controlador=='facturas' && ($_PETICION->accion =='edicion' || $_PETICION->accion =='nueva' || $_PETICION->accion =='nuevo') ){
+		$rutaTema=''; 		
+		$rutaTema=getUrlTema('rocket'); 
+		
+		
+	}else{
+		$rutaTema=getUrlTema('midnight'); 
+		
+		// $rutaTema=''; 		
+		// $rutaTema=getUrlTema('rocket'); 
+		// $rutaTema=''; 		
+	}
+	
 	?>
 	<link href="<?php echo $rutaTema; ?>" rel="stylesheet" type="text/css" />
 	
@@ -47,6 +59,18 @@
 		};
 		
 		$(function(){
+			<?php
+			if ( empty($this->error) ){
+				echo '$("html, body").animate({'.
+				'scrollTop: $("#cuerpo").offset().top'.
+			'}, 800);';
+			
+			}
+			?>
+			
+		
+			$("[name='nick']").focus();
+			
 			$.extend($.gritter.options, {
 				position: 'bottom-right',
 				fade_in_speed: 'medium', // how fast notifications fade in (string or int)
@@ -54,114 +78,42 @@
 				time: 6000 // hang on the screen for...
 			});
 			
-			$('.rzSel').bind('click',function(){
-				var $rzId = $(this).attr('rzId');				
-				selecionarRfc($rzId);
-			});
 			
 			switch(kore.controlador){
-				case 'paginas':
+				case 'paginas':					
 					if (kore.accion=='inicio'){
+						$('#contenedorMenu > ul > li:nth-child(1) > a:nth-child(1)').addClass("estiloFactura");
+					}else if(kore.accion=='login'){
 						$('#contenedorMenu > ul > li:nth-child(2) > a:nth-child(1)').addClass("estiloFactura");
-					}else if(kore.accion=='ayuda'){
-						$('#contenedorMenu > ul > li:nth-child(4) > a:nth-child(1)').addClass("estiloFactura");
-					}else if(kore.accion=='documentacion'){
-						$('#contenedorMenu > ul > li:nth-child(4) > a:nth-child(1)').addClass("estiloFactura");
 					}
-				break;
-				case 'facturas':					
-					$('#contenedorMenu > ul > li:nth-child(1) > a:nth-child(1)').addClass("estiloFactura");
-				break;
-				case 'conceptos':
-				case 'receptores':
-				case 'rfcs':					
-					$('#contenedorMenu > ul > li:nth-child(2) > a:nth-child(1)').addClass("estiloFactura");
-					break;
-				case 'series':					
-				case 'paises':					
-				case 'estados':					
-				case 'ciudades':					
-				case 'municipios':					
-					$('#contenedorMenu > ul > li:nth-child(3) > a:nth-child(1)').addClass("estiloFactura");
-				break;			
+				break;				
 			}
 		});
 		
-		function selecionarRfc(id){			
-			var params={};
-			params['id']=id;			
-			$.ajax({
-					type: "POST",
-					url: kore.url_base+kore.modulo+'/paginas/seleccionarRfz',
-					data: params
-				}).done(function( response ) {		
-					var resp = eval('(' + response + ')');
-					var msg= (resp.msg)? resp.msg : '';
-					var title;
-					if ( resp.success == true	){
-						icon=kore.url_web+'imagenes/yes.png';
-						title= 'Success';						
-						$('#valRfc').html(resp.datos.nombre_comercial);
-					}else{
-						icon= kore.url_web+'imagenes/error.png';
-						title= 'Error';
-					}
-					
-					//cuando es true, envia tambien los datos guardados.
-					//actualiza los valores del formulario.
-					$.gritter.add({
-						position: 'bottom-left',
-						title:title,
-						text: msg,
-						image: icon,
-						class_name: 'my-sticky-class'
-					});
-				});
-		}
+		
 	</script>
 </head>
+
 <body>
-
-
 <div id="global">
 
-    <div id="encabezado">
+    <div id="encabezado" style="">
     	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
 		</img>
-        <div id="contenedorMenu">
-            <?php 
-				
-					include 'menu.php';
-				
-			
-			?>
+        <div id="contenedorMenu" style="display: none;">
+                    <ul class="nav">
+                    <li>
+                        <a href="<?php echo $_PETICION->url_app; ?>paginas/inicio">Inicio<span class="flecha">∨</span></a>
+                    </li>
+                    <li>
+                        <a  href="<?php echo $_PETICION->url_app; ?>paginas/login">Login<span class="flecha">∨</span></a>
+                    </li>
+                </ul>
 		</div>
 		
 		
-        <div class="contenedorDatos1" style="margin-top: 11px; background-color: transparent;display: inline-block;right: 17px;position: absolute;">         
-			
-                    
-                    <!--<br /><br />-->
-                    <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
-                    <ul class="nav" style="display:inline-block;clear:both;">  
-						<li>
-							<a href="#" class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
-							<ul>
-								
-								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app ?>usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
-							</ul>
-						</li>
-                    </ul>
-                    
-                 
-
-                    
-        </div>
         
-		<form name="busqueda" action="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'.$_PETICION->controlador; ?>/buscar" method="get" id="contenedorBusqueda" style="position:absolute;bottom: 16px;right: 18px;">
-		<input type="text" name="query" id="barraBusqueda" value="<?php echo empty($_GET['query'])? '' : $_GET['query']; ?>">
-		<input type="submit" value=" " id="botonBusqueda">
-		</form> 
+        
 	</div>
 	<div id="tabs">
     <?php $this->mostrar() ?>
@@ -170,14 +122,16 @@
     <div id="pie">
     	<div id="contenedorMenu4">
         <ul>
-        	<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'; ?>paginas/inicio">Inicio</a></li>
-			<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/';?>paginas/catalogos">Catalogos</a></li>            
+        	<li>Inicio</li>
+            <li>Facturas</li>
+            <li>Catálogos auxiliares</li>
+            <li>Ayuda</li>
         </ul>
         </div>
     </div>
     
 </div>
-
+	<script type="text/javascript" src="https://mylivechat.com/chatinline.aspx?hccid=43745055"></script>
 </body>
 </html>
 <?php
@@ -188,8 +142,8 @@ function getUrlTema($tema){
 	$_TEMAS['artic']="http://cdn.wijmo.com/themes/arctic/jquery-wijmo.css";
 	$_TEMAS['midnight']="http://cdn.wijmo.com/themes/midnight/jquery-wijmo.css";
 	$_TEMAS['aristo']="http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css";
-	// $_TEMAS['rocket']="http://cdn.wijmo.com/themes/rocket/jquery-wijmo.css";
-	$_TEMAS['rocket']=$_PETICION->url_web. "css/jquery-wijmo_rocket.css";
+	$_TEMAS['rocket']="http://cdn.wijmo.com/themes/rocket/jquery-wijmo.css";
+	// $_TEMAS['rocket']=$_PETICION->url_web_mod. "libs/temas_wijmo/rocket/jquery-wijmo.css";
 	$_TEMAS['cobalt']="http://cdn.wijmo.com/themes/cobalt/jquery-wijmo.css";
 	$_TEMAS['sterling']="http://cdn.wijmo.com/themes/sterling/jquery-wijmo.css";
 	$_TEMAS['black-tie']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css";

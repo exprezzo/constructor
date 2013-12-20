@@ -1,9 +1,9 @@
 <?php
 
-require_once $_PETICION->basePath.'/modelos/Modulo.php';
+require_once $_PETICION->basePath.'/modelos/modulo.php';
 
 class modulos extends Controlador{
-	var $modelo="Modulo";	
+	var $modelo="modulo";	
 	
 	
 	
