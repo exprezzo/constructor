@@ -147,7 +147,7 @@ class catalogos extends Controlador{
 			$elemento['esNulo'] =$campoTabla['Null'];
 			$elemento['tipo'] =$campoTabla['Type'];
 			$elemento['componente'] ='Text Input';
-			$config='{"etiqueta":"'.ucwords( $campoTabla['Field'] ).'","requerido":"0","editable":"1","oculto":"0" }';
+			$config='{"etiqueta":"'.ucwords( $campoTabla['Field'] ).'","requerido":"0","editable":"1","oculto":"0","ayuda":"'.ucwords( $campoTabla['Field'] ).'" }';
 			$elemento['comp_config'] = $config;
 			$elementos[] = $elemento;
 			

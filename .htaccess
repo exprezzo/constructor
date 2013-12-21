@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>	
 	# Enrutamiento mediante htacces de apache		
     RewriteEngine On				
-	RewriteRule ^$ makinas/cortes/buscar
-	RewriteRule ^/$ makinas/cortes/buscar
+	RewriteRule ^$ nomina/paginas/inicio
+	RewriteRule ^/$ nomina/paginas/inicio
 	
 	RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

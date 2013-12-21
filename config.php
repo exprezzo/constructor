@@ -1,5 +1,5 @@
 <?php
-$_DEFAULT_APP='makinas';
+$_DEFAULT_APP='nomina';
 
 include_once('../'.$_DEFAULT_APP.'/config.php');
 

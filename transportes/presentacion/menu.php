@@ -9,22 +9,17 @@
 	$catMod = new catalogoModelo();
 	
 
-	// print_r($modulos);
-	for($i=0; $i<sizeof($modulos) ; $i++ ){
-		$params = array(
-			'filtros'=>array(
-				array(
-					'dataKey'=>'fk_modulo',
-					'filterOperator'=>'equals',
-					'filterValue'=>$modulos[$i]['id']
-				)
+	$params = array(
+		'filtros'=>array(
+			array(
+				'dataKey'=>'fk_modulo',
+				'filterOperator'=>'equals',
+				'filterValue'=>5
 			)
-		);
-		$catalogos = $catMod->buscar( $params );		
-		$modulos[$i]['catalogos']=$catalogos['datos'];
-	}
-	
-	
+		)
+	);
+	$catalogos = $catMod->buscar( $params );		
+	$catalogos=$catalogos['datos'];
 	// 
 
 ?>
@@ -33,23 +28,33 @@
 		<a href="#">Catálogos<span class="flecha">∨</span></a>
 		<ul>
 			<?php
-			foreach($modulos as $mod){
+			$size=sizeof($catalogos) - 1;
+			for($i=0; $i < $size ; $i++ ){
+			
+				$cat=$catalogos[$i];
 				// print_r($mod);
-				 echo '<li><a href="#" >'.$mod['nombre'].'</a><ul>';
-				foreach($mod['catalogos'] as $cat){
+				 // echo '<li><a href="#" >'.$mod['nombre'].'</a><ul>';
+				// foreach($mod['catalogos'] as $cat){
 					// print_r($cat);
-					echo '<li><a href="'.$_PETICION->url_app.$mod['nombre_interno'].'/'.$cat['controlador'].'/buscar" class="elemento">'.$cat['nombre'].'<span class="flecha">∨</span></a></li>';
-				}
-				echo '</ul></li>';
+					if ($i==0){
+						$clase='elementoTop';
+					}elseif ($i==($size-1)){
+						$clase='elementoBottom';
+					}else{
+						$clase='';
+					}
+					echo '<li><a href="'.$_PETICION->url_app.'makinas/'.$cat['controlador'].'/buscar" class="elemento '.$clase.'">'.$cat['nombre'].'<span class="flecha">∨</span></a></li>';
+				// }
+				// echo '</ul></li>';
 			}
 			
 			?>
 		</ul>
 	</li>
 	<li>
-		<a href="#">Configuración<span class="flecha">∨</span></a>
+		<a href="#">Documentos<span class="flecha">∨</span></a>
 		<ul>
-			<li><a href="<?php echo $_PETICION->url_app; ?>usuarios/buscar" class="elementoTop">Usuarios<span class="flecha">∨</span></a></li>	
+			<li><a href="<?php echo $_PETICION->url_app; ?>cortes/buscar" class="elementoTop elementoBottom">Cortes<span class="flecha">∨</span></a></li>	
 		</ul>
 	</li>                                        
 	<li>

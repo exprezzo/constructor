@@ -527,7 +527,7 @@ class GeneradorFormulario{
 				$campos.='
 				<div class="inputBox '.$clase.'" style=""  >
 					<label style="">'.$config['etiqueta'].':</label>
-					<input type="text" name="'.$el['campo'].'" class="entradaDatos" value="<?php echo $this->datos[\''.$el['campo'].'\']; ?>" style="width:500px;" />
+					<input title="'.$config['ayuda'].'" type="text" name="'.$el['campo'].'" class="entradaDatos" value="<?php echo $this->datos[\''.$el['campo'].'\']; ?>" style="width:500px;" />
 				</div>';
 			}					
 		}

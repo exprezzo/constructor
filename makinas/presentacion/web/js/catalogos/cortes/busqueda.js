@@ -171,7 +171,7 @@
 			
 		var dataSource = new wijdatasource({
 			proxy: new wijhttpproxy({
-				url: kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/buscar',
+				url: kore.url_base+this.configuracion.modulo.nombre+'/cortes/buscar',
 				dataType: "json",
 				type:'POST'
 			}),
@@ -198,23 +198,23 @@
 					filterValue: value
 				});
 		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_tecnico",
-					filterOperator: "Contains",
-					filterValue: value
-				});
+				// data.proxy.options.data.filtering.push({
+					// dataKey: "nombre_tecnico",
+					// filterOperator: "Contains",
+					// filterValue: value
+				// });
 		
-				data.proxy.options.data.filtering.push({
-					dataKey: "cont_entrada",
-					filterOperator: "Contains",
-					filterValue: value
-				});
+				// data.proxy.options.data.filtering.push({
+					// dataKey: "cont_entrada",
+					// filterOperator: "Contains",
+					// filterValue: value
+				// });
 		
-				data.proxy.options.data.filtering.push({
-					dataKey: "cont_salida",
-					filterOperator: "Contains",
-					filterValue: value
-				});
+				// data.proxy.options.data.filtering.push({
+					// dataKey: "cont_salida",
+					// filterOperator: "Contains",
+					// filterValue: value
+				// });
 		
 				data.proxy.options.data.filtering.push({
 					dataKey: "saldo_contadores",

@@ -50,7 +50,7 @@ var ConfigCombo=function(){
 		
 		
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+'catalogos/getCampos', 
+			url: kore.url_base+kore.modulo+'/catalogos/getCampos', 
 			dataType: "json", 
 			type:"POST",
 			data: { 				

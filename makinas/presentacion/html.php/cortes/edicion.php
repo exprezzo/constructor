@@ -195,7 +195,7 @@ if ( !empty( $this->datos['id'] ) ){
 						?>
 					</select>
 				</div>
-				<div class="inputBox contenedor_fk_pdv" style="display:none;"  >
+				<div class="inputBox contenedor_fk_pdv" style=""  >
 					<label style="">PDV:</label>
 					<select name="fk_pdv" class="entradaDatos" style="width:250px;">
 						<?php
