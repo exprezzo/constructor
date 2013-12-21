@@ -1,4 +1,4 @@
-﻿var BusquedaTipos_deduccion=function(){
+﻿var BusquedaDeducciones_nomina=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Tipo de Deducción?");
+			var r=confirm("¿Eliminar Deducción?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Tipo de Deducción?");
+						var r=confirm("¿Eliminar Deducción?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -181,19 +181,43 @@
 				var value = $( ' input[name="query"]').val();				
 				
 				data.proxy.options.data.filtering.push({
-					dataKey: "clave",
+					dataKey: "descripcion_tipo_deduccion",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion",
+					dataKey: "TipoDeduccion",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "comentario",
+					dataKey: "Clave",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "Concepto",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "ImporteGravado",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "ImporteExcento",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "fk_nomina",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -224,9 +248,14 @@
 			showFilter:false,
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
-{ dataKey: "clave", visible:true, headerText: "Clave" },
-{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "comentario", visible:true, headerText: "Comentario" },
+{ dataKey: "descripcion_fk_TipoDeduccion", visible:true, headerText: "Tipo Deduccion" },
+{ dataKey: "fk_TipoDeduccion", visible:false, headerText: "Tipo Deduccion" },
+{ dataKey: "TipoDeduccion", visible:false, headerText: "TipoDeduccion" },
+{ dataKey: "Clave", visible:true, headerText: "Clave" },
+{ dataKey: "Concepto", visible:true, headerText: "Concepto" },
+{ dataKey: "ImporteGravado", visible:true, headerText: "ImporteGravado" },
+{ dataKey: "ImporteExcento", visible:true, headerText: "ImporteExcento" },
+{ dataKey: "fk_nomina", visible:false, headerText: "Fk_nomina" },
 			]
 		});
 		

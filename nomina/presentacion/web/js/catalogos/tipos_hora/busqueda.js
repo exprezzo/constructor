@@ -1,4 +1,4 @@
-﻿var BusquedaTipos_deduccion=function(){
+﻿var BusquedaTipos_hora=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Tipo de Deducción?");
+			var r=confirm("¿Eliminar Tipo de Hora Extra?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Tipo de Deducción?");
+						var r=confirm("¿Eliminar Tipo de Hora Extra?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -181,19 +181,7 @@
 				var value = $( ' input[name="query"]').val();				
 				
 				data.proxy.options.data.filtering.push({
-					dataKey: "clave",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "comentario",
+					dataKey: "nombre",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -224,9 +212,7 @@
 			showFilter:false,
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
-{ dataKey: "clave", visible:true, headerText: "Clave" },
-{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "comentario", visible:true, headerText: "Comentario" },
+{ dataKey: "nombre", visible:true, headerText: "Nombre" },
 			]
 		});
 		

@@ -1,11 +1,11 @@
-﻿var EdicionControlador = function(){
+﻿var EdicionTipos_hora = function(){
 	this.editado=false;
-	this.tituloNuevo='{TITULO NUEVO}';
+	this.tituloNuevo='Nuevo Tipo de Hora Extra';
 	this.saveAndClose=false;
-	//FUNCIONES-COMBO
+	
 	
 	this.borrar=function(){		
-		var r=confirm("{PREGUNTA-ELIMINAR}");
+		var r=confirm("¿Eliminar Tipo de Hora Extra?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -112,9 +112,9 @@
 		}
 		
 		var tabId = this.tabId;		
-		var id = $(this.tabId + ' [name="{LLAVE-PRIMARIA}"]').val();
+		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			//{TITULO-EDICION} 
+			$(tabId +' #titulo h1').html('Tipo de Hora Extra: ' + getValorCampo('nombre'));
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -125,7 +125,7 @@
 		var tab = $('#tabs '+tabId);		
 		$(tabId +' #titulo h1').html(this.tituloNuevo);
 		
-		tab.find('[name="{LLAVE-PRIMARIA}"]').val(0);
+		tab.find('[name="id"]').val(0);
 		me.editado=false;
 	};	
 	this.guardar=function(){
@@ -146,10 +146,10 @@
 		  }
 		});
 		//-----------------------------------
-		//{CODIGO-GUARDAR-COMBOS}
+		
 		//-----------------------------------
 		var datos=paramObj;
-		//{GUARDAR-TABLAS}
+		
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -209,7 +209,7 @@
 					class_name: 'my-sticky-class'
 				});
 				
-				//{CARGAR-TABLAS}
+				
 				if (me.saveAndClose===true){
 					//busca el indice del tab
 					var idTab=$(me.tabId).attr('id');
@@ -238,11 +238,11 @@
 		});
 	};	
 	this.eliminar=function(){
-		var id = $(this.tabId + ' [name="{LLAVE-PRIMARIA}"]').val();
+		var id = $(this.tabId + ' [name="id"]').val();
 		var me=this;
 		
 		var params={};
-		params['{LLAVE-PRIMARIA}']=id;
+		params['id']=id;
 		
 		
 		$.ajax({
@@ -287,7 +287,7 @@
 						// $('#tabs').wijtabs('remove', i);
 					// }
 				// }
-				$(me.tabId).find('[name="{LLAVE-PRIMARIA}"]').val(0);
+				$(me.tabId).find('[name="id"]').val(0);
 					
 				$.gritter.add({
 					position: 'bottom-left',
@@ -302,7 +302,7 @@
 		var me=this;
 		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
-		//{INIT-COMBOS}
+		
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			
@@ -316,7 +316,7 @@
 		});
 		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-			var r=confirm("{PREGUNTA-ELIMINAR}");
+			var r=confirm("¿Eliminar Tipo de Hora Extra?");
 			if (r==true){
 			  me.eliminar();
 			  me.editado=false;

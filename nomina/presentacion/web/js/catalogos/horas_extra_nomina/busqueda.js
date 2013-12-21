@@ -1,4 +1,4 @@
-﻿var BusquedaTipos_deduccion=function(){
+﻿var BusquedaHoras_extra_nomina=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Tipo de Deducción?");
+			var r=confirm("¿Eliminar Hora Extra ?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Tipo de Deducción?");
+						var r=confirm("¿Eliminar Hora Extra ?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -181,19 +181,37 @@
 				var value = $( ' input[name="query"]').val();				
 				
 				data.proxy.options.data.filtering.push({
-					dataKey: "clave",
+					dataKey: "Dias",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion",
+					dataKey: "TipoHoras",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "comentario",
+					dataKey: "nombre_tipo_hora",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "HorasExtra",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "ImportePagado",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "fk_nomina",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -224,9 +242,13 @@
 			showFilter:false,
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
-{ dataKey: "clave", visible:true, headerText: "Clave" },
-{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "comentario", visible:true, headerText: "Comentario" },
+{ dataKey: "Dias", visible:true, headerText: "Dias" },
+{ dataKey: "TipoHoras", visible:false, headerText: "TipoHoras" },
+{ dataKey: "nombre_fk_TipoHoras", visible:true, headerText: "Tipo Horas" },
+{ dataKey: "fk_TipoHoras", visible:false, headerText: "Tipo Horas" },
+{ dataKey: "HorasExtra", visible:true, headerText: "HorasExtra" },
+{ dataKey: "ImportePagado", visible:true, headerText: "ImportePagado" },
+{ dataKey: "fk_nomina", visible:false, headerText: "Fk_nomina" },
 			]
 		});
 		

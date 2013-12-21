@@ -5,7 +5,7 @@
 	
 	
 	this.borrar=function(){		
-		var r=confirm("Tipo de Deducción Eliminada");
+		var r=confirm("¿Eliminar Tipo de Deducción?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -316,7 +316,7 @@
 		});
 		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-			var r=confirm("Tipo de Deducción Eliminada");
+			var r=confirm("¿Eliminar Tipo de Deducción?");
 			if (r==true){
 			  me.eliminar();
 			  me.editado=false;

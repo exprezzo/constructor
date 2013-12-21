@@ -3,6 +3,7 @@ require dirname(__FILE__).'\generador_modelo.php';
 require dirname(__FILE__).'\generador_controlador.php';
 require dirname(__FILE__).'\generador_formulario.php';
 require dirname(__FILE__).'\generador_busqueda.php';
+require dirname(__FILE__).'\generador_pdf.php';
 class GeneradorDeCodigo{
 	
 	function generarCodigo($catalogo_id){
@@ -37,9 +38,17 @@ class GeneradorDeCodigo{
 			return $res;
 		}
 		
+		
 		//crea la busqueda 		
 		$busGen = new GeneradorBusqueda();
 		$res  = $busGen->generar($cat, $rutaBase);
+		if ( !$res['success'] ){
+			return $res;
+		}
+		
+		//crea el formulario 
+		$formGen = new GeneradorPdf();
+		$res  = $formGen->generar($cat, $rutaBase);
 		
 		
 		return $res;

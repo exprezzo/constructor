@@ -52,7 +52,7 @@
 			pk:"id"
 			
 		};				
-		 var editor=new EdicionTipos_deduccion();
+		 var editor=new EdicionTipos_hora();
 		 editor.init(config);	
 		//-----
 		
@@ -63,7 +63,7 @@
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
-    	<h1>Nuevo Tipo de Deducción</h1>
+    	<h1>Nuevo Tipo de Hora Extra</h1>
 	</div>
 	<div id="cuerpo">
 		<div id="contenedorDatos2">
@@ -71,19 +71,11 @@
 				
 				<div class="inputBox contenedor_id oculto" style=""  >
 					<label style="">Id:</label>
-					<input title="" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
+					<input title="Id" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_clave" style=""  >
-					<label style="">Clave:</label>
-					<input title="Clave SAT" type="text" name="clave" class="entradaDatos" value="<?php echo $this->datos['clave']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_descripcion" style=""  >
-					<label style="">Descripcion:</label>
-					<input title="Descripcion" type="text" name="descripcion" class="entradaDatos" value="<?php echo $this->datos['descripcion']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_comentario" style=""  >
-					<label style="">Comentario:</label>
-					<input title="Comentarios" type="text" name="comentario" class="entradaDatos" value="<?php echo $this->datos['comentario']; ?>" style="width:500px;" />
+				<div class="inputBox contenedor_nombre" style=""  >
+					<label style="">Nombre:</label>
+					<input title="Nombre" type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

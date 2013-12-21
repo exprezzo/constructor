@@ -37,6 +37,8 @@
 	<script src="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/js/jquery.gritter.min.js" type="text/javascript"></script>
 	<script src="<?php echo $_PETICION->url_web; ?>libs/jquery.validate.js"></script>
 	<script type="text/javascript">		
+
+
 		kore={
 			modulo:'<?php echo $_PETICION->modulo; ?>',
 			controlador:'<?php echo $_PETICION->controlador; ?>',

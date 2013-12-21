@@ -1,4 +1,4 @@
-﻿var BusquedaTipos_deduccion=function(){
+﻿var BusquedaIncapacidades=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Tipo de Deducción?");
+			var r=confirm("¿Eliminar Incapacidad?");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Tipo de Deducción?");
+						var r=confirm("¿Eliminar Incapacidad?");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -181,19 +181,31 @@
 				var value = $( ' input[name="query"]').val();				
 				
 				data.proxy.options.data.filtering.push({
-					dataKey: "clave",
+					dataKey: "DiasIncapacidad",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion",
+					dataKey: "descripcion_tipo_incapacidad",
 					filterOperator: "Contains",
 					filterValue: value
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "comentario",
+					dataKey: "TipoIncapacidad",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "Descuento",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "fk_nomina",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -224,9 +236,12 @@
 			showFilter:false,
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
-{ dataKey: "clave", visible:true, headerText: "Clave" },
-{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
-{ dataKey: "comentario", visible:true, headerText: "Comentario" },
+{ dataKey: "DiasIncapacidad", visible:true, headerText: "DiasIncapacidad" },
+{ dataKey: "descripcion_fk_TipoIncapacidad", visible:true, headerText: "Tipo Incapacidad" },
+{ dataKey: "fk_TipoIncapacidad", visible:false, headerText: "Tipo Incapacidad" },
+{ dataKey: "TipoIncapacidad", visible:false, headerText: "TipoIncapacidad" },
+{ dataKey: "Descuento", visible:true, headerText: "Descuento" },
+{ dataKey: "fk_nomina", visible:true, headerText: "Fk_nomina" },
 			]
 		});
 		

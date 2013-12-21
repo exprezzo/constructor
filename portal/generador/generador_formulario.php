@@ -239,8 +239,27 @@ class GeneradorFormulario{
 		$jsStr = str_replace('{TITULO NUEVO}', $cat['titulo_nuevo'], $jsStr);
 		$jsStr = str_replace('{PREGUNTA-ELIMINAR}', $cat['pregunta_eliminar'], $jsStr);
 		
-		$tituloEdicion='$(tabId +\' #titulo h1\').html('.$cat['titulo_edicion'].');';
+		$cadenaAremplazar = $cat['titulo_edicion'];
+		 // echo $cadenaAremplazar; 
+		// \{(.*?)\}
+		preg_match_all  ('/\{(.*?)\}/',$cadenaAremplazar, $matches);
+		// print_r($matches); exit;
+		if ($matches){
+			for($im=0; $im<sizeof($matches[0]); $im++) {
+				$cadena = $matches[0][$im];
+				$cadenaSin= '\' + getValorCampo(\''.$matches[1][$im].'\') + \'';
+				
+				$cadenaAremplazar = str_replace($cadena, $cadenaSin, $cadenaAremplazar);
+				
+			}
+			
+		}
+		$cadenaAremplazar='\''.$cadenaAremplazar.'\'';
+		
+		// echo  $cadenaAremplazar; exit;
+		$tituloEdicion='$(tabId +\' #titulo h1\').html('.$cadenaAremplazar.');';
 		$jsStr = str_replace('//{TITULO-EDICION}', $tituloEdicion, $jsStr);
+		
 		
 		$jsStr = str_replace('{LLAVE-PRIMARIA}', $cat['pk_tabla'], $jsStr);
 		
@@ -486,10 +505,10 @@ class GeneradorFormulario{
 				$claseTabla='tabla_'.$el['campo'];
 				
 				$campos.='
-				<div class="tabla '.$clase.'" style=""  >
+				<div class="tabla '.$clase.'" style="position: relative; margin-top: 26px;"  >
 					
-					<h1 style="">'.$config['titulo'].'</h1>
-					<div class="toolbar_detalles" style="margin-right: 44px;">
+					<h1 style="display: inline-block; margin-bottom: 6px;">'.$config['titulo'].'</h1>
+					<div class="toolbar_detalles" style="position: absolute; right: 0; top: -2PX;">
 						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
 						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 					</div>
@@ -508,7 +527,7 @@ class GeneradorFormulario{
 				
 				$configComponentes.='
 		var tabId=\'#\'+config.tab.id;
-		config={
+		configDet={
 			padre:editor,
 			tabId:\'#<?php echo $_REQUEST[\'tabId\']; ?>\',
 			elementos: <?php echo json_encode($this->datos[\''.$nombreInstancia.'\']); ?>,
@@ -517,7 +536,7 @@ class GeneradorFormulario{
 		};
 
 		var '.$nombreInstancia.' = new '.$nombreClaseJs.'();		
-		'.$nombreInstancia.'.init(config);
+		'.$nombreInstancia.'.init(configDet);
 				';
 				
 			}else{
