@@ -9,6 +9,7 @@ $DB_CONFIG=array(
 
 if ( !isset($APP_CONFIG) ) $APP_CONFIG = array();
 if ( !isset($_DEFAUL_LAYOUT) ) $_DEFAUL_LAYOUT ='sistema';
+$_DEFAUL_LAYOUT ='sistema';
 
 global $_PETICION;
 $APP_CONFIG['_LOGIN_REDIRECT_PATH']=$_PETICION->modulo.'/usuarios/login';

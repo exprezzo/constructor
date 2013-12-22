@@ -4,7 +4,13 @@
 	</div>
 	<div id="cuerpo" style="padding: 20px 0 20px 0;">				
 		
-			Esta es la pagina de inicio
+			<?php
+				$mod=getModelo( 'modulo' );
+				$params=array();
+				$modulos = $mod->buscar( $params );
+				$apps = $modulos['datos'];
+				print_r( $apps );
+			?>
 		
 		
 	</div>
