@@ -61,7 +61,7 @@
             <p>
             Usuario
             </p> 
-            <form name="login" action="<?php echo $_PETICION->url_app; ?>usuarios/login#cuerpo" method="POST">
+            <form name="login" action="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/login#cuerpo" method="POST">
                     <input type="text" name="nick" value="<?php echo $this->username; ?>" class="textoLogin" placeholder="Username" required>
                     <input type="password" name="pass" value="" class="textoLogin" placeholder="Password" required>
                     <br />

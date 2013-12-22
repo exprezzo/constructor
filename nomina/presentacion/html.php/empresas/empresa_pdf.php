@@ -1,6 +1,6 @@
 <?php 
 require_once '../php_libs/tcpdf/tcpdf.php';
-class ModeloPdf extends TCPDF{
+class EmpresaPdf extends TCPDF{
 	
 	function imprimir(  ){
 		$datos=$this->datos;
@@ -40,7 +40,7 @@ class ModeloPdf extends TCPDF{
 		$valign = 'M' ;
 		// $this->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height, $calign, $valign);
 		
-		$txt= '{TITULO}';		
+		$txt= 'Empresa: '.$this->datos['nombre_comercial'].'' ;		
 		$this->titulo=$txt;
 		$this->Cell($w, $h, $txt, $border, $ln, 'C', $fill, $link, $stretch, $ignore_min_height, $calign, $valign);
 	}

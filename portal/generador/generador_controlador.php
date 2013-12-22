@@ -53,9 +53,13 @@ require_once $_PETICION->basePath.\'/modelos/'.$modelo.'.php\';';
 	
 		$conStr = str_replace('{MODELO}', $cat['modelo'], $conStr);
 		$conStr = str_replace('class Controlador', 'class '.$cat['controlador'], $conStr);
+		$conStr = str_replace('$objPdf = new ModeloPdf', '$objPdf = new '.ucfirst($cat['modelo']).'Pdf', $conStr);
+		
 		
 		$crlf = "\r\n";
 		$strRequire=$this->getRequire( $cat['modelo'] );
+		$strRequire.=$crlf.'require_once $_PETICION->basePath.\'/presentacion/html.php/'.$cat['controlador'].'/'.$cat['modelo'].'_pdf.php\';';
+		
 		$codigoCombo='';
 		foreach($cat['elementos'] as $el){
 			$config=json_decode($el['comp_config'], true);

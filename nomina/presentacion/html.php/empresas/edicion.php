@@ -88,7 +88,7 @@ if ( !empty( $this->datos['id'] ) ){
 		//-----
 		
 		var tabId='#'+config.tab.id;
-		config={
+		configDet={
 			padre:editor,
 			tabId:'#<?php echo $_REQUEST['tabId']; ?>',
 			elementos: <?php echo json_encode($this->datos['regimen_fiscalDeEmpresa']); ?>,
@@ -97,7 +97,7 @@ if ( !empty( $this->datos['id'] ) ){
 		};
 
 		var regimen_fiscalDeEmpresa = new Regimen_fiscalDeEmpresa();		
-		regimen_fiscalDeEmpresa.init(config);
+		regimen_fiscalDeEmpresa.init(configDet);
 				
 	});
 </script>
@@ -202,10 +202,10 @@ if ( !empty( $this->datos['id'] ) ){
 					<label style="">Email:</label>
 					<input title="Email" type="text" name="email_bcc" class="entradaDatos" value="<?php echo $this->datos['email_bcc']; ?>" style="width:500px;" />
 				</div>
-				<div class="tabla contenedor_tabla_Regimen_Fiscal" style=""  >
+				<div class="tabla contenedor_tabla_Regimen_Fiscal" style="position: relative; margin-top: 26px;"  >
 					
-					<h1 style="">Regimen Fiscal</h1>
-					<div class="toolbar_detalles" style="margin-right: 44px;">
+					<h1 style="display: inline-block; margin-bottom: 6px;">Regimen Fiscal</h1>
+					<div class="toolbar_detalles" style="position: absolute; right: 0; top: -2PX;">
 						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
 						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 					</div>
@@ -225,6 +225,7 @@ if ( !empty( $this->datos['id'] ) ){
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="PDF" class="botonNuevo btnPdf">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
 		</div>

@@ -1,9 +1,28 @@
 <?php
+require_once '../php_libs/tcpdf/tcpdf.php';
+require_once $_PETICION->basePath.'/presentacion/html.php/trabajadores/trabajador_pdf.php';
 class trabajadorModelo extends Modelo{	
 	var $tabla='nomina_trabajador';
 	var $pk='id';
 	var $campos= array('id', 'nombre', 'rfc', 'email', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'NumSeguridadSocial', 'calle', 'noExterior', 'noInterior', 'colonia', 'localidad', 'referencia', 'fk_pais', 'nombre_pais', 'fk_estado', 'nombre_estado', 'fk_municipio', 'nombre_municipio', 'codigoPostal', 'NoEmpleado');
 	
+	function generaPdf( $datos ){
+		$nominaPdf = new TrabajadorPdf('P','mm','letter');
+		$nominaPdf->datos=$datos;
+		$nominaPdf->AddPage();
+		$nominaPdf->imprimir(  );
+		$path='../nomina/archivos/';
+		$nombreArchivo=$nominaPdf->titulo.'_'.$datos['id'];
+			
+		//http://stackoverflow.com/questions/2021624/string-sanitizer-for-filename
+		// $nombreArchivo = preg_replace("([^\w\s\d\-_~,;:\[\]\(\]]|[\.]{2,})", '', $nombreArchivo);
+		// $nombreArchivo=preg_replace("[^\w\s\d\.\-_~,;:\[\]\(\]]", '', $nombreArchivo);
+		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
+		$fullPath=$path.$nombreArchivo.'.pdf';
+		$nominaStr=$nominaPdf->Output($fullPath, 'F');
+		// echo $fullPath; exit;
+		// echo $nominaStr; exit;
+	}
 	function buscar($params){
 		
 		$pdo = $this->getConexion();
@@ -485,6 +504,7 @@ class trabajadorModelo extends Modelo{
 		
 		
 		$obj=$this->obtener( $idObj );
+		$this->generaPdf( $obj );
 		return array(
 			'success'=>true,
 			'datos'=>$obj,

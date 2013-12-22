@@ -12,8 +12,15 @@ class nominaModelo extends Modelo{
 		$nominaPdf->AddPage();
 		$nominaPdf->imprimir(  );
 		$path='../nomina/archivos/';
-		$nombreArchivo='nomina';
-		$nominaStr=$nominaPdf->Output($path.$nombreArchivo.'.pdf', 'F');
+		$nombreArchivo=$nominaPdf->titulo.'_'.$datos['id'];
+			
+		//http://stackoverflow.com/questions/2021624/string-sanitizer-for-filename
+		// $nombreArchivo = preg_replace("([^\w\s\d\-_~,;:\[\]\(\]]|[\.]{2,})", '', $nombreArchivo);
+		// $nombreArchivo=preg_replace("[^\w\s\d\.\-_~,;:\[\]\(\]]", '', $nombreArchivo);
+		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
+		$fullPath=$path.$nombreArchivo.'.pdf';
+		$nominaStr=$nominaPdf->Output($fullPath, 'F');
+		echo $fullPath; exit;
 		// echo $nominaStr; exit;
 	}
 	

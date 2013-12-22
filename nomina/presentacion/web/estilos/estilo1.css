@@ -360,7 +360,7 @@ h1{
 
 
 .botonNuevo{
-	float:left;
+	/* float:left; */
 	
 	background:#ededed;
 
@@ -381,7 +381,7 @@ h1{
 
 .botonNuevo:hover{
 	cursor:pointer;
-	float:left;
+	/* float:left; */
 	background: url(../img/fondoboton.png);
 
 	border-style:solid;
@@ -409,7 +409,7 @@ h1{
 
 .sinMargeDerecho:hover{
 	cursor:pointer;
-	float:left;
+	/* float:left; */
 	background: url(../img/fondoboton.png);
 
 	border-style:solid;
@@ -429,9 +429,10 @@ h1{
 
 #contenedorMenu2 {
 
-	width:435px;	
+	width:100%;	
 	height:42px;
-	margin-left:150px;
+	text-align:center;
+	/* margin-left:150px; */
 	margin-top:20px;
 	margin-bottom:35px;
 	display:inline-block;

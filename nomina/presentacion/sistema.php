@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Nomina</title>
+<title>Constructor</title>
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/reset.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo1.css" />
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/jquery-1.8.3.js" ></script>	
@@ -15,7 +15,6 @@
 	#contenedorDatos2 > .ui-widget.wijmo-wijgrid {z-index:0; }
 	div[role="combobox"] input[role="textbox"]{border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; height:21px !important; font-size:1em !important; }
 	div[role="combobox"] .wijmo-wijcombobox-trigger{height:31px !important;}
-	div.oculto{display:none;}
 </style>
 <!--Wijmo Widgets CSS-->	
 	<link href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
@@ -37,8 +36,6 @@
 	<script src="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/js/jquery.gritter.min.js" type="text/javascript"></script>
 	<script src="<?php echo $_PETICION->url_web; ?>libs/jquery.validate.js"></script>
 	<script type="text/javascript">		
-
-
 		kore={
 			modulo:'<?php echo $_PETICION->modulo; ?>',
 			controlador:'<?php echo $_PETICION->controlador; ?>',
@@ -144,13 +141,13 @@
 			
                     
                     <!--<br /><br />-->
-                    <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;"><?php echo $_SESSION['user']['nombre']; ?></label>
+                    <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
                     <ul class="nav" style="display:inline-block;clear:both;">  
 						<li>
-							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/editar/<?php echo $_SESSION['user']['id']; ?>" class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
+							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/0'; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
 							<ul>
-								
-								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app ?>usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
+								<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$_SESSION[$_PETICION->modulo]['user']['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
+								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
 							</ul>
 						</li>
                     </ul>
@@ -172,8 +169,8 @@
     <div id="pie">
     	<div id="contenedorMenu4">
         <ul>
-        	<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'; ?>paginas/inicio">Inicio</a></li>
-			<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/';?>paginas/catalogos">Catalogos</a></li>            
+        	<li><a href="<?php echo $_PETICION->url_app;?>paginas/inicio">Inicio</a></li>            
+            <li>Ayuda</li>
         </ul>
         </div>
     </div>

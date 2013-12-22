@@ -33,9 +33,31 @@ class GeneradorPdf{
 		);
 	}
 	
-	function generarCodigo($htmlStr, $cat, $rutaBase){
-		$htmlStr = str_replace('class ModeloPdf', 'class '.ucfirst($cat['modelo']).'Pdf', $htmlStr);
-		return $htmlStr;
+	function generarCodigo($pdfStr, $cat, $rutaBase){
+		$pdfStr = str_replace('class ModeloPdf', 'class '.ucfirst($cat['modelo']).'Pdf', $pdfStr);
+		
+		//------------------
+		$cadenaOrigen = $cat['titulo_edicion'];		 
+		preg_match_all  ('/\{(.*?)\}/',$cadenaOrigen, $matches);
+		
+		if ($matches){ //SI SE ENCONTRARON ELEMENTOS POR REPLAZAR		
+			for($im=0; $im<sizeof($matches[0]); $im++) { // SE REMPLAZA De UNO EN UNO
+				$cadenaAremplazar = $matches[0][$im];
+				$nombreCampo=$matches[1][$im];				
+				// $valor=;			
+				$remplazo='\'.$this->datos[\''.$nombreCampo.'\'].\'';
+				$cadenaOrigen=str_replace($cadenaAremplazar, $remplazo, $cadenaOrigen);								
+				
+			}			
+		}
+		$cadenaTitulo='$txt= \''.$cadenaOrigen.'\' ;';
+		
+		$txt= '{TITULO}';
+		$pdfStr = str_replace('$txt= \'{TITULO}\';', $cadenaTitulo, $pdfStr);
+		//------------------
+		
+		
+		return $pdfStr;
 	}
 		
 }

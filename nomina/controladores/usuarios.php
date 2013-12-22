@@ -8,15 +8,17 @@ class usuarios extends Controlador{
 	var $accionesPublicas=array('login');
 	
 	function logout(){
-		global $_TEMA_APP, $_PETICION;
-		unset( $_SESSION['isLoged'] );
-		unset( $_SESSION['user'] );
-		session_unset();
-		 session_destroy();
-		session_start();
-		session_regenerate_id(true);
+		// global $_TEMA_APP, $_PETICION;
 		
-		header('Location: '.$_PETICION->url_app.'usuarios/login');
+		// unset( $_SESSION['isLoged'] );
+		// unset( $_SESSION['user'] );
+		// session_unset();
+		 // session_destroy();
+		// session_start();
+		// session_regenerate_id(true);
+		logout();
+		global $_PETICION;		
+		header('Location: '.$_PETICION->url_app.$_PETICION->modulo.'/usuarios/login');
 	}
 	function login(){
 		$vista= $this->getVista();
@@ -27,11 +29,15 @@ class usuarios extends Controlador{
 			$usrMod = $this->getModelo();
 			$res = $usrMod->identificar($_POST['nick'], $_POST['pass']);			
 			
-			   // print_r($res); exit;
+			
 			if ($res['success']){
-				$_SESSION['isLoged']=true;					
+				// isLoged(true);					
+				// addUser( $res['usuario'] );
+				sessionAdd('isLoged', true);
+				
 				unset($res['usuario']['pass']);					
-				$_SESSION['user']=$res['usuario'];
+				sessionAdd('user', $res['usuario']);
+				// $_SESSION['user']=$res['usuario'];
 							
 					// if ($_SESSION['user']['fk_rol'] == 1 ){				
 						// $_SESSION['isLoged']=true;								
@@ -51,7 +57,10 @@ class usuarios extends Controlador{
 						// }
 						// header('Location:'.$_PETICION->url_app.'facturas/emitidas');
 					// }					
-					 header('Location:'.$_PETICION->url_app.'');
+					$url=sessionGet('_PETICION');
+					$url=( empty($url) ) ? $_PETICION->url_app.$_PETICION->modulo.'/paginas/inicio' : '/'.$url;
+					// echo $url; exit;
+					 header('Location:'.$url);
 			}else{				
 				$vista->error= $res['msg'];//'USUARIO O CONTRASEÑA INCORRECTA';
 				$vista->username=$_POST['nick'];

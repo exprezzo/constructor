@@ -73,6 +73,7 @@
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="PDF" class="botonNuevo btnPdf">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
 		</div>

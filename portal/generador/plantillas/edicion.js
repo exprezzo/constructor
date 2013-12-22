@@ -315,6 +315,13 @@
 			me.editado=true;
 		});
 		
+		$(this.tabId + ' .toolbarEdicion .btnPdf').click( function(){
+			var id=$(me.tabId + ' [name="id"]').val();
+			if (id > 0){								
+				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/bajarPdf/'+id;
+			}
+		});
+		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
 			var r=confirm("{PREGUNTA-ELIMINAR}");
 			if (r==true){

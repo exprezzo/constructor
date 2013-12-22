@@ -152,7 +152,7 @@
 		
 	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Empresa?");
+		var r=confirm("�Eliminar Empresa?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -261,7 +261,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Empresa: ' + getValorCampo('nombre_comercial'));
+			$(tabId +' #titulo h1').html('Empresa: ' + getValorCampo('nombre_comercial') + ''); 
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -525,8 +525,15 @@ this.configurarComboFk_municipio();
 			me.editado=true;
 		});
 		
+		$(this.tabId + ' .toolbarEdicion .btnPdf').click( function(){
+			var id=$(me.tabId + ' [name="id"]').val();
+			if (id > 0){								
+				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/bajarPdf/'+id;
+			}
+		});
+		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){
-			var r=confirm("¿Eliminar Empresa?");
+			var r=confirm("�Eliminar Empresa?");
 			if (r==true){
 			  me.eliminar();
 			  me.editado=false;

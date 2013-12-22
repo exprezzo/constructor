@@ -1,6 +1,7 @@
 <?php
 
 require_once $_PETICION->basePath.'/modelos/empresa.php';
+require_once $_PETICION->basePath.'/presentacion/html.php/empresas/empresa_pdf.php';
 
 require_once $_PETICION->basePath.'/modelos/pais.php';
 
@@ -33,6 +34,31 @@ class empresas extends Controlador{
 		}
 		
 	
+	function bajarPdf(){
+		//-------
+		$mod= $this->getModelo();
+		global $_PETICION;
+		$id=$_PETICION->params[0];
+		$datos= $mod->obtener( $id );
+		//-------
+		$objPdf = new EmpresaPdf('P','mm','letter');
+		$objPdf->datos=$datos;
+		$objPdf->AddPage();
+		$objPdf->imprimir(  );
+		//-------
+		$path='../';
+		$nombreArchivo=$objPdf->titulo.'_'.$datos['id'];			
+		//http://stackoverflow.com/questions/2021624/string-sanitizer-for-filename			
+		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
+		$fullPath=$path.$nombreArchivo.'.pdf';
+		$pdfStr=$objPdf->Output($fullPath, 'S');
+		//-------
+		header ("Content-Length: ".strlen($pdfStr)); 
+		header ("Content-Disposition: attachment; filename=".$nombreArchivo.'.pdf');
+		header ("Content-Type: application/octet-stream");
+		echo $pdfStr;
+	}
+		
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
 		

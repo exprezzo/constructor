@@ -147,7 +147,7 @@
 							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/0'; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
 							<ul>
 								<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$_SESSION[$_PETICION->modulo]['user']['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
-								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app ?>usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
+								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
 							</ul>
 						</li>
                     </ul>

@@ -1,11 +1,8 @@
 <?php
-if ( !empty($_SESSION['isLoged'] ) ){
-	if ($_SESSION['user']['fk_rol'] == 1 ){				
-		$_SESSION['isLoged']=true;								
-		header('Location:'.$_PETICION->url_app.'usuarios/buscar');
-	}else{
-		header('Location:'.$_PETICION->url_app.'facturas/emitidas');
-	}
+if ( isLoged() ){				
+	$url=sessionGet('_PETICION');
+	$url=( empty($url) ) ? $_PETICION->url_app.$_PETICION->modulo.'/'.'paginas/inicio' : $url;
+	header('Location:'.$url);	
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

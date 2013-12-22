@@ -1,7 +1,77 @@
 <?php
-require_once $_PETICION->basePath.'/modelos/Usuario_modelo.php';
+
+require_once $_PETICION->basePath.'/modelos/Usuario.php';
+
 class usuarios extends Controlador{
 	var $modelo="Usuario";	
+	
+	var $accionesPublicas=array('login');
+	
+	function logout(){
+		// global $_TEMA_APP, $_PETICION;
+		
+		// unset( $_SESSION['isLoged'] );
+		// unset( $_SESSION['user'] );
+		// session_unset();
+		 // session_destroy();
+		// session_start();
+		// session_regenerate_id(true);
+		logout();
+		global $_PETICION;		
+		header('Location: '.$_PETICION->url_app.$_PETICION->modulo.'/usuarios/login');
+	}
+	function login(){
+		$vista= $this->getVista();
+		global $_TEMA_APP, $_PETICION;		
+		$layout='login';
+		if ( $_SERVER['REQUEST_METHOD']=='POST'  ){
+			//Login con ajax o el post del form 
+			$usrMod = $this->getModelo();
+			$res = $usrMod->identificar($_POST['nick'], $_POST['pass']);			
+			
+			
+			if ($res['success']){
+				// isLoged(true);					
+				// addUser( $res['usuario'] );
+				sessionAdd('isLoged', true);
+				
+				unset($res['usuario']['pass']);					
+				sessionAdd('user', $res['usuario']);
+				// $_SESSION['user']=$res['usuario'];
+							
+					// if ($_SESSION['user']['fk_rol'] == 1 ){				
+						// $_SESSION['isLoged']=true;								
+						// header('Location:'.$_PETICION->url_app.'usuarios/buscar');
+					// }else{
+						// Se reconecta con la bd que le corresponde
+						
+						// if ( sizeof( $res['corps'] )==1 ){
+							// $_SESSION['isLoged']=true;		
+							// $corp=$res['corps'][0];
+							// $corpMod = new corporativoModelo();
+							// $paramsCorp=array( 'id'=> $corp['fk_corporativo'] );
+							// $corpArr = $corpMod->obtener( $paramsCorp);							
+							// $_SESSION['DB_CONFIG']=$corpArr;							
+						// }else{							
+							// echo 'SELECCIONE UN CORPORATIVO'; exit;
+						// }
+						// header('Location:'.$_PETICION->url_app.'facturas/emitidas');
+					// }					
+					$url=sessionGet('_PETICION');
+					$url=( empty($url) ) ? $_PETICION->url_app.$_PETICION->modulo.'/paginas/inicio' : '/'.$url;
+					// echo $url; exit;
+					 header('Location:'.$url);
+			}else{				
+				$vista->error= $res['msg'];//'USUARIO O CONTRASEÑA INCORRECTA';
+				$vista->username=$_POST['nick'];
+				return $vista->mostrarTema($_PETICION, $_TEMA_APP, $layout);
+			}			
+		}else{
+			//PETICION GET U OTRA DIFERENTE DE POST			
+			$vista->username='';
+			return $vista->mostrarTema($_PETICION, $_TEMA_APP, $layout);
+		}				
+	}
 	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
@@ -13,11 +83,9 @@ class usuarios extends Controlador{
 	
 	function nuevo(){		
 		$modelo = $this->getModelo();
-		$campos=$modelo->campos;
-		$vista=$this->getVista();				
-		for($i=0; $i<sizeof($campos); $i++){
-			$obj[$campos[$i]]="";
-		}
+		$obj=$modelo->nuevo( array() );
+		
+		$vista=$this->getVista();
 		$vista->datos=$obj;		
 		
 		global $_TEMA_APP;
@@ -31,7 +99,27 @@ class usuarios extends Controlador{
 	function guardar(){
 		$modelo=$this->getModelo();
 		$esNuevo = empty( $_POST['datos'][$modelo->pk] );
+		global $_PETICION;
+		$id=$_POST['datos'][$modelo->pk];
 		
+		if ( ( !empty($_POST['datos']['pass']) || !empty($_POST['datos']['confirmacion']) ) && ($_POST['datos']['pass'] != $_POST['datos']['confirmacion']) ){
+			$respuesta = array(
+				'success'	=>false,
+				'msg'		=>'Las contraseñas no coinciden'
+			);
+			echo json_encode( $respuesta );
+			return $respuesta;
+		}
+		if ( $_SESSION['user']['fk_rol'] != 1 && $_SESSION['user']['id'] != $id ){
+			$respuesta = array(
+				'success'	=>false,
+				'msg'		=>'No tiene permiso para editar este usuario',
+				'titulo'	=>'Mensaje de la capa de seguridad'
+			);
+			
+			echo json_encode($respuesta);
+			return $respuesta;
+		}
 		ob_start();
 		$res = parent::guardar();
 		ob_end_clean();
@@ -64,8 +152,7 @@ class usuarios extends Controlador{
 			$model->pk=>$id
 		);		
 		
-		$obj=$model->obtener( $params );	
-
+		$obj=$model->obtener( $id );			
 		$vista=$this->getVista();				
 		$vista->datos=$obj;		
 		

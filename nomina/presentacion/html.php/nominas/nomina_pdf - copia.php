@@ -54,7 +54,7 @@ class NominaPdf extends TCPDF{
 		$valign = 'M' ;
 		// $this->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height, $calign, $valign);
 		
-		$txt= 'Recibo de Nomina: '.$datos['serie'].' '.$datos['folio'];		
+		$txt= 'Recibo de Nomina: '.$datos['serie'].' '.$datos['folio'];
 		$this->Cell($w, $h, $txt, $border, $ln, 'C', $fill, $link, $stretch, $ignore_min_height, $calign, $valign);
 	}
 }
