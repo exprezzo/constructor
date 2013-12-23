@@ -1,42 +1,40 @@
 <?php
 
-require_once $_PETICION->basePath.'/modelos/pagina.php';
+require_once $_PETICION->basePath.'/modelos/app.php';
+require_once $_PETICION->basePath.'/presentacion/html.php/apps/app_pdf.php';
 
-require_once $_PETICION->basePath.'/modelos/autor.php';
+require_once $_PETICION->basePath.'/modelos/conexion.php';
 
-require_once $_PETICION->basePath.'/modelos/categoria.php';
-
-class paginas extends Controlador{
-	var $modelo="pagina";	
+class apps extends Controlador{
+	var $modelo="app";	
 	
 	
-	function setTema(){
-		
-		$ruta=$_POST['datos']['rutaTema'];
-		sessionSet('rutaTema', $ruta);
-		$res=array(
-			'success'=>true,
-			'msg'=>''
-		);
-		
-		
-		
-		echo json_encode($res);
+	
+	function bajarPdf(){
+		//-------
+		$mod= $this->getModelo();
+		global $_PETICION;
+		$id=$_PETICION->params[0];
+		$datos= $mod->obtener( $id );
+		//-------
+		$objPdf = new AppPdf('P','mm','letter');
+		$objPdf->datos=$datos;
+		$objPdf->AddPage();
+		$objPdf->imprimir(  );
+		//-------
+		$path='../';
+		$nombreArchivo=$objPdf->titulo.'_'.$datos['id'];			
+		//http://stackoverflow.com/questions/2021624/string-sanitizer-for-filename			
+		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
+		$fullPath=$path.$nombreArchivo.'.pdf';
+		$pdfStr=$objPdf->Output($fullPath, 'S');
+		//-------
+		header ("Content-Length: ".strlen($pdfStr)); 
+		header ("Content-Disposition: attachment; filename=".$nombreArchivo.'.pdf');
+		header ("Content-Type: application/octet-stream");
+		echo $pdfStr;
 	}
-	
-		function buscarAutor(){
-			$autorMod= new autorModelo();
-			$res = $autorMod->buscar( array() );
-			echo json_encode( $res );
-		}
 		
-		function buscarCategoria(){
-			$categoriaMod= new categoriaModelo();
-			$res = $categoriaMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-	
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
 		

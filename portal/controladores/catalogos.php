@@ -85,13 +85,14 @@ class catalogos extends Controlador{
 		require_once $template;
 		
 		 $buffer = ob_get_contents();
+		 
 		   ob_end_clean();
-		
+		// echo $buffer; exit;
 		
 		$res=array(
 			'success'=>true,
 			'msg'=>'Plantilla Obtenida',
-			'datos'=>$buffer
+			'datos'=>utf8_decode($buffer)
 		);
 		 echo json_encode( $res );
 		return $res;

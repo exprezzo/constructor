@@ -20,7 +20,7 @@ class nominaModelo extends Modelo{
 		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
 		$fullPath=$path.$nombreArchivo.'.pdf';
 		$nominaStr=$nominaPdf->Output($fullPath, 'F');
-		echo $fullPath; exit;
+		// echo $fullPath; exit;
 		// echo $nominaStr; exit;
 	}
 	

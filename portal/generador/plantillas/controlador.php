@@ -68,7 +68,7 @@ class Controlador extends Controlador{
 		
 		if ( $esNuevo ){					
 			$res['esNuevo']=true;				
-			$_SESSION['res']=$res;
+			sessionSet('res', $res);			
 		}
 		echo json_encode($res);
 		return $res;

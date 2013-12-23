@@ -110,7 +110,9 @@ class usuarios extends Controlador{
 			echo json_encode( $respuesta );
 			return $respuesta;
 		}
-		if ( $_SESSION['user']['fk_rol'] != 1 && $_SESSION['user']['id'] != $id ){
+		
+		$user=sessionGet('user');
+		if ( $user['fk_rol'] != 1 && $user['id'] != $id ){
 			$respuesta = array(
 				'success'	=>false,
 				'msg'		=>'No tiene permiso para editar este usuario',
@@ -131,7 +133,8 @@ class usuarios extends Controlador{
 		
 		if ( $esNuevo ){					
 			$res['esNuevo']=true;				
-			$_SESSION['res']=$res;
+			// $_SESSION['res']=$res;
+			sessionSet('res', $res);
 		}
 		echo json_encode($res);
 		return $res;

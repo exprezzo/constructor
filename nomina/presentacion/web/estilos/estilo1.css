@@ -35,7 +35,7 @@ float:left;
  
 .nav li a {
 background:#FFFFFF;
-color:#55b6c0;
+/* color:#55b6c0; */
 display:block;
 padding:10px 12px;
 margin-left:0px;
@@ -162,11 +162,11 @@ display: inline;
 
 body {
 height: 100%;
-background-image:url(../img/background.png);
+background: #3f3f3f url(http://wijmo.com/demo/themes/theme-explore/images/texture.jpg) repeat top left;
 }
 
 h1{
-	color:#FFFFFF; 
+	/* color:#FFFFFF; */
 	/* padding-top:30px; */
 	font-family:"OpenSans-Light", sans-serif;
 	font-size:30px;
@@ -288,8 +288,8 @@ h1{
 .datos2, .inputBox label{
 	font-family: "OpenSans-Light", sans-serif;
 	font-size: 20px;
-	color: #FFFFFF;
-	/* margin-bottom: 42px; */
+	/*color: #FFFFFF;
+	 margin-bottom: 42px; */
 	margin-bottom: 17px;
 	width: 137px;
 	text-align: left;
@@ -317,6 +317,12 @@ h1{
 	color:#2f758c;
 }
 
+form[name="busqueda"]{
+	overflow: hidden;
+}
+form[name="busqueda"] input[type="text"]{
+	position:absolute;
+}
 #contenedorBusqueda{
 	margin-top:25px;
 	float:right;
@@ -342,7 +348,7 @@ h1{
 	background-color:transparent;
 	border:0px;
 	width:132px;
-	height:35px;
+	height:26px;
 }
 
 #botonBusqueda{
@@ -351,6 +357,8 @@ h1{
 	border: 0px;
 	width:35px;
 	height:31px;
+	
+	position: relative;
 }
 
 #botonBusqueda:hover{
@@ -445,7 +453,7 @@ h1{
 	margin-left:auto;
 	margin-right:auto; 
 }
-
+#contenedorMenu4  a{color:white;}
 #contenedorMenu4 {
 	width:320px;	
 	height:9px;
@@ -463,13 +471,13 @@ h1{
 	
 	font-family:"OpenSans-Light", sans-serif;
 	font-size:12px;
-	color:#000000; 
+	color:white; 
 }
 
 #pie{
 	width:100%;
 	height:46px;
-	background-color:#FFFFFF;
+	background: #3f3f3f url(http://wijmo.com/demo/themes/theme-explore/images/texture.jpg) repeat top left;
 }
 
 .globo{
@@ -574,19 +582,19 @@ z-index: 10;
 /*---  FORMULARIO */
 .entradaDatos, input[role="textbox"]{
 	/* float:right; */
-	background-color:#f2f2f2  !important;
+	/*background-color:#f2f2f2  !important;*/
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border-top: 0px;
 	border-right: 0px;
 	border-left: 0px;
-	border-bottom-color:#508b96  !important;
+	/* border-bottom-color:#508b96  !important; */
 	border-bottom-style:solid !important;
 	border-bottom-width:1px  !important;
-	-webkit-box-shadow: 0px 3px #d6e6e9  !important;
+	/* -webkit-box-shadow: 0px 3px #d6e6e9  !important;
     -moz-box-shadow: 0px 3px #d6e6e9  !important;
-	box-shadow: 0px 3px #d6e6e9  !important;
+	box-shadow: 0px 3px #d6e6e9  !important; */
 	/* width:365px; */
 	height:23px;
 	/*height:43px;*/
@@ -594,9 +602,22 @@ z-index: 10;
 	font-family:"OpenSans-Light", sans-serif;
 	font-size:17px;
 	
-	color:black  !important;
+	/* color:black  !important; */
 }
 
 .inputBox .select{
 	
+}
+.oculto{display:none;}
+
+div[role="combobox"] {
+	width: 398px !important; display: inline-block !important; vertical-align: top;	
+}
+div[role="combobox"] div[role="textbox"]{{ 
+	width: 400px !important;
+	padding-top: 6px;
+}
+
+div[role="combobox"] .wijmo-wijcombobox-trigger {
+height: 28px !important;
 }

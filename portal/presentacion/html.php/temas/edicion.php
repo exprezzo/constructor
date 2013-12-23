@@ -2,18 +2,17 @@
 	$id=$_PETICION->controlador.'-'.$_PETICION->accion;
 	$_REQUEST['tabId'] =$id;
 	
-	// {RELACIONES}
+	
 ?>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/edicion.js"></script>
-<!-- {SCRIPTS_COMPONENTES} -->
+
 <script>			
 	$( function(){	
 		
 		//---------------------
 		<?php
-		$resAntS = sessionGet('res');
-		$resAnt = empty($resAntS) ? array() : $resAntS;		
-		sessionUnset('res');
+		$resAnt = empty($_SESSION['res']) ? array() : $_SESSION['res'];
+		unset($_SESSION['res']);
 		?>
 		var resAnt = <?php echo json_encode($resAnt); ?>;
 		
@@ -53,25 +52,37 @@
 			pk:"id"
 			
 		};				
-		 var editor=new EdicionControlador();
+		 var editor=new EdicionTemas();
 		 editor.init(config);	
 		//-----
-		// {INIT-TABLAS}
+		
 	});
 </script>
 <style>
 
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
-	<div id="titulo">
-    	<h1><!--{TITULO-NUEVO}--></h1>
+	<div id="titulo" class="ui-widget-header">
+    	<h1>Nuevo Tema</h1>
 	</div>
 	<div id="cuerpo">
-		<div id="contenedorDatos2">
+		<div id="contenedorDatos2" class="">
 			<form class="frmEdicion" style="">
-				<!-- ELEMENTOS -->
+				
+				<div class="inputBox contenedor_id oculto" style=""  >
+					<label style="">Id:</label>
+					<input title="Id" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedor_nombre" style=""  >
+					<label style="">Nombre:</label>
+					<input title="Nombre" type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
+				</div>
+				<div class="inputBox contenedor_ruta" style=""  >
+					<label style="">Ruta:</label>
+					<input title="Ruta" type="text" name="ruta" class="entradaDatos" value="<?php echo $this->datos['ruta']; ?>" style="width:500px;" />
+				</div>
 			</form>
-			<div id="contenedorMenu2" class="toolbarEdicion">
+			<div id="contenedorMenu2" class="toolbarEdicion" style="position:relative;">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
 				<input type="submit" value="PDF" class="botonNuevo btnPdf">

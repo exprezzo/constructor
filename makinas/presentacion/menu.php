@@ -43,7 +43,7 @@
 					}else{
 						$clase='';
 					}
-					echo '<li><a href="'.$_PETICION->url_app.'makinas/'.$cat['controlador'].'/buscar" class="elemento '.$clase.'">'.$cat['nombre'].'<span class="flecha">∨</span></a></li>';
+					echo '<li><a href="'.$_PETICION->url_app.$_PETICION->modulo.'/'.$cat['controlador'].'/buscar" class="elemento '.$clase.'">'.$cat['nombre'].'<span class="flecha">∨</span></a></li>';
 				// }
 				// echo '</ul></li>';
 			}
@@ -54,7 +54,7 @@
 	<li>
 		<a href="#">Documentos<span class="flecha">∨</span></a>
 		<ul>
-			<li><a href="<?php echo $_PETICION->url_app; ?>cortes/buscar" class="elementoTop elementoBottom">Cortes<span class="flecha">∨</span></a></li>	
+			<li><a href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/cortes/buscar" class="elementoTop elementoBottom">Cortes<span class="flecha">∨</span></a></li>	
 		</ul>
 	</li>                                        
 	<li>

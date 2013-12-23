@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head >
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Constructor</title>
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/reset.css" />
@@ -17,10 +17,17 @@
 	div[role="combobox"] .wijmo-wijcombobox-trigger{height:31px !important;}
 </style>
 <!--Wijmo Widgets CSS-->	
-	<link href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
+	<link id="linkCss" href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
 	<?php
 	// $rutaTema='http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css'; 
-	 $rutaTema=getUrlTema('midnight'); 	
+	 $rutaTema=sessionGet('rutaTema');
+	 $user=sessionGet('user');
+	 // echo $rutaTema;
+	 if (empty($rutaTema)){
+		$rutaTema=getUrlTema('mint-choc');
+	 }
+	 
+	 
 	// $rutaTema=getUrlTema('rocket'); 	
 	?>
 	<link href="<?php echo $rutaTema; ?>" rel="stylesheet" type="text/css" />
@@ -35,6 +42,7 @@
 	<link href="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
 	<script src="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/js/jquery.gritter.min.js" type="text/javascript"></script>
 	<script src="<?php echo $_PETICION->url_web; ?>libs/jquery.validate.js"></script>
+	
 	<script type="text/javascript">		
 		kore={
 			modulo:'<?php echo $_PETICION->modulo; ?>',
@@ -119,14 +127,29 @@
 		}
 	</script>
 </head>
-<body>
+<body class="widgets" >
+	<div class="widget-list">
 
-
-<div id="global">
+<div id="global" class="widget-inner ui-widget-overlay" style="opacity:1;">
 
     <div id="encabezado">
     	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
 		</img>
+		<div style="position:absolute; width:200px;">
+			<?php
+				$mod=getModelo( 'tema' );
+				$params=array();
+				$modulos = $mod->buscar( $params );
+				$apps = $modulos['datos'];				
+			?>
+			<select id="comboTemas">
+				<?php foreach($apps as $app){
+					echo '<option value="'.$app['ruta'].'">'.$app['nombre'].'</option>';
+				} 
+				
+				?>
+			</select>
+		</div>
         <div id="contenedorMenu">
             <?php 
 				
@@ -144,9 +167,9 @@
                     <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
                     <ul class="nav" style="display:inline-block;clear:both;">  
 						<li>
-							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/0'; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
+							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
 							<ul>
-								<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$_SESSION[$_PETICION->modulo]['user']['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
+								<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
 								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
 							</ul>
 						</li>
@@ -162,7 +185,7 @@
 		<input type="submit" value=" " id="botonBusqueda">
 		</form> 
 	</div>
-	<div id="tabs">
+	<div id="tabs"  class="" >
     <?php $this->mostrar() ?>
     </div>
     
@@ -176,8 +199,86 @@
     </div>
     
 </div>
-
+	</div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		
+		$('#contenedorDatos2').addClass('ui-widget-content');		
+		$('#titulo').addClass('ui-widget-header');		
+		$('input[type="text"]').wijtextbox();
+		$('#contenedorMenu').addClass('ui-widget-header');
+		$('#contenedorMenu').css('border', 'none');
+		$('#contenedorMenu').css('background', 'none');		 
+		 
+		$('#comboTemas').wijcombobox({
+			select:function(e, val){				
+				// $('#linkCss').attr('href',val.value);
+				var datos={rutaTema: val.value};
+				$("#contenedorDatos2").block({ 
+					message: '<h1>Guardando Tema</h1>'               
+				}); 
+				$.ajax({
+					type: "POST",
+					url: kore.url_base+kore.modulo+'/paginas/setTema',
+					data: { datos: datos}
+				}).done(function( response ) {
+					$("#contenedorDatos2").unblock(); 
+					location.reload();
+					var resp = eval('(' + response + ')');
+					var msg= (resp.msg)? resp.msg : '';
+					var title;
+					
+					if ( resp.success == true	){
+						if (resp.msgType!=undefined && resp.msgType == 'info'){
+							icon=kore.url_web+'imagenes/yes.png';
+						}else{
+							icon=kore.url_web+'imagenes/info.png';
+						}
+						
+						
+						title= 'Success';				
+						
+						
+						$.gritter.add({
+							position: 'bottom-left',
+							title:title,
+							text: msg,
+							image: icon,
+							class_name: 'my-sticky-class'
+						});
+						
+						if (me.saveAndClose===true){
+							//busca el indice del tab
+							var idTab=$(me.tabId).attr('id');
+							var tabs=$('#tabs > div');
+							for(var i=0; i<tabs.length; i++){
+								if ( $(tabs[i]).attr('id') == idTab ){
+									$('#tabs').wijtabs('remove', i);
+								}
+							}
+						}
+					}else{
+						icon= kore.url_web+'imagenes/error.png';
+						title= 'Error';					
+						$.gritter.add({
+							position: 'bottom-left',
+							title:title,
+							text: msg,
+							image: icon,
+							class_name: 'my-sticky-class'
+						});
+					}
+					
+					//cuando es true, envia tambien los datos guardados.
+					//actualiza los valores del formulario.
+					
+				});
+			}
+		})
+		
+	});
+</script>
 </html>
 <?php
 function getUrlTema($tema){
