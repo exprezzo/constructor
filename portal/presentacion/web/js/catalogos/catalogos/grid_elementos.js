@@ -49,7 +49,12 @@ var GridElementos = function(){
 		if ( this.selected == null ) return false;
 		
 		var componente=this.selected.componente;
-		var config=resp=eval('(' + this.selected.comp_config + ')');
+		try{
+			var config=resp=eval('(' + this.selected.comp_config + ')');
+		}catch(err){
+			var config={};
+		}
+		
 		
 		me.selected.comp_config
 		var params={ 

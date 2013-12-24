@@ -493,6 +493,202 @@
 		$('select[name="fk_RiesgoPuesto"]').wijcombobox('option','data',datasource);
 	};
 		
+	this.configurarComboFk_forma_pago=function(){
+		var me=this;
+		
+		$('select[name="fk_forma_pago"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_forma_pago input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_forma_pagoEnAjax) return true;			
+			me.setDSFk_forma_pago();
+			me.Fk_forma_pagoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_forma_pago = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/nominas/buscarForma_de_pago',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_forma_pago"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_certificado=function(){
+		var me=this;
+		
+		$('select[name="fk_certificado"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_certificado input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_certificadoEnAjax) return true;			
+			me.setDSFk_certificado();
+			me.Fk_certificadoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_certificado = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/nominas/buscarCertificado',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'no_serie' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_certificado"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_moneda=function(){
+		var me=this;
+		
+		$('select[name="fk_moneda"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_moneda input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_monedaEnAjax) return true;			
+			me.setDSFk_moneda();
+			me.Fk_monedaEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_moneda = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/nominas/buscarMoneda',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'moneda' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_moneda"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_metodo_pago=function(){
+		var me=this;
+		
+		$('select[name="fk_metodo_pago"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_metodo_pago input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_metodo_pagoEnAjax) return true;			
+			me.setDSFk_metodo_pago();
+			me.Fk_metodo_pagoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_metodo_pago = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/nominas/buscarMetodo_de_pago',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_metodo_pago"]').wijcombobox('option','data',datasource);
+	};
+		
 	
 	this.borrar=function(){		
 		var r=confirm("¿Eliminar Nomina?");
@@ -787,6 +983,66 @@
 		}
 		//-----------------------------------
 		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_forma_pago"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_forma_pago"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_forma_pago'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_forma_pago'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_forma_pago'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_certificado"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_certificado"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_certificado'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_certificado'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_certificado'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_moneda"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_moneda"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_moneda'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_moneda'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_moneda'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_metodo_pago"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_metodo_pago"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_metodo_pago'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_metodo_pago'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_metodo_pago'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
 		//-----------------------------------
 		var datos=paramObj;
 		$(tabId+' .tabla_percepciones').wijgrid('endEdit');
@@ -797,7 +1053,9 @@
 				var incapacidades=$(tabId+' .tabla_incapacidades').wijgrid('data');
 				datos.incapacidadesDeNomina = incapacidades;$(tabId+' .tabla_horas_extra').wijgrid('endEdit');
 				var horas_extra=$(tabId+' .tabla_horas_extra').wijgrid('data');
-				datos.horas_extraDeNomina = horas_extra;
+				datos.horas_extraDeNomina = horas_extra;$(tabId+' .tabla_conceptos').wijgrid('endEdit');
+				var conceptos=$(tabId+' .tabla_conceptos').wijgrid('data');
+				datos.conceptosDeNomina = conceptos;
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -859,9 +1117,9 @@
 				
 				
 				//--------------------
-				var elementos=resp.datos.horas_extraDeNomina;	
+				var elementos=resp.datos.conceptosDeNomina;	
 
-				var grid=$(me.tabId+" .tabla_horas_extra");
+				var grid=$(me.tabId+" .tabla_conceptos");
 				var data=grid.wijgrid('data');				
 				data.length=0;
 				for(var i=0; i<elementos.length; i++){
@@ -974,6 +1232,10 @@ this.configurarComboTipoJornada();
 this.configurarComboPeriodicidadPago();
 this.configurarComboFk_banco();
 this.configurarComboFk_RiesgoPuesto();
+this.configurarComboFk_forma_pago();
+this.configurarComboFk_certificado();
+this.configurarComboFk_moneda();
+this.configurarComboFk_metodo_pago();
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			
@@ -984,6 +1246,13 @@ this.configurarComboFk_RiesgoPuesto();
 		$(this.tabId + ' .toolbarEdicion .btnGuardar').click( function(){
 			me.guardar();
 			me.editado=true;
+		});
+		
+		$(this.tabId + ' .toolbarEdicion .btnPdf').click( function(){
+			var id=$(me.tabId + ' [name="id"]').val();
+			if (id > 0){								
+				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/bajarPdf/'+id;
+			}
 		});
 		
 		$(this.tabId + ' .toolbarEdicion .btnDelete').click( function(){

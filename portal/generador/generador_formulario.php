@@ -507,8 +507,8 @@ class GeneradorFormulario{
 				$campos.='
 				<div class="tabla '.$clase.'" style="position: relative; margin-top: 26px;"  >
 					
-					<h1 style="display: inline-block; margin-bottom: 6px;">'.$config['titulo'].'</h1>
-					<div class="toolbar_detalles" style="position: absolute; right: 0; top: -2PX;">
+					<h1 class="tituloTabla" >'.$config['titulo'].'</h1>
+					<div class="toolbar_detalles" style="">
 						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
 						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 					</div>

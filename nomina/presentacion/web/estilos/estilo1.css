@@ -162,7 +162,7 @@ display: inline;
 
 body {
 height: 100%;
-background: #3f3f3f url(http://wijmo.com/demo/themes/theme-explore/images/texture.jpg) repeat top left;
+background: #3f3f3f url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-lightness/images/ui-bg_diagonals-thick_20_666666_40x40.png) repeat top left;
 }
 
 h1{
@@ -212,7 +212,7 @@ h1{
 	z-index:1;
 }
 #cuerpo {
-	text-align:center;
+	/* text-align:center; */
 	background-image:url(../img/fondo.png);
 	width:1041px;	
 	/* height:958px; */
@@ -477,7 +477,7 @@ form[name="busqueda"] input[type="text"]{
 #pie{
 	width:100%;
 	height:46px;
-	background: #3f3f3f url(http://wijmo.com/demo/themes/theme-explore/images/texture.jpg) repeat top left;
+	/* background: #3f3f3f url(http://wijmo.com/demo/themes/theme-explore/images/texture.jpg) repeat top left; */
 }
 
 .globo{
@@ -549,10 +549,10 @@ padding: 8px}
 	padding-left:10px;
 	}
 
-
+.tituloTabla{ display: inline-block; margin:0 20px 6px 20px; }
 	
 .toolbar_detalles{
-		clear:both; text-align:right; position:relative; top:11px; margin-bottom: 12px;
+		clear:both; text-align:right; position:relative; top:11px; margin-bottom: 12px; display:inline-block;
 	}
 	.toolbar_detalles .btnAgregar {
 		background-color: transparent;
@@ -562,6 +562,7 @@ padding: 8px}
 		width: 35px;
 		height: 35px;
 		cursor: pointer;
+		margin-right:13px;
 	}
 	.toolbar_detalles .btnEliminar {
 		border: none;
@@ -610,10 +611,10 @@ z-index: 10;
 }
 .oculto{display:none;}
 
-div[role="combobox"] {
+.inputBox  div[role="combobox"] {
 	width: 398px !important; display: inline-block !important; vertical-align: top;	
 }
-div[role="combobox"] div[role="textbox"]{{ 
+div[role="combobox"] div[role="textbox"]{
 	width: 400px !important;
 	padding-top: 6px;
 }
@@ -621,3 +622,12 @@ div[role="combobox"] div[role="textbox"]{{
 div[role="combobox"] .wijmo-wijcombobox-trigger {
 height: 28px !important;
 }
+
+
+
+.toolbar_detalles{display:inline-block;	}
+/*
+.tab_nominas .contenedor_tabla_conceptos .wijmo-wijcombobox-input{
+    height: 30px !important;
+    width: 50px !important;
+}*/

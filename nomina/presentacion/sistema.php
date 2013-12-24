@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head >
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Constructor</title>
+<title>Nominas</title>
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/reset.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $_PETICION->url_web; ?>estilos/estilo1.css" />
 <script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/jquery-1.8.3.js" ></script>	
@@ -132,7 +132,7 @@
 <body class="widgets" >
 	<div class="widget-list">
 
-<div id="global" class="widget-inner ui-widget-overlay" style="opacity:1;">
+<div id="global" >
 
     <div id="encabezado">
     	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">

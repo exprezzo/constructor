@@ -390,6 +390,90 @@
 					filterValue: value
 				});
 		
+				data.proxy.options.data.filtering.push({
+					dataKey: "nombre_forma_de_pago",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "no_serie_certificado",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "condiciones_de_pago",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "subTotal",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "descuento",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "motivo_descuento",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "tipo_cambio",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "moneda_moneda",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "total",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "tipo_comprobante",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "nombre_metodo_de_pago",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "num_cta_pago",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "totImpRet",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
+				data.proxy.options.data.filtering.push({
+					dataKey: "totImpTras",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
 				
 				
             }
@@ -460,7 +544,25 @@
 { dataKey: "percepcionesTotalGravado", visible:true, headerText: "P. Tot. Gravado" },
 { dataKey: "percepcionesTotalExcento", visible:true, headerText: "P. Tot. Excento" },
 { dataKey: "deduccionesTotalGravado", visible:true, headerText: "D Tot. Gravado" },
-{ dataKey: "deduccionesTotalExcento", visible:true, headerText: "D. Tot. Excento" },
+{ dataKey: "deduccionesTotalExcento", visible:true, headerText: "D. Tot. Excento" },
+{ dataKey: "nombre_fk_forma_pago", visible:true, headerText: "Forma de Pago" },
+{ dataKey: "fk_forma_pago", visible:false, headerText: "Forma de Pago" },
+{ dataKey: "no_serie_fk_certificado", visible:true, headerText: "Certificado" },
+{ dataKey: "fk_certificado", visible:false, headerText: "Certificado" },
+{ dataKey: "condiciones_de_pago", visible:true, headerText: "Condiciones De Pago" },
+{ dataKey: "subTotal", visible:true, headerText: "Subtotal" },
+{ dataKey: "descuento", visible:true, headerText: "Descuento" },
+{ dataKey: "motivo_descuento", visible:true, headerText: "Motivo de descuento" },
+{ dataKey: "tipo_cambio", visible:true, headerText: "Tipo de Cambio" },
+{ dataKey: "moneda_fk_moneda", visible:true, headerText: "Moneda" },
+{ dataKey: "fk_moneda", visible:false, headerText: "Moneda" },
+{ dataKey: "total", visible:true, headerText: "Total" },
+{ dataKey: "tipo_comprobante", visible:true, headerText: "Tipo De Comprobante" },
+{ dataKey: "nombre_fk_metodo_pago", visible:true, headerText: "Método de Pago" },
+{ dataKey: "fk_metodo_pago", visible:false, headerText: "Método de Pago" },
+{ dataKey: "num_cta_pago", visible:true, headerText: "Num Cta Pago" },
+{ dataKey: "totImpRet", visible:true, headerText: "Tot Imp Ret" },
+{ dataKey: "totImpTras", visible:true, headerText: "Tot Imp Tras" },
 			]
 		});
 		

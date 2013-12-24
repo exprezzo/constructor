@@ -21,8 +21,9 @@ if ( !empty( $this->datos['id'] ) ){
 		
 		//---------------------
 		<?php
-		$resAnt = empty($_SESSION['res']) ? array() : $_SESSION['res'];
-		unset($_SESSION['res']);
+		$resAntS = sessionGet('res');
+		$resAnt = empty($resAntS) ? array() : $resAntS;		
+		sessionUnset('res');
 		?>
 		var resAnt = <?php echo json_encode($resAnt); ?>;
 		
@@ -125,6 +126,7 @@ if ( !empty( $this->datos['id'] ) ){
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="PDF" class="botonNuevo btnPdf">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
 			</div>
 		</div>

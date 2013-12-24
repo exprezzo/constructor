@@ -2,11 +2,12 @@
 	.formCompConfig label{ margin-left:0 !important; }
 </style>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/config_combo.js"></script>
-<?php 
+<?php
 	$mod = new catalogoModelo();
 	$res=$mod->buscar(array());
 	$modelos=$res['datos'];
 	// print_r( $this->datos );
+	$this->datos['target'] = empty( $this->datos['target'] )? '' : $this->datos['target'];	
 ?>
 <form class="formCompConfig">
 	<div>

@@ -137,14 +137,14 @@
 		</img>
 		<div style="position:absolute; width:200px;">
 			<?php
-				$mod=getModelo( 'tema' );
+				$modTema=getModelo( 'tema' );
 				$params=array();
-				$modulos = $mod->buscar( $params );
-				$apps = $modulos['datos'];				
+				$temasRes = $modTema->buscar( $params );
+				$temas = $temasRes['datos'];				
 			?>
 			<select id="comboTemas">
-				<?php foreach($apps as $app){
-					echo '<option value="'.$app['ruta'].'">'.$app['nombre'].'</option>';
+				<?php foreach($temas as $tema){
+					echo '<option value="'.$tema['ruta'].'">'.$tema['nombre'].'</option>';
 				} 
 				
 				?>

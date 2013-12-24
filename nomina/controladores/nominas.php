@@ -1,6 +1,7 @@
 <?php
 
 require_once $_PETICION->basePath.'/modelos/nomina.php';
+require_once $_PETICION->basePath.'/presentacion/html.php/nominas/nomina_pdf.php';
 
 require_once $_PETICION->basePath.'/modelos/empresa.php';
 
@@ -29,6 +30,16 @@ require_once $_PETICION->basePath.'/modelos/deduccion_nomina.php';
 require_once $_PETICION->basePath.'/modelos/incapacidad.php';
 
 require_once $_PETICION->basePath.'/modelos/hora_extra_nomina.php';
+
+require_once $_PETICION->basePath.'/modelos/forma_de_pago.php';
+
+require_once $_PETICION->basePath.'/modelos/certificado.php';
+
+require_once $_PETICION->basePath.'/modelos/moneda.php';
+
+require_once $_PETICION->basePath.'/modelos/metodo_de_pago.php';
+
+require_once $_PETICION->basePath.'/modelos/concepto_de_nomina.php';
 
 class nominas extends Controlador{
 	var $modelo="nomina";	
@@ -88,7 +99,56 @@ class nominas extends Controlador{
 			echo json_encode( $res );
 		}
 		
+		function buscarForma_de_pago(){
+			$forma_de_pagoMod= new forma_de_pagoModelo();
+			$res = $forma_de_pagoMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
+		function buscarCertificado(){
+			$certificadoMod= new certificadoModelo();
+			$res = $certificadoMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
+		function buscarMoneda(){
+			$monedaMod= new monedaModelo();
+			$res = $monedaMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
+		function buscarMetodo_de_pago(){
+			$metodo_de_pagoMod= new metodo_de_pagoModelo();
+			$res = $metodo_de_pagoMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
 	
+	function bajarPdf(){
+		//-------
+		$mod= $this->getModelo();
+		global $_PETICION;
+		$id=$_PETICION->params[0];
+		$datos= $mod->obtener( $id );
+		//-------
+		$objPdf = new NominaPdf('P','mm','letter');
+		$objPdf->datos=$datos;
+		$objPdf->AddPage();
+		$objPdf->imprimir(  );
+		//-------
+		$path='../';
+		$nombreArchivo=$objPdf->titulo.'_'.$datos['id'];			
+		//http://stackoverflow.com/questions/2021624/string-sanitizer-for-filename			
+		$nombreArchivo = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $nombreArchivo);
+		$fullPath=$path.$nombreArchivo.'.pdf';
+		$pdfStr=$objPdf->Output($fullPath, 'S');
+		//-------
+		header ("Content-Length: ".strlen($pdfStr)); 
+		header ("Content-Disposition: attachment; filename=".$nombreArchivo.'.pdf');
+		header ("Content-Type: application/octet-stream");
+		echo $pdfStr;
+	}
+		
 	function mostrarVista( $archivos=""){
 		$vista= $this->getVista();
 		
@@ -127,7 +187,7 @@ class nominas extends Controlador{
 		
 		if ( $esNuevo ){					
 			$res['esNuevo']=true;				
-			$_SESSION['res']=$res;
+			sessionSet('res', $res);			
 		}
 		echo json_encode($res);
 		return $res;
