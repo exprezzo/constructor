@@ -41,6 +41,10 @@ require_once $_PETICION->basePath.'/modelos/metodo_de_pago.php';
 
 require_once $_PETICION->basePath.'/modelos/concepto_de_nomina.php';
 
+require_once $_PETICION->basePath.'/modelos/impuesto_de_nomina.php';
+require_once $_PETICION->basePath.'/nomina_xml.php';
+require_once $_PETICION->basePath.'/modelos/regimen.php';
+
 class nominas extends Controlador{
 	var $modelo="nomina";	
 	
@@ -189,7 +193,17 @@ class nominas extends Controlador{
 			$res['esNuevo']=true;				
 			sessionSet('res', $res);			
 		}
-		echo json_encode($res);
+		
+		$nomXml = new nominaXml();
+		$resN = $nomXml->generarNomina( $res['datos'] );
+		
+		if ( !$resN['success']){
+			$resN['msg']='errores en el XML';
+			echo json_encode($resN);
+		}else{
+			echo json_encode($res);
+		}
+		
 		return $res;
 	}
 	function eliminar(){

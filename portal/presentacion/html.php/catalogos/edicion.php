@@ -145,16 +145,17 @@
 				<input type="button" value="" class="btnConfigurar" />
 			</div>
 			
-			<table class="tablaElementos" >
-				<thead>
-					<th>id</th>		
-					<th>Campo</th>					
-					<th>Tipo</th>
-				</thead>  	 
-				<tbody>			
-				</tbody>
-			</table>
-			
+			<div style="margin-bottom:25px;">
+				<table class="tablaElementos" >
+					<thead>
+						<th>id</th>		
+						<th>Campo</th>					
+						<th>Tipo</th>
+					</thead>  	 
+					<tbody>			
+					</tbody>
+				</table>
+			</div>
 				
 				
 				<div class="inputBox" style=""  >

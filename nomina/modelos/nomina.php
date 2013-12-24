@@ -2,7 +2,7 @@
 class nominaModelo extends Modelo{	
 	var $tabla='nomina_nomina';
 	var $pk='id';
-	var $campos= array('id', 'fk_patron', 'razon_social_empresa', 'fk_empleado', 'nombre_trabajador', 'fk_serie', 'serie_serie_nomina', 'serie', 'folio', 'Version', 'RegistroPatronal', 'NumEmpleado', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'TipoRegimen', 'NumSeguridadSocial', 'FechaPago', 'FechaInicialPago', 'FechaFinalPago', 'NumDiasPagados', 'fk_Departamento', 'nombre_departamento', 'Departamento', 'CLABE', 'Banco', 'FechaInicioRelLaboral', 'Antiguedad', 'Puesto', 'TipoContrato', 'nombre_regimen_contratacion', 'TipoJornada', 'nombre_jornada', 'PeriodicidadPago', 'descripcion_periodo_pago', 'SalarioBaseCotApor', 'RiesgoPuesto', 'SalarioDiarioIntegrado', 'fk_banco', 'nombre_corto_banco', 'fk_RiesgoPuesto', 'descripcion_riesgo', 'percepcionesTotalGravado', 'percepcionesTotalExcento', 'deduccionesTotalGravado', 'deduccionesTotalExcento', 'fk_forma_pago', 'nombre_forma_de_pago', 'fk_certificado', 'no_serie_certificado', 'condiciones_de_pago', 'subTotal', 'descuento', 'motivo_descuento', 'tipo_cambio', 'fk_moneda', 'moneda_moneda', 'total', 'tipo_comprobante', 'fk_metodo_pago', 'nombre_metodo_de_pago', 'num_cta_pago', 'totImpRet', 'totImpTras');
+	var $campos= array('id', 'fk_patron', 'razon_social_empresa', 'fk_empleado', 'nombre_trabajador', 'fk_serie', 'serie_serie_nomina', 'serie', 'folio', 'Version', 'RegistroPatronal', 'NumEmpleado', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'TipoRegimen', 'NumSeguridadSocial', 'FechaPago', 'FechaInicialPago', 'FechaFinalPago', 'NumDiasPagados', 'fk_Departamento', 'nombre_departamento', 'Departamento', 'CLABE', 'Banco', 'FechaInicioRelLaboral', 'Antiguedad', 'Puesto', 'TipoContrato', 'nombre_regimen_contratacion', 'TipoJornada', 'nombre_jornada', 'PeriodicidadPago', 'descripcion_periodo_pago', 'SalarioBaseCotApor', 'RiesgoPuesto', 'SalarioDiarioIntegrado', 'fk_banco', 'nombre_corto_banco', 'fk_RiesgoPuesto', 'descripcion_riesgo', 'percepcionesTotalGravado', 'percepcionesTotalExcento', 'deduccionesTotalGravado', 'deduccionesTotalExcento', 'fk_forma_pago', 'nombre_forma_de_pago', 'fk_certificado', 'no_serie_certificado', 'condiciones_de_pago', 'subTotal', 'descuento', 'motivo_descuento', 'tipo_cambio', 'fk_moneda', 'moneda_moneda', 'total', 'tipo_comprobante', 'fk_metodo_pago', 'nombre_metodo_de_pago', 'num_cta_pago', 'totImpRet', 'totImpTras', 'fecha_emision');
 	
 	function buscar($params){
 		
@@ -202,6 +202,9 @@ class nominaModelo extends Modelo{
 				} 
 				if ( $filtro['dataKey']=='totImpTras' ) {
 					$filtros .= ' nomina.totImpTras like :totImpTras OR ';
+				} 
+				if ( $filtro['dataKey']=='fecha_emision' ) {
+					$filtros .= ' nomina.fecha_emision like :fecha_emision OR ';
 				}			
 			}
 			$filtros=substr( $filtros,0,  strlen($filtros)-3 );
@@ -423,6 +426,9 @@ class nominaModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='totImpTras' ) {
 				$sth->bindValue(':totImpTras','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fecha_emision' ) {
+				$sth->bindValue(':fecha_emision','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}		
 			}
 		}
@@ -443,9 +449,9 @@ class nominaModelo extends Modelo{
 		if ($paginar){
 			$limit=$params['limit'];
 			$start=$params['start'];
-			$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras FROM '.$this->tabla.' nomina '.$joins.$filtros.' limit :start,:limit';
+			$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras, nomina.fecha_emision FROM '.$this->tabla.' nomina '.$joins.$filtros.' limit :start,:limit';
 		}else{
-			$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras FROM '.$this->tabla.' nomina '.$joins.$filtros;
+			$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras, nomina.fecha_emision FROM '.$this->tabla.' nomina '.$joins.$filtros;
 		}
 				
 		$sth = $pdo->prepare($sql);
@@ -648,6 +654,9 @@ class nominaModelo extends Modelo{
 			}
 			if ( $filtro['dataKey']=='totImpTras' ) {
 				$sth->bindValue(':totImpTras','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
+			}
+			if ( $filtro['dataKey']=='fecha_emision' ) {
+				$sth->bindValue(':fecha_emision','%'.$filtro['filterValue'].'%', PDO::PARAM_STR );
 			}	
 			}
 		}
@@ -745,10 +754,13 @@ class nominaModelo extends Modelo{
 			$obj['totImpTras']='';
 			$obj['conceptosDeNomina']=array();
 			
+			$obj['impuestosDeNomina']=array();
+			
+			$obj['fecha_emision']='';
 		return $obj;
 	}
 	function obtener( $llave ){		
-		$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras
+		$sql = 'SELECT nomina.id, nomina.fk_patron, empresa0.razon_social AS razon_social_fk_patron, nomina.fk_empleado, trabajador1.nombre AS nombre_fk_empleado, nomina.fk_serie, serie_nomina2.serie AS serie_fk_serie, nomina.serie, nomina.folio, nomina.Version, nomina.RegistroPatronal, nomina.NumEmpleado, nomina.CURP, nomina.fk_TipoRegimen, regimen_contratacion3.nombre AS nombre_fk_TipoRegimen, nomina.TipoRegimen, nomina.NumSeguridadSocial, nomina.FechaPago, nomina.FechaInicialPago, nomina.FechaFinalPago, nomina.NumDiasPagados, nomina.fk_Departamento, departamento4.nombre AS nombre_fk_Departamento, nomina.Departamento, nomina.CLABE, nomina.Banco, nomina.FechaInicioRelLaboral, nomina.Antiguedad, nomina.Puesto, nomina.TipoContrato, regimen_contratacion5.nombre AS nombre_TipoContrato, nomina.TipoJornada, jornada6.nombre AS nombre_TipoJornada, nomina.PeriodicidadPago, periodo_pago7.descripcion AS descripcion_PeriodicidadPago, nomina.SalarioBaseCotApor, nomina.RiesgoPuesto, nomina.SalarioDiarioIntegrado, nomina.fk_banco, banco8.nombre_corto AS nombre_corto_fk_banco, nomina.fk_RiesgoPuesto, riesgo9.descripcion AS descripcion_fk_RiesgoPuesto, nomina.percepcionesTotalGravado, nomina.percepcionesTotalExcento, nomina.deduccionesTotalGravado, nomina.deduccionesTotalExcento, nomina.fk_forma_pago, forma_de_pago10.nombre AS nombre_fk_forma_pago, nomina.fk_certificado, certificado11.no_serie AS no_serie_fk_certificado, nomina.condiciones_de_pago, nomina.subTotal, nomina.descuento, nomina.motivo_descuento, nomina.tipo_cambio, nomina.fk_moneda, moneda12.moneda AS moneda_fk_moneda, nomina.total, nomina.tipo_comprobante, nomina.fk_metodo_pago, metodo_de_pago13.nombre AS nombre_fk_metodo_pago, nomina.num_cta_pago, nomina.totImpRet, nomina.totImpTras, nomina.fecha_emision
  FROM nomina_nomina AS nomina
  LEFT JOIN facturacion_razones_sociales AS empresa0 ON empresa0.id = nomina.fk_patron
  LEFT JOIN nomina_trabajador AS trabajador1 ON trabajador1.id = nomina.fk_empleado
@@ -857,6 +869,21 @@ class nominaModelo extends Modelo{
 				);
 				$conceptosDeNomina=$conceptosMod->buscar($params);				
 				$modelos[0]['conceptosDeNomina'] =$conceptosDeNomina['datos'];
+				//---------------------------
+				
+				//----------------------------
+				$conceptosMod=new impuesto_de_nominaModelo();
+				$params=array(
+					'filtros'=>array(
+						array(
+							'filterValue'=>$modelos[0]['id'],
+							'filterOperator'=>'equals',
+							'dataKey'=>'fk_nomina'
+						)
+					)
+				);
+				$impuestosDeNomina=$conceptosMod->buscar($params);				
+				$modelos[0]['impuestosDeNomina'] =$impuestosDeNomina['datos'];
 				//---------------------------
 				
 		return $modelos[0];			
@@ -1016,6 +1043,9 @@ class nominaModelo extends Modelo{
 		} 
 		if ( isset( $datos['totImpTras'] ) ){
 			$strCampos .= ' totImpTras=:totImpTras, ';
+		} 
+		if ( isset( $datos['fecha_emision'] ) ){
+			$strCampos .= ' fecha_emision=:fecha_emision, ';
 		}		
 		//--------------------------------------------
 		
@@ -1181,6 +1211,9 @@ class nominaModelo extends Modelo{
 		}
 		if  ( isset( $datos['totImpTras'] ) ){
 			$sth->bindValue(':totImpTras', $datos['totImpTras'] );
+		}
+		if  ( isset( $datos['fecha_emision'] ) ){
+			$sth->bindValue(':fecha_emision', $datos['fecha_emision'] );
 		}		
 		if ( !$esNuevo)	{
 			$sth->bindValue(':id', $datos['id'] );
@@ -1321,6 +1354,31 @@ class nominaModelo extends Modelo{
 			//-----
 			//
 			//$res=$concepto_de_nominaMod->guardar($el);
+			//if ( !$res['success'] ){											
+			//	return $res;
+			//}
+			
+		}
+		$impuesto_de_nominaMod = new impuesto_de_nominaModelo();
+		foreach( $datos['impuestosDeNomina'] as $el ){
+			if ( !empty($el['eliminado']) ){
+				if ( !empty($el['id']) ){
+					$res = $impuesto_de_nominaMod->eliminar( array('id'=>$el['id']) );
+					if ($res )$res =array('success'=>true);
+				}else{
+					$res=array('success'=>true);
+				}					
+			 }else{
+				unset( $el['eliminado'] );
+				$el['fk_nomina']=$idObj;
+				// if ( empty($concepto['nombre'])  )  continue;
+				$res = $impuesto_de_nominaMod->guardar($el);
+			 }
+			
+			
+			//-----
+			//
+			//$res=$impuesto_de_nominaMod->guardar($el);
 			//if ( !$res['success'] ){											
 			//	return $res;
 			//}

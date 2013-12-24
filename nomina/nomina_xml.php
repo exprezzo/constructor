@@ -27,6 +27,7 @@ class NominaXml{
 		return $sello;
 	}
 	function _generales(&$root, $arr) {	
+		// print_r($arr);
 		$this->_cargaAtt($root, array("xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance",
 								  "xsi:schemaLocation"=>"http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
 								 )
@@ -82,6 +83,7 @@ class NominaXml{
 			return '';
 		}
 		$fecha=DateTime::createFromFormat ( 'Y-m-d H:i:s' , $fech );
+		
 		$strFecha = $fecha->format('Y-m-d').'T'.$fecha->format('H:i:s');
 		return $strFecha;
 	}
@@ -92,7 +94,7 @@ class NominaXml{
 	 */
 	private function _conceptos(&$root, $xml, $arr) {
 		 // print_r($arr); exit;
-		
+		// print_r($arr);
 		$conceptos = $xml->createElement("cfdi:Conceptos");
 		$conceptos = $root->appendChild($conceptos);
 		for ($i=0; $i<sizeof($arr['conceptos']); $i++) {
@@ -216,7 +218,7 @@ class NominaXml{
 		// echo md5($cadena_original); exit;
 		return $cadena_original;
 	}
-	public function generaXml($factura){				
+	public function generarXml($factura){				
 		// ehttp://www.lacorona.com.mx/fortiz/sat/xml.php
 		
 		// global $xml, $ret;
@@ -231,13 +233,14 @@ class NominaXml{
 		$sello='';
 		
 		
-		// $this->_generales($root, $factura);
-		// $this->_emisor($root, $xml, $factura);
-		// $this->_receptor($root, $xml, $factura);
-		// $this->_conceptos($root, $xml, $factura);				
-		// $this->_impuestos($root, $xml, $factura);
 		
-		$this->complementoNomina($root, $xml, $factura);
+		  $this->_generales($root, $factura);
+		  $this->_emisor($root, $xml, $factura);
+		$this->_receptor($root, $xml, $factura);
+		$this->_conceptos($root, $xml, $factura);				
+		$this->_impuestos($root, $xml, $factura);
+		
+		$this->complementoNomina($root, $xml, $factura['nomina']);
 		
 		// $cadena = $this->_genera_cadena_original($xml);			
 		// return array('success'=>false, 'msg'=>'ErROR DE PRUEBA');
@@ -251,9 +254,108 @@ class NominaXml{
 			'success'=>true
 		);
 	}
-	private function generaNomina($nomina){
-		// $nomXml = new NominaXml();
+	function generarNomina($nomina){
+		// print_r($nomina); exit;
+		$factura=array();
+		$factura['nomina'] = $nomina;
+		
+		$factura['version']='3.2';
+	    $factura['serie'] = $nomina['serie'];
+		$factura['folio'] = $nomina['folio'];	
+		// $fecha=DateTime::createFromFormat ( 'Y-m-dTH:i:s' ,  $nomina['fecha_emision'] );
+		$factura['fecha'] =  $nomina['fecha_emision'];
+		$factura['sello'] =  '@';
+		$factura['formaDePago'] = $nomina['nombre_fk_forma_pago']; 
+		$factura['noCertificado'] = $nomina['no_serie_fk_certificado']; 
+		$factura['certificado'] = '@'; 
+		
+		$factura['subTotal'] = $nomina['subTotal']; 
+		$factura['descuento'] = $nomina['descuento']; 
+		$factura['motivoDescuento'] = $nomina['motivo_descuento']; 
+		$factura['total'] = $nomina['total']; 
+		$factura['condicionesDePago'] = $nomina['condiciones_de_pago']; 
+		$factura['tipoDeComprobante'] = 'EGRESO'; 
+		$factura['metodoDePago'] = $nomina['nombre_fk_metodo_pago']; 
+		
+		$factura['NumCtaPago'] = $nomina['num_cta_pago']; 
+		$factura['TipoCambio'] = $nomina['tipo_cambio']; 
+		
+		$factura['FolioFiscalOrig'] ='';
+		$factura['FechaFolioFiscalOrig'] ='';
+		$factura['SerieFolioFiscalOrig'] ='';		  
+		
+		$factura['MontoFolioFiscalOrig'] = 0; 
 		//----------------------------------------
+		$fk_moneda=$nomina['fk_moneda'];
+		$monMod = new monedaModelo();
+		$moneda = $monMod->obtener($fk_moneda);		
+		$factura['Moneda'] = $moneda['codigo']; 	
+		//----------------------------------------
+		$fk_patron=$nomina['fk_patron'];
+		$empMod = new empresaModelo();
+		$empresa = $empMod->obtener($fk_patron);		
+		//----------------------------------------
+		$factura['emisor_rfc'] = $empresa['rfc']; 
+		$factura['emisor_razon_social'] = $empresa['razon_social']; 
+		$factura['emisor_calle'] = $empresa['calle']; 
+		$factura['emisor_numero_exterior'] = $empresa['noExterior']; 
+		$factura['emisor_numero_interior'] = $empresa['noInterior']; 
+		$factura['emisor_colonia'] = $empresa['colonia']; 
+		$factura['emisor_municipio'] = $empresa['nombre_fk_municipio']; 
+		$factura['emisor_estado'] = $empresa['nombre_fk_estado']; 
+		$factura['emisor_pais'] = $empresa['nombre_fk_pais']; 
+		$factura['emisor_codigoPostal'] = $empresa['codigoPostal']; 
+		$factura['emisor_localidad'] = $empresa['localidad']; 
+		$factura['emisor_referencia'] = $empresa['referencia']; 
+		$factura['LugarExpedicion'] = $empresa['localidad'].', '.$empresa['nombre_fk_municipio'].', '.$empresa['nombre_fk_estado'].'. '.$empresa['nombre_fk_pais']; 
+		$factura['regimen']='';
+		foreach($empresa['regimen_fiscalDeEmpresa'] as $regimen){	
+			$factura['regimen'].=$regimen['regimen'].', ';
+		}
+		$factura['regimen'] = substr($factura['regimen'], 0, strlen($factura['regimen'])-2 );
+		//----------------------------------------				
+		$fk_empleado=$nomina['fk_empleado'];
+		$empMod = new trabajadorModelo();
+		$empleado = $empMod->obtener($fk_empleado);			
+		//----------------------------------------
+		$factura['cliente_rfc'] = $empleado['rfc']; 
+		$factura['cliente_nombre'] = $empleado['nombre']; 
+		$factura['receptor_calle'] = $empleado['calle']; 
+		$factura['receptor_numero_exterior'] = $empleado['noExterior']; 
+		$factura['receptor_numero_interior'] = $empleado['noInterior']; 
+		$factura['receptor_colonia'] = $empleado['colonia']; 
+		$factura['receptor_localidad'] = $empleado['localidad']; 
+		$factura['receptor_municipio'] = $empleado['nombre_fk_municipio']; 
+		$factura['receptor_estado'] = $empleado['nombre_fk_estado']; 
+		$factura['receptor_pais'] = utf8_encode($empleado['nombre_fk_pais']); 
+		$factura['receptor_codigo_postal'] = $empleado['codigoPostal']; 
+		$factura['receptor_localidad'] = $empleado['localidad']; 
+		$factura['receptor_referencia'] = $empleado['referencia']; 
+		//----------------------------------------
+		$conceptosDeNomina=array();
+		foreach($nomina['conceptosDeNomina'] as $concepto){
+			$conceptosDeNomina[]=array(
+				'cantidad'		=>$concepto['cantidad'],
+				'unidad'		=>'Servicio',
+				'descripcion'	=>$concepto['nombre_fk_concepto'],
+				'valorUnitario' =>$concepto['valorUnitario'],
+				'importe' 		=>$concepto['importe']
+			);		
+		}
+		$factura['conceptos']=$conceptosDeNomina;
+		//----------------------------------------				
+		$impuestosDeNomina=array();
+		// foreach($nomina['conceptosDeNomina'] as $concepto){
+			// $impuestosDeNomina[]=array(
+				// 'cantidad'		=>$concepto['cantidad'],
+				// 'unidad'		=>'Servicio',
+				// 'descripcion'	=>$concepto['nombre_fk_concepto'],
+				// 'valorUnitario' =>$concepto['valorUnitario'],
+				// 'importe' 		=>$concepto['importe']
+			// );		
+		// }
+		$factura['impuestos']=$impuestosDeNomina;
+		//----------------------------------------	
 		$fk_TipoRegimen=$nomina['fk_TipoRegimen'];
 		$regMod = new regimen_contratacionModelo();
 		$regimen = $regMod->obtener($fk_TipoRegimen);		
@@ -268,20 +370,27 @@ class NominaXml{
 		$bancoMod = new bancoModelo();
 		$banco = $bancoMod->obtener($fk_Banco);		
 		$nomina['Banco'] = $banco['nombre_corto'];
-		//----------------------------------------
-		
-		$res = $this->generaXml($nomina);
-		$xml=$res['xml'];
-		// $simple=new SimpleXMLElement($xml);
-		// file_put_contents('../log_cancelacion.txt', echo_json_encode($result), FILE_APPEND );
-		file_put_contents('../log_cancelacion.txt', '  '.json_encode($result), FILE_APPEND );
+		//----------------------------------------		
+		$res = $this->generarXml($factura);
+		$xml=$res['xml'];		
+		file_put_contents('../nomina.xml', '  '.$xml->saveXML() );
+		$valida = $this->_valida($xml->saveXML());
+		// print_r( $valida );
+		return $valida;
 		// file_put_contents('../nomina.xml', $xml->saveXML());
 	}
 	function complementoNomina(&$root, $xml, $arr){
+		 // xmlns:detallista="http://www.sat.gob.mx/detallista"
+		
+		
 		$complemento = $xml->createElement("cfdi:Complemento");
 		$complemento = $root->appendChild($complemento);
-		$nomina = $xml->createElement("nomina:Nomina");
+		
+		 $nomina = $xml->createElementNS('http://www.sat.gob.mx/cfd/nomina/nomina.xslt', 'nomina:Nomina');		
 		$nomina = $complemento->appendChild($nomina);
+		
+		// $nomina = $xml->createElement("nomina:Nomina");
+		// $nomina = $complemento->appendChild($nomina);
 		
 		$this->_cargaAtt($nomina, array(
 			"Version"=>'1.1',
@@ -376,7 +485,7 @@ $this->_cargaAtt($domfis, array("calle"=>$arr['emisor_calle'],
 		libxml_use_internal_errors(true);  
 
 		// $file="http://www.sat.gob.mx/cfd/3/cfdv32.xsd";  
-		$file='../sistema/cfdv32.xsd';
+		$file='../nomina/cfdv32.xsd';
 		$ok = @$paso->schemaValidate($file);
 		$errors=array();
 		

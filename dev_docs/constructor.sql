@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-12-2013 a las 22:14:27
+-- Tiempo de generación: 24-12-2013 a las 21:46:02
 -- Versión del servidor: 5.6.11
 -- Versión de PHP: 5.5.3
 
@@ -21,6 +21,36 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `constructor` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `constructor`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorylist`
+--
+
+CREATE TABLE IF NOT EXISTS `categorylist` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `cname` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pid` int(5) NOT NULL,
+  `url` text COLLATE utf8_unicode_ci,
+  `status` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+
+--
+-- Volcado de datos para la tabla `categorylist`
+--
+
+INSERT INTO `categorylist` (`id`, `cname`, `pid`, `url`, `status`) VALUES
+(1, 'Entertainment', 0, '#', 1),
+(2, 'Movies', 1, 'http://example.com/movie.php', 1),
+(3, 'Drama', 1, 'http://example.com/drama.php', 1),
+(4, 'Sports', 0, '#', 1),
+(5, 'Football', 4, 'http://example.com/football.php', 1),
+(6, 'Cricket', 4, 'http://example.com/cricket.php', 1),
+(7, 'Politics', 0, '#', 1),
+(8, 'Politics news', 7, 'http://example.com/politics-news.php', 1);
 
 -- --------------------------------------------------------
 
@@ -46,6 +76,64 @@ INSERT INTO `cms_categoria` (`id`, `nombre`, `fk_categoria_padre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `constructor_app`
+--
+
+CREATE TABLE IF NOT EXISTS `constructor_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `ubicacion` char(255) DEFAULT NULL,
+  `logo` char(255) DEFAULT NULL,
+  `favicon` char(255) DEFAULT NULL,
+  `descripcion` char(255) DEFAULT NULL,
+  `tags` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `constructor_app`
+--
+
+INSERT INTO `constructor_app` (`id`, `nombre`, `ubicacion`, `logo`, `favicon`, `descripcion`, `tags`) VALUES
+(1, 'Backend', '../', '', '', '', ''),
+(2, 'Constructor', '/portal', '', '', '', ''),
+(3, 'TEST', '/test', '', '', '', ''),
+(4, 'Soporte', '/soporte', '', '', '', ''),
+(5, 'Transportes', '/transportes', '', '', '', ''),
+(6, 'Maquinas', '/maquinas', '', '', '', ''),
+(7, 'Nominas', '/nominas', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `constructor_db_config`
+--
+
+CREATE TABLE IF NOT EXISTS `constructor_db_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `host` char(255) DEFAULT NULL,
+  `db_name` char(255) DEFAULT NULL,
+  `user` char(255) DEFAULT NULL,
+  `pass` char(255) DEFAULT NULL,
+  `fk_app` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `constructor_db_config`
+--
+
+INSERT INTO `constructor_db_config` (`id`, `host`, `db_name`, `user`, `pass`, `fk_app`) VALUES
+(1, 'localhost', 'nominas', 'root', '', NULL),
+(2, 'localhost', 'transportes', 'root', '', 5),
+(3, 'localhost', 'maquinas', 'root', '', 6),
+(4, 'localhot', 'nominas', 'root', '', 7),
+(5, 'localhost', 'soporte', 'root', '', 4),
+(6, 'localhot', 'constructor', 'root', '', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `constructor_elemento_catalogo`
 --
 
@@ -62,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `constructor_elemento_catalogo` (
   `fk_catalogo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_catalogo` (`fk_catalogo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=984 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1060 ;
 
 --
 -- Volcado de datos para la tabla `constructor_elemento_catalogo`
@@ -467,7 +555,82 @@ INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo
 (981, '', '', 'ImportePagado', '', 'NO', 'decimal(18,6)', 'Text Input', '{"etiqueta":"ImportePagado","requerido":"0","editable":"1","oculto":"0","ayuda":"ImportePagado" }', 93),
 (982, '', '', 'fk_nomina', '', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Fk_nomina","ayuda":"Fk_nomina","requerido":"0","oculto":"1","editable":"1"}', 93);
 INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo`, `llave`, `esNulo`, `tipo`, `componente`, `comp_config`, `fk_catalogo`) VALUES
-(983, '', '', 'horas_extra', '', '', '', 'Tabla', '{"titulo":"Horas Extra","ayuda":"Horas Extra","editable":"1","target":"93","llave_foranea":"fk_nomina","config_tabla":"[{\\"id\\":\\"976\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"977\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"Dias\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Dias\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Dias\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"978\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"TipoHoras\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(50)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"TipoHoras\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"TipoHoras\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"979\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_TipoHoras\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Tipo Horas\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Tipo Horas\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"92\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"980\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"HorasExtra\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"HorasExtra\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"HorasExtra\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"981\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"ImportePagado\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"ImportePagado\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"ImportePagado\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"982\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_nomina\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"}]"}', 88);
+(983, '', '', 'horas_extra', '', '', '', 'Tabla', '{"titulo":"Horas Extra","ayuda":"Horas Extra","editable":"1","target":"93","llave_foranea":"fk_nomina","config_tabla":"[{\\"id\\":\\"976\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"977\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"Dias\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Dias\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Dias\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"978\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"TipoHoras\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"char(50)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"TipoHoras\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"TipoHoras\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"979\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_TipoHoras\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Tipo Horas\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Tipo Horas\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"92\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"980\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"HorasExtra\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"HorasExtra\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"HorasExtra\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"981\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"ImportePagado\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"ImportePagado\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"ImportePagado\\\\\\" }\\",\\"fk_catalogo\\":\\"93\\"},{\\"id\\":\\"982\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_nomina\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"93\\"}]"}', 88),
+(984, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 94),
+(985, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 94),
+(986, '', '', 'ubicacion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Ubicacion","requerido":"0","editable":"1","oculto":"0","ayuda":"Ubicacion" }', 94),
+(987, '', '', 'logo', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Logo","requerido":"0","editable":"1","oculto":"0","ayuda":"Logo" }', 94),
+(988, '', '', 'favicon', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Favicon","requerido":"0","editable":"1","oculto":"0","ayuda":"Favicon" }', 94),
+(989, '', '', 'descripcion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0","ayuda":"Descripcion" }', 94),
+(990, '', '', 'tags', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Tags","requerido":"0","editable":"1","oculto":"0","ayuda":"Tags" }', 94),
+(991, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 95),
+(992, '', '', 'host', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Host","requerido":"0","editable":"1","oculto":"0","ayuda":"Host" }', 95),
+(993, '', '', 'db_name', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"DB Name","ayuda":"Nombre de la base de datos","requerido":"0","oculto":"0","editable":"1"}', 95),
+(994, '', '', 'user', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"User","requerido":"0","editable":"1","oculto":"0","ayuda":"User" }', 95),
+(995, '', '', 'pass', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Pass","requerido":"0","editable":"1","oculto":"0","ayuda":"Pass" }', 95),
+(997, '', '', 'conexiones', '', '', '', 'Tabla', '{"titulo":"Conexiones","ayuda":"Conexiones","editable":"1","target":"95","llave_foranea":"fk_app","config_tabla":"[{\\"id\\":\\"991\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"95\\"},{\\"id\\":\\"992\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"host\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Host\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Host\\\\\\" }\\",\\"fk_catalogo\\":\\"95\\"},{\\"id\\":\\"993\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"db_name\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"DB Name\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Nombre de la base de datos\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"95\\"},{\\"id\\":\\"994\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"user\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"User\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"User\\\\\\" }\\",\\"fk_catalogo\\":\\"95\\"},{\\"id\\":\\"995\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"pass\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Pass\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Pass\\\\\\" }\\",\\"fk_catalogo\\":\\"95\\"}]"}', 94),
+(998, '', '', 'fk_app', '', '', '', 'Text Input', '{"etiqueta":"App","ayuda":"","requerido":"1","oculto":"1","editable":"1"}', 95),
+(999, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 96),
+(1000, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 96),
+(1001, '', '', 'ruta', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Ruta","requerido":"0","editable":"1","oculto":"0","ayuda":"Ruta" }', 96),
+(1002, '', '', 'fk_forma_pago', '', '', '', 'Combo Box', '{"etiqueta":"Forma de Pago","ayuda":"Forma de Pago","requerido":"1","oculto":"0","editable":"1","target":"97","campo_a_mostrar":"nombre"}', 88),
+(1003, '', '', 'fk_certificado', '', '', '', 'Combo Box', '{"etiqueta":"Certificado","ayuda":"Certificado","requerido":"1","oculto":"0","editable":"1","target":"82","campo_a_mostrar":"no_serie"}', 88),
+(1004, '', '', 'condiciones_de_pago', '', '', '', 'Text Input', '{"etiqueta":"Condiciones De Pago","ayuda":"Condiciones De Pago","requerido":"0","oculto":"0","editable":"1"}', 88),
+(1005, '', '', 'subTotal', '', '', '', 'Text Input', '{"etiqueta":"Subtotal","ayuda":"Subtotal","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1006, '', '', 'descuento', '', '', '', 'Text Input', '{"etiqueta":"Descuento","ayuda":"Descuento","requerido":"0","oculto":"0","editable":"1"}', 88),
+(1007, '', '', 'motivo_descuento', '', '', '', 'Text Input', '{"etiqueta":"Motivo de descuento","ayuda":"Motivo de descuento","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1008, '', '', 'tipo_cambio', '', '', '', 'Text Input', '{"etiqueta":"Tipo de Cambio","ayuda":"Tipo de Cambio","requerido":"0","oculto":"0","editable":"1"}', 88),
+(1009, '', '', 'fk_moneda', '', '', '', 'Combo Box', '{"etiqueta":"Moneda","ayuda":"Moneda","requerido":"1","oculto":"0","editable":"1","target":"99","campo_a_mostrar":"moneda"}', 88),
+(1010, '', '', 'total', '', '', '', 'Text Input', '{"etiqueta":"Total","ayuda":"Total","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1011, '', '', 'tipo_comprobante', '', '', '', 'Text Input', '{"etiqueta":"Tipo De Comprobante","ayuda":"Tipo De Comprobante","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1012, '', '', 'fk_metodo_pago', '', '', '', 'Combo Box', '{"etiqueta":"Método de Pago","ayuda":"Método de Pago","requerido":"1","oculto":"0","editable":"1","target":"98","campo_a_mostrar":"nombre"}', 88),
+(1013, '', '', 'num_cta_pago', '', '', '', 'Text Input', '{"etiqueta":"Num Cta Pago","ayuda":"Ultimos 4 digitos de la cuenta","requerido":"0","oculto":"0","editable":"1"}', 88),
+(1014, '', '', 'totImpRet', '', '', '', 'Text Input', '{"etiqueta":"Tot Imp Ret","ayuda":"Total de Impuestos Retenidos","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1015, '', '', 'totImpTras', '', '', '', 'Text Input', '{"etiqueta":"Tot Imp Tras","ayuda":"Total de Impuestos Trasladados","requerido":"1","oculto":"0","editable":"1"}', 88),
+(1016, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 97),
+(1017, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 97),
+(1018, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 98),
+(1019, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 98),
+(1020, '0', '', 'es_pago_con_tarjeta', '', 'YES', 'int(1)', 'Text Input', '{"etiqueta":"Usa Tarjeta","ayuda":"Si es un pago con tarjeta, marque esta casilla","requerido":"0","oculto":"0","editable":"1"}', 98),
+(1021, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 99),
+(1022, '', '', 'codigo', '', 'YES', 'char(5)', 'Text Input', '{"etiqueta":"Codigo","requerido":"0","editable":"1","oculto":"0","ayuda":"Codigo" }', 99),
+(1023, '', '', 'moneda', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Moneda","requerido":"0","editable":"1","oculto":"0","ayuda":"Moneda" }', 99),
+(1024, '', '', 'descripcion', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0","ayuda":"Descripcion" }', 99),
+(1025, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 100),
+(1026, '', '', 'cantidad', '', 'YES', 'decimal(18,6)', 'Text Input', '{"etiqueta":"Cantidad","requerido":"0","editable":"1","oculto":"0","ayuda":"Cantidad" }', 100),
+(1027, '', '', 'unidad', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Unidad","requerido":"0","editable":"1","oculto":"0","ayuda":"Unidad" }', 100),
+(1028, '', '', 'fk_um', '', 'YES', 'int(11)', 'Combo Box', '{"etiqueta":"UM","ayuda":"Unidad de Medida","requerido":"0","oculto":"0","editable":"1","target":"101","campo_a_mostrar":"nombre"}', 100),
+(1029, '', '', 'fk_concepto', '', 'YES', 'int(11)', 'Combo Box', '{"etiqueta":"Concepto","ayuda":"Concepto","requerido":"0","oculto":"0","editable":"1","target":"102","campo_a_mostrar":"nombre"}', 100),
+(1030, '', '', 'descripcion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0","ayuda":"Descripcion" }', 100),
+(1031, '', '', 'valorUnitario', '', 'YES', 'decimal(18,6)', 'Text Input', '{"etiqueta":"ValorUnitario","requerido":"0","editable":"1","oculto":"0","ayuda":"ValorUnitario" }', 100),
+(1032, '', '', 'importe', '', 'YES', 'decimal(18,6)', 'Text Input', '{"etiqueta":"Importe","requerido":"0","editable":"1","oculto":"0","ayuda":"Importe" }', 100),
+(1033, '', '', 'noIdentificacion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"NoIdentificacion","ayuda":"NoIdentificacion","requerido":"0","oculto":"1","editable":"1"}', 100),
+(1034, '', '', 'fk_nomina', '', 'YES', 'int(11)', 'Text Input', '{"etiqueta":"Fk_nomina","ayuda":"Fk_nomina","requerido":"0","oculto":"1","editable":"1"}', 100),
+(1035, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 101),
+(1036, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 101),
+(1037, '', '', 'abreviacion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Abreviacion","requerido":"0","editable":"1","oculto":"0","ayuda":"Abreviacion" }', 101),
+(1038, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 102),
+(1039, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 102),
+(1040, '', '', 'descripcion', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Descripcion","requerido":"0","editable":"1","oculto":"0","ayuda":"Descripcion" }', 102),
+(1041, '', '', 'precio', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Precio","requerido":"0","editable":"1","oculto":"0","ayuda":"Precio" }', 102),
+(1042, '', '', 'fk_unidad', '', 'YES', 'int(11)', 'Combo Box', '{"etiqueta":"UM","ayuda":"Unidad De Medida","requerido":"0","oculto":"0","editable":"1","target":"101","campo_a_mostrar":"abreviacion"}', 102),
+(1043, '', '', 'conceptos', '', '', '', 'Tabla', '{"titulo":"Conceptos","ayuda":"Conceptos","editable":"1","target":"100","llave_foranea":"fk_nomina","config_tabla":"[{\\"id\\":\\"1025\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1026\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"cantidad\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Cantidad\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Cantidad\\\\\\" }\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1027\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"unidad\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Unidad\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Unidad\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1028\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_um\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"UM\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Unidad de Medida\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"101\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1029\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_concepto\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Concepto\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Concepto\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"102\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1030\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"descripcion\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Descripcion\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Descripcion\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1031\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"valorUnitario\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"ValorUnitario\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"ValorUnitario\\\\\\" }\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1032\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"importe\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Importe\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Importe\\\\\\" }\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1033\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"noIdentificacion\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"NoIdentificacion\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"NoIdentificacion\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"},{\\"id\\":\\"1034\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_nomina\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"100\\"}]"}', 88),
+(1044, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 103),
+(1045, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 103),
+(1046, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 104),
+(1047, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 104),
+(1048, '', '', 'tasa', '', 'YES', 'float(18,4)', 'Text Input', '{"etiqueta":"Tasa","requerido":"0","editable":"1","oculto":"0","ayuda":"Tasa" }', 104),
+(1049, '', '', 'fk_naturaleza', '', 'YES', 'int(11)', 'Combo Box', '{"etiqueta":"Naturaleza","ayuda":"Naturaleza","requerido":"0","oculto":"0","editable":"1","target":"103","campo_a_mostrar":"nombre"}', 104),
+(1050, '', '', 'detalles', '', 'YES', 'text', 'Text Input', '{"etiqueta":"Detalles","requerido":"0","editable":"1","oculto":"0","ayuda":"Detalles" }', 104),
+(1051, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 105),
+(1052, '', '', 'fk_impuesto', 'MUL', 'YES', 'int(11)', 'Combo Box', '{"etiqueta":"Impuesto","ayuda":"Impuesto","requerido":"0","oculto":"0","editable":"1","target":"104","campo_a_mostrar":"nombre"}', 105),
+(1053, '', '', 'fk_nomina', 'MUL', 'YES', 'int(11)', 'Text Input', '{"etiqueta":"Fk_nomina","ayuda":"Fk_nomina","requerido":"0","oculto":"1","editable":"1"}', 105),
+(1054, '0.000000', '', 'importe', '', 'YES', 'decimal(18,6)', 'Text Input', '{"etiqueta":"Importe","requerido":"0","editable":"1","oculto":"0","ayuda":"Importe" }', 105),
+(1055, '', '', 'tasai', '', 'YES', 'decimal(18,6)', 'Text Input', '{"etiqueta":"Tasai","requerido":"0","editable":"1","oculto":"0","ayuda":"Tasai" }', 105),
+(1056, '', '', 'nombre', '', 'YES', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 105),
+(1057, '', '', 'fk_tipo_impuesto', '', 'YES', 'char(255)', 'Combo Box', '{"etiqueta":"Tipo Impuesto","ayuda":"Tipo De Impuesto","requerido":"0","oculto":"0","editable":"1","target":"103","campo_a_mostrar":"nombre"}', 105),
+(1058, '', '', 'impuestos', '', '', '', 'Tabla', '{"titulo":"Impuestos","ayuda":"Impuestos","editable":"1","target":"105","llave_foranea":"fk_nomina","config_tabla":"[{\\"id\\":\\"1051\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"auto_increment\\",\\"campo\\":\\"id\\",\\"llave\\":\\"PRI\\",\\"esNulo\\":\\"NO\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Id\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1052\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_impuesto\\",\\"llave\\":\\"MUL\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Impuesto\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Impuesto\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"104\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1053\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_nomina\\",\\"llave\\":\\"MUL\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"int(11)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Fk_nomina\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1054\\",\\"esDefault\\":\\"0.000000\\",\\"extras\\":\\"\\",\\"campo\\":\\"importe\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Importe\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Importe\\\\\\" }\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1055\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"tasai\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"decimal(18,6)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Tasai\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Tasai\\\\\\" }\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1056\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"nombre\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Text Input\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Nombre\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Nombre\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"1\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\"}\\",\\"fk_catalogo\\":\\"105\\"},{\\"id\\":\\"1057\\",\\"esDefault\\":\\"\\",\\"extras\\":\\"\\",\\"campo\\":\\"fk_tipo_impuesto\\",\\"llave\\":\\"\\",\\"esNulo\\":\\"YES\\",\\"tipo\\":\\"char(255)\\",\\"componente\\":\\"Combo Box\\",\\"comp_config\\":\\"{\\\\\\"etiqueta\\\\\\":\\\\\\"Tipo Impuesto\\\\\\",\\\\\\"ayuda\\\\\\":\\\\\\"Tipo De Impuesto\\\\\\",\\\\\\"requerido\\\\\\":\\\\\\"0\\\\\\",\\\\\\"oculto\\\\\\":\\\\\\"0\\\\\\",\\\\\\"editable\\\\\\":\\\\\\"1\\\\\\",\\\\\\"target\\\\\\":\\\\\\"103\\\\\\",\\\\\\"campo_a_mostrar\\\\\\":\\\\\\"nombre\\\\\\"}\\",\\"fk_catalogo\\":\\"105\\"}]"}', 88),
+(1059, '', '', 'fecha_emision', '', '', '', 'Text Input', '{"etiqueta":"Fecha Emision","ayuda":"Fecha Emision","requerido":"0","oculto":"0","editable":"1"}', 88);
 
 -- --------------------------------------------------------
 
@@ -625,6 +788,72 @@ INSERT INTO `facturacion_config` (`id`, `timbres_disponibles`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `facturacion_formas_de_pago`
+--
+
+CREATE TABLE IF NOT EXISTS `facturacion_formas_de_pago` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `facturacion_formas_de_pago`
+--
+
+INSERT INTO `facturacion_formas_de_pago` (`id`, `nombre`) VALUES
+(1, 'Pago en una sola exhibición'),
+(2, 'Parcialidades');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturacion_metodos_de_pago`
+--
+
+CREATE TABLE IF NOT EXISTS `facturacion_metodos_de_pago` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `es_pago_con_tarjeta` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `facturacion_metodos_de_pago`
+--
+
+INSERT INTO `facturacion_metodos_de_pago` (`id`, `nombre`, `es_pago_con_tarjeta`) VALUES
+(2, 'efectivo', 0),
+(3, 'tarjeta de crédito o debito', 1),
+(4, 'depósito en cuenta', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturacion_moneda`
+--
+
+CREATE TABLE IF NOT EXISTS `facturacion_moneda` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` char(5) DEFAULT NULL,
+  `moneda` char(255) DEFAULT NULL,
+  `descripcion` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `facturacion_moneda`
+--
+
+INSERT INTO `facturacion_moneda` (`id`, `codigo`, `moneda`, `descripcion`) VALUES
+(1, 'MXN', 'pesos', 'Peso mexicano'),
+(2, 'USD', 'dolares', 'Dólar estadounidense'),
+(3, 'USN', 'dolares', 'Dólar estadounidense (Siguiente día) (código de fondos)'),
+(4, 'USS', 'Dolares', 'Dólar estadounidense (Mismo día) (código de fondos)');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `facturacion_razones_sociales`
 --
 
@@ -656,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `facturacion_razones_sociales` (
 --
 
 INSERT INTO `facturacion_razones_sociales` (`id`, `rfc`, `razon_social`, `nombre_comercial`, `RegistroPatronal`, `datos_de_contacto`, `logo_factura`, `fk_pais`, `fk_estado`, `fk_ciudad`, `fk_municipio`, `calle`, `noExterior`, `noInterior`, `colonia`, `localidad`, `referencia`, `codigoPostal`, `email_bcc`) VALUES
-(1, 'AAA010101AAA', 'Razon Social Prueba', 'Nombre Comercial Prueba', '', '', 'triples.jpg', 1, 25, 0, 2844, 'conocida', '000', 'Ext 000', 'Fracc. Conocido', 'mazatlan', '', '82100', 'email@email.com');
+(1, 'AAA010101AAA', 'Razon Social Prueba', 'Nombre Comercial Prueba', '452345', '', 'triples.jpg', 1, 25, 0, 2844, 'conocida', '000', 'Ext 000', 'Fracc. Conocido', 'mazatlan', '', '82100', 'email@email.com');
 
 -- --------------------------------------------------------
 
@@ -678,6 +907,28 @@ CREATE TABLE IF NOT EXISTS `facturacion_regimenes` (
 INSERT INTO `facturacion_regimenes` (`id`, `regimen`, `fk_razon_social`) VALUES
 (1, 'Regimen Prueba', 1),
 (2, 'Otro Regimen', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `facturacion_um`
+--
+
+CREATE TABLE IF NOT EXISTS `facturacion_um` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `abreviacion` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `facturacion_um`
+--
+
+INSERT INTO `facturacion_um` (`id`, `nombre`, `abreviacion`) VALUES
+(1, 'Kilogramo', 'KG'),
+(2, 'pieza', 'pza'),
+(3, 'Servicio', 'Servicio');
 
 -- --------------------------------------------------------
 
@@ -905,6 +1156,33 @@ INSERT INTO `nomina_bancos` (`id`, `clave`, `nombre_corto`, `nombre_o_razon_soci
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `nomina_conceptos`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_conceptos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `descripcion` char(255) DEFAULT NULL,
+  `precio` char(255) DEFAULT NULL,
+  `fk_unidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `nomina_conceptos`
+--
+
+INSERT INTO `nomina_conceptos` (`id`, `nombre`, `descripcion`, `precio`, `fk_unidad`) VALUES
+(1, 'Pago de Nomina', '', '0', 3),
+(2, 'Aguinaldo', '', '', 3),
+(3, 'Prima Vacacional', '', '', 1),
+(4, 'Fondo De Ahorro', '', '', 3),
+(5, 'Liquidacion', '', '', 3),
+(6, 'Finiquito', '', '', 3);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `nomina_deducciones`
 --
 
@@ -918,7 +1196,7 @@ CREATE TABLE IF NOT EXISTS `nomina_deducciones` (
   `ImporteExcento` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `nomina_deducciones`
@@ -929,7 +1207,9 @@ INSERT INTO `nomina_deducciones` (`id`, `fk_TipoDeduccion`, `TipoDeduccion`, `Cl
 (2, 1, '', 4, '214sf', '123.000000', '123.000000', 1),
 (3, 0, '', 0, '', '0.000000', '0.000000', 2),
 (4, 0, '', 0, '', '0.000000', '0.000000', 3),
-(5, 0, '', 0, '', '0.000000', '0.000000', 4);
+(5, 0, '', 0, '', '0.000000', '0.000000', 4),
+(6, 0, '', 0, '', '0.000000', '0.000000', 5),
+(7, 1, '', 0, '', '0.000000', '0.000000', 6);
 
 -- --------------------------------------------------------
 
@@ -967,7 +1247,7 @@ CREATE TABLE IF NOT EXISTS `nomina_horas_extra` (
   `ImportePagado` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `nomina_horas_extra`
@@ -977,7 +1257,31 @@ INSERT INTO `nomina_horas_extra` (`id`, `Dias`, `TipoHoras`, `fk_TipoHoras`, `Ho
 (1, 2, '', 1, 3, '100.000000', 1),
 (2, 0, '', 0, 0, '0.000000', 2),
 (3, 0, '', 0, 0, '0.000000', 3),
-(4, 0, '', 0, 0, '0.000000', 4);
+(5, 0, '', 0, 0, '0.000000', 5),
+(6, 0, '', 0, 0, '0.000000', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_impuesto`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_impuesto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `tasa` float(18,4) DEFAULT NULL,
+  `fk_naturaleza` int(11) DEFAULT NULL,
+  `detalles` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `nomina_impuesto`
+--
+
+INSERT INTO `nomina_impuesto` (`id`, `nombre`, `tasa`, `fk_naturaleza`, `detalles`) VALUES
+(1, 'IVA', 16.0000, 1, ''),
+(2, 'ISR', 10.6667, 2, '');
 
 -- --------------------------------------------------------
 
@@ -993,7 +1297,7 @@ CREATE TABLE IF NOT EXISTS `nomina_incapacidades` (
   `Descuento` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `nomina_incapacidades`
@@ -1004,7 +1308,9 @@ INSERT INTO `nomina_incapacidades` (`id`, `DiasIncapacidad`, `fk_TipoIncapacidad
 (2, 4, 2, '', '0.000000', 1),
 (3, 0, 0, '', '0.000000', 2),
 (4, 0, 0, '', '0.000000', 3),
-(5, 0, 0, '', '0.000000', 4);
+(5, 0, 0, '', '0.000000', 4),
+(6, 0, 0, '', '0.000000', 5),
+(7, 0, 2, '', '0.000000', 6);
 
 -- --------------------------------------------------------
 
@@ -1026,6 +1332,26 @@ INSERT INTO `nomina_jornada` (`id`, `nombre`) VALUES
 (1, 'Diurna'),
 (2, 'Nocturna'),
 (3, 'Mixta');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_naturaleza_impuesto`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_naturaleza_impuesto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `nomina_naturaleza_impuesto`
+--
+
+INSERT INTO `nomina_naturaleza_impuesto` (`id`, `nombre`) VALUES
+(1, 'Traslado'),
+(2, 'Retencion');
 
 -- --------------------------------------------------------
 
@@ -1070,18 +1396,90 @@ CREATE TABLE IF NOT EXISTS `nomina_nomina` (
   `percepcionesTotalExcento` decimal(18,6) NOT NULL,
   `deduccionesTotalGravado` decimal(18,6) NOT NULL,
   `deduccionesTotalExcento` decimal(18,6) NOT NULL,
+  `fecha_expedicion` datetime NOT NULL,
+  `fk_forma_pago` int(11) NOT NULL,
+  `fk_certificado` int(11) NOT NULL,
+  `condiciones_de_pago` char(50) NOT NULL,
+  `subTotal` decimal(18,6) NOT NULL,
+  `descuento` decimal(18,6) NOT NULL,
+  `motivo_descuento` char(100) NOT NULL,
+  `tipo_cambio` decimal(18,6) NOT NULL,
+  `fk_moneda` int(11) NOT NULL,
+  `total` decimal(18,6) NOT NULL,
+  `tipo_comprobante` char(20) NOT NULL,
+  `fk_metodo_pago` int(11) NOT NULL,
+  `num_cta_pago` char(10) NOT NULL,
+  `totImpRet` decimal(18,6) NOT NULL,
+  `totImpTras` decimal(18,6) NOT NULL,
+  `fecha_emision` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `nomina_nomina`
 --
 
-INSERT INTO `nomina_nomina` (`id`, `fk_patron`, `fk_empleado`, `fk_serie`, `serie`, `folio`, `Version`, `RegistroPatronal`, `NumEmpleado`, `CURP`, `fk_TipoRegimen`, `TipoRegimen`, `NumSeguridadSocial`, `FechaPago`, `FechaInicialPago`, `FechaFinalPago`, `NumDiasPagados`, `fk_Departamento`, `Departamento`, `CLABE`, `Banco`, `FechaInicioRelLaboral`, `Antiguedad`, `Puesto`, `TipoContrato`, `TipoJornada`, `PeriodicidadPago`, `SalarioBaseCotApor`, `RiesgoPuesto`, `SalarioDiarioIntegrado`, `fk_banco`, `fk_RiesgoPuesto`, `percepcionesTotalGravado`, `percepcionesTotalExcento`, `deduccionesTotalGravado`, `deduccionesTotalExcento`) VALUES
-(1, 1, 1, 1, '', '1', '', '', '', 0, 4, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '2', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000'),
-(2, 1, 1, 1, 'A', '1', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000'),
-(3, 1, 1, 1, '', '', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000'),
-(4, 1, 1, 1, '', '', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000');
+INSERT INTO `nomina_nomina` (`id`, `fk_patron`, `fk_empleado`, `fk_serie`, `serie`, `folio`, `Version`, `RegistroPatronal`, `NumEmpleado`, `CURP`, `fk_TipoRegimen`, `TipoRegimen`, `NumSeguridadSocial`, `FechaPago`, `FechaInicialPago`, `FechaFinalPago`, `NumDiasPagados`, `fk_Departamento`, `Departamento`, `CLABE`, `Banco`, `FechaInicioRelLaboral`, `Antiguedad`, `Puesto`, `TipoContrato`, `TipoJornada`, `PeriodicidadPago`, `SalarioBaseCotApor`, `RiesgoPuesto`, `SalarioDiarioIntegrado`, `fk_banco`, `fk_RiesgoPuesto`, `percepcionesTotalGravado`, `percepcionesTotalExcento`, `deduccionesTotalGravado`, `deduccionesTotalExcento`, `fecha_expedicion`, `fk_forma_pago`, `fk_certificado`, `condiciones_de_pago`, `subTotal`, `descuento`, `motivo_descuento`, `tipo_cambio`, `fk_moneda`, `total`, `tipo_comprobante`, `fk_metodo_pago`, `num_cta_pago`, `totImpRet`, `totImpTras`, `fecha_emision`) VALUES
+(1, 1, 1, 1, '', '1', '', '', '', 0, 4, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '2', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00'),
+(2, 1, 1, 1, 'A', '1', '1.1', 'xxx2038', '050', 0, 1, '', '001', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '001', '', '0000-00-00 00:00:00', '0.000000', 'programador', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '2013-12-24 11:18:00'),
+(3, 1, 1, 1, '', '1', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00'),
+(4, 1, 1, 1, '', '1', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00'),
+(5, 1, 1, 1, '', '1', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00'),
+(6, 1, 1, 1, '', '', '', '', '', 0, 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', '0.000000', '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_nomina_conceptos`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_nomina_conceptos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad` decimal(18,6) DEFAULT NULL,
+  `unidad` char(255) DEFAULT NULL,
+  `fk_um` int(11) DEFAULT NULL,
+  `fk_concepto` int(11) DEFAULT NULL,
+  `descripcion` char(255) DEFAULT NULL,
+  `valorUnitario` decimal(18,6) DEFAULT NULL,
+  `importe` decimal(18,6) DEFAULT NULL,
+  `noIdentificacion` char(255) DEFAULT NULL,
+  `fk_nomina` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `nomina_nomina_conceptos`
+--
+
+INSERT INTO `nomina_nomina_conceptos` (`id`, `cantidad`, `unidad`, `fk_um`, `fk_concepto`, `descripcion`, `valorUnitario`, `importe`, `noIdentificacion`, `fk_nomina`) VALUES
+(1, '1.000000', '', 0, 1, '', '580.000000', '580.000000', '', 6),
+(2, '1.000000', '', 0, 3, '', '0.000000', '0.000000', '', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_nomina_impuesto`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_nomina_impuesto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_impuesto` int(11) DEFAULT NULL,
+  `fk_nomina` int(11) DEFAULT NULL,
+  `importe` decimal(18,6) DEFAULT '0.000000',
+  `tasai` decimal(18,6) DEFAULT NULL,
+  `nombre` char(255) DEFAULT NULL,
+  `fk_tipo_impuesto` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_impuesto` (`fk_impuesto`),
+  KEY `fk_nomina` (`fk_nomina`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `nomina_nomina_impuesto`
+--
+
+INSERT INTO `nomina_nomina_impuesto` (`id`, `fk_impuesto`, `fk_nomina`, `importe`, `tasai`, `nombre`, `fk_tipo_impuesto`) VALUES
+(1, 1, 2, '12.000000', '16.000000', '', '1');
 
 -- --------------------------------------------------------
 
@@ -1099,7 +1497,7 @@ CREATE TABLE IF NOT EXISTS `nomina_percepciones` (
   `TipoPercepcion` char(50) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `nomina_percepciones`
@@ -1111,7 +1509,8 @@ INSERT INTO `nomina_percepciones` (`id`, `fk_TipoPercepcion`, `Clave`, `Concepto
 (3, 1, 'asdf', 'asdf', '234.000000', '2434.000000', '234', 1),
 (4, 0, '', '', '0.000000', '0.000000', '', 2),
 (5, 0, '', '', '0.000000', '0.000000', '', 3),
-(6, 0, '', '', '0.000000', '0.000000', '', 4);
+(6, 0, '', '', '0.000000', '0.000000', '', 4),
+(8, 2, '550', '15', '580.000000', '590.000000', 'Gratificación Anual (Aguinaldo)', 6);
 
 -- --------------------------------------------------------
 
@@ -1331,7 +1730,7 @@ CREATE TABLE IF NOT EXISTS `nomina_trabajador` (
 --
 
 INSERT INTO `nomina_trabajador` (`id`, `nombre`, `rfc`, `NoEmpleado`, `fk_RiesgoPuesto`, `fk_Puesto`, `FechaInicioRelLaboral`, `fk_TipoContrato`, `fk_PeriodicidadPago`, `fk_TipoJornada`, `Salario`, `email`, `CURP`, `fk_TipoRegimen`, `NumSeguridadSocial`, `calle`, `noExterior`, `noInterior`, `colonia`, `localidad`, `referencia`, `fk_pais`, `fk_estado`, `fk_municipio`, `codigoPostal`) VALUES
-(1, 'Cesar Octavio', 'BIAC810830TH2', '001', 0, 0, 0, 0, 0, 0, '0.000000', 'cbibriesca@hotmail.com', 'BIAC810830HSLBLS02', 1, '23028127597', '', '', '', '', '', '', 1, 25, 2844, '82180');
+(1, 'Cesar Octavio', 'BIAC810830TH2', '001', 0, 0, 0, 0, 0, 0, '0.000000', 'cbibriesca@hotmail.com', 'BIAC810830HSLBLS02', 1, '23028127597', 'calle', '1', '0', 'juarez', 'mazatlan', '', 1, 25, 2844, '82180');
 
 -- --------------------------------------------------------
 
@@ -1509,7 +1908,7 @@ CREATE TABLE IF NOT EXISTS `system_catalogos` (
   `msg_cambios` char(255) DEFAULT NULL,
   `campos_busqueda` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=106 ;
 
 --
 -- Volcado de datos para la tabla `system_catalogos`
@@ -1519,7 +1918,7 @@ INSERT INTO `system_catalogos` (`id`, `fk_modulo`, `nombre`, `controlador`, `mod
 (18, 2, 'Usuarios', 'usuarios', 'Usuario', 'system_usuarios', 'id', 'http://png.findicons.com/files/icons/1620/crystal_project/64/personal.png', 'Nuevo Usuario', '''Usuario: '' + getValorCampo(''nombre'')', 'Buscar Usuario', 'Usuario Creado', 'Usuario Actualizado', '¿Eliminar Usuario?', '', '', 'nick, email, name'),
 (32, 2, 'Modulos', 'modulos', 'modulo', 'system_modulos', 'id', 'http://png.findicons.com/files/icons/1681/siena/48/puzzle_yellow.png', 'Nuevo Modulo', '''Modulo: '' + getValorCampo(''nombre'')', 'Modulos', 'Modulo Creado', 'Modulo Actualizado', '¿Eliminar Modulo?', '', '', ''),
 (33, 2, 'Catalogos', 'catalogos', 'Catalogo', 'system_catalogos', 'id', 'http://png.findicons.com/files/icons/577/refresh_cl/48/windows_view_icon.png', 'Nuevo Catalogo', '''Catalogo: '' + getValorCampo(''nombre'')', '''Buscar Catalogos''', 'Catalogo Creado', 'Catalogo Actualizado', 'Eliminar Catalogo', 'Catalogo Eliminado', 'Ha hecho cambios en el catalogo,ï¿½Guardar antes de salir?', 'nombre'),
-(40, 2, 'Paginas', 'paginas', 'pagina', 'system_pagina', 'id', 'default.png', 'Nueva Pagina', '''Pagina:  '' + getValorCampo(''titulo'')', 'Buscar Paginas', 'Pagina Creada', 'Pagina Actualizada', 'Â¿Eliminar Pagina?', 'Pagina Eliminada', 'Desea Guardar los cambios', 'nombre'),
+(40, 2, 'Paginas', 'paginas', 'pagina', 'system_pagina', 'id', 'default.png', 'Nueva Pagina', 'Pagina:  {titulo}', 'Buscar Paginas', 'Pagina Creada', 'Pagina Actualizada', '¿Eliminar Pagina?', 'Pagina Eliminada', 'Desea Guardar los cambios', 'nombre'),
 (41, 2, 'Elemento del Catalogo', 'elementos', 'elemento', 'constructor_elemento_catalogo', 'id', '', 'Nuevo Elemento', '''Editar Elemento''', 'Buscar Elemento', 'Elemento Creado', 'Elemento Actualizado', 'Â¿Eliminar Elemento?', 'Elemento Eliminado', 'Â¿Guardar Cambios del Elemento?', 'Field, componente'),
 (42, 2, 'Modelo C', 'modelos', 'modeloc', 'system_modelos', 'id', '', 'Nuevo Modelo', '''Editando Modelo: ''+ getValorCampo(''nombre'')', 'Buscar Modelo', '', '', '', '', '', 'nombre'),
 (43, 2, 'Autor', 'autores', 'autor', 'system_users', 'id', '', 'Nuevo Autor', '''Autor: ''+getValorCampo(''name'')', 'Busqueda de Autores', 'Autor Creado', 'Autor Actualizado', 'Â¿Eliminar?', 'Eliminado', 'cambios pendientes', 'name'),
@@ -1552,17 +1951,17 @@ INSERT INTO `system_catalogos` (`id`, `fk_modulo`, `nombre`, `controlador`, `mod
 (71, 6, 'Punto de Venta', 'puntos_de_venta', 'punto_de_venta', 'makina_punto_de_venta', 'id', '', 'Nuevo Punto de Venta', '''Punto de Venta: '' + getValorCampo(''nombre'')', 'Puntos de Venta', 'Punto de Venta Creada', 'Punto de Venta Actualizada', '', '', '', ''),
 (72, 6, 'Cortes', 'cortes', 'corte', 'makinas_corte', 'id', '', 'Nuevo Corte', '''Corte: '' + getValorCampo(''fecha'')', 'Cortes', 'Corte Creado', 'Corte Actualizado', '¿Eliminar Corte?', '', '', ''),
 (73, 6, 'Series', 'series', 'serie', 'makinas_serie', 'id', '', 'Nueva Serie', '''Serie: '' + getValorCampo(''serie'')', 'Series', 'Serie Creada', 'Serie Actualizada', '¿Eliminar Serie?', '', '', ''),
-(74, 7, 'Régimen de Contratación del trabajador', 'regimenes_contratacion', 'regimen_contratacion', 'nomina_regimen_contratacion', 'id', '', 'Nuevo Regimen de contratación', '''Régimen de Contratacion: '' + getValorCampo(''nombre'')', 'Regímenes de Contratación', 'Régimen de Contratación Creado', 'Régimen de Contratación Actualizado', '¿Eliminar Régimen de Contratación ?', 'Régimen de Contratación Eliminado', '', ''),
+(74, 7, 'Régimen de Contratato', 'regimenes_contratacion', 'regimen_contratacion', 'nomina_regimen_contratacion', 'id', '', 'Nuevo Regimen de contratación', 'Régimen de Contratación: {nombre}', 'Regímenes de Contratación', 'Régimen de Contratación Creado', 'Régimen de Contratación Actualizado', '¿Eliminar Régimen de Contratación ?', 'Régimen de Contratación Eliminado', '', ''),
 (75, 7, 'Bancos', 'bancos', 'banco', 'nomina_bancos', 'id', '', 'Nuevo Banco', '''Banco: '' + getValorCampo(''nombre_corto'')', 'Bancos', 'Banco Creado', 'Banco Actualizado', '¿Eliminar Banco?', 'Banco Eliminado', '', ''),
 (76, 7, 'Nivel de Riesgo', 'riesgos', 'riesgo', 'nomina_riesgo_puesto', 'id', '', 'Nuevo Riesgo Puesto', '''Nuevo Riesgo: '' + getValorCampo(''descripcion'')', 'Riesgos', 'Riesgo Creado', 'Riesgo Actualizado', '¿Eliminar Riesgo?', 'Riesgo Eliminado', '', ''),
 (77, 7, 'Tipo de Percepción', 'tipos_percepcion', 'tipo_percepcion', 'nomina_tipo_percepcion', 'id', '', 'Nuevo Tipo de Percepción', '''Tipo de Percepcion: '' + getValorCampo(''descripcion'')', 'Tipos de Percepción', 'Tipo de Percepción Creada', 'Tipo de Percepción Actualizada', '¿Eliminar Tipo de Percepción?', 'Tipo de Percepción Eliminada', '', ''),
 (78, 7, 'Tipo de Deduccion', 'tipos_deduccion', 'tipo_deduccion', 'nomina_tipo_deduccion', 'id', '', 'Nuevo Tipo de Deducción', '''Tipo de Deducción: '' +getValorCampo(''descripcion'')', 'Tipos de Deducción', 'Tipo de Deducción Creada', 'Tipo de Deducción Actualizada', '¿Eliminar Tipo de Deducción?', 'Tipo de Deducción Eliminada', '', ''),
 (79, 7, 'Tipo de Incapacidad', 'tipos_incapacidad', 'tipo_incapacidad', 'nomina_tipo_incapacidad', 'id', '', 'Nuevo Tipo De Incapacidad', '''Tipo De Incapacidad: '' + getValorCampo(''descripcion'')', 'Tipos De Incapacidad', 'Tipo De Incapacidad Creada', 'Tipo De Incapacidad Actualizada', '¿Eliminar Tipo De Incapacidad?', 'Tipo De Incapacidad Eliminada', '', ''),
-(80, 7, 'Trabajador', 'trabajadores', 'trabajador', 'nomina_trabajador', 'id', '', 'Nuevo Trabajador', '''Trabajador: '' + getValorCampo(''nombre'')', 'Trabajadores', 'Trabajador Creado', 'Trabajador Actualizado', '¿Eliminar Trabajador?', 'Trabajador Eliminado', '', ''),
+(80, 7, 'Trabajador', 'trabajadores', 'trabajador', 'nomina_trabajador', 'id', '', 'Nuevo Trabajador', 'Trabajador:  {nombre}', 'Trabajadores', 'Trabajador Creado', 'Trabajador Actualizado', '¿Eliminar Trabajador?', 'Trabajador Eliminado', '', ''),
 (81, 7, 'Regimen Fiscal', 'regimenes', 'regimen', 'facturacion_regimenes', 'id', '', 'Nuevo Regimen Fiscal', '''Regimen Fiscal: '' + getValorCampo(''regimen'')', 'Regímenes Fiscales', 'Régimen Fiscal Creado', 'Régimen Fiscal Actualizado', '¿Eliminar Régimen Fiscal?', 'Régimen Fiscal Eliminado', '', ''),
-(82, 7, 'Certificados', 'certificados', 'certificado', 'facturacion_certificados', 'id', '', 'Nuevo Certificado', '''Certificado: '' + getValorCampo(''no_serie'')', 'Certificados', 'Certificado Creado', 'Certificado Actualizado', '¿Eliminar Certificado?', 'Certificado Eliminado', '', ''),
+(82, 7, 'Certificados', 'certificados', 'certificado', 'facturacion_certificados', 'id', '', 'Nuevo Certificado', 'Certificado: {no_serie}', 'Certificados', 'Certificado Creado', 'Certificado Actualizado', '¿Eliminar Certificado?', 'Certificado Eliminado', '', ''),
 (83, 7, 'Serie Nomina', 'series_nomina', 'serie_nomina', 'nomina_series', 'id', '', 'Nueva Serie Para Nomina', '''Serie Para Nomina: '' + getValorCampo(''serie'')', 'Series Para Nomina', 'Serie Para Nomina Creada', 'Serie Para Nomina Actualizada', '¿Eliminar Serie Para Nomina?', 'Serie Para Nomina Eliminada', '', ''),
-(84, 7, 'Empresa', 'empresas', 'empresa', 'facturacion_razones_sociales', 'id', '', 'Nueva Empresa', '''Empresa: '' + getValorCampo(''nombre_comercial'')', 'Empresas', 'Empresa Creada', 'Empresa Actualizada', '¿Eliminar Empresa?', 'Empresa Eliminada', '', ''),
+(84, 7, 'Empresa', 'empresas', 'empresa', 'facturacion_razones_sociales', 'id', '', 'Nueva Empresa', 'Empresa: {nombre_comercial}', 'Empresas', 'Empresa Creada', 'Empresa Actualizada', 'ï¿½Eliminar Empresa?', 'Empresa Eliminada', '', ''),
 (85, 7, 'Jornada', 'jornadas', 'jornada', 'nomina_jornada', 'id', '', 'Nueva Jornada', '''Jornada: ''+getValorCampo(''nombre'')', 'Jornadas', 'Jornada Creada', 'Jornada Actualizada', '¿Eliminar Jornada?', 'Jornada Eliminada', '', ''),
 (86, 7, 'Periodo de Pago', 'periodo_pagos', 'periodo_pago', 'nomina_periodicidad_pago', 'id', '', 'Nuevo Periodo de Pago', '''Periodo de Pago: '' + getValorCampo(''descripcion'')', 'Periodos de  Pago', 'Periodo de Pago Creado', 'Periodo de Pago Actualizado', '¿Eliminar Periodo de Pago?', 'Periodo de Pago Eliminado', '', ''),
 (87, 7, 'Departamento', 'departamentos', 'departamento', 'nomina_departamento', 'id', '', 'Nuevo Departamento', '''Departamento: '' + getValorCampo(''nombre'')', 'Departamentos', 'Departamento Creado', 'Departamento Actualizado', '¿Eliminar Departamento ?', 'Departamento Eliminado', '', ''),
@@ -1571,7 +1970,19 @@ INSERT INTO `system_catalogos` (`id`, `fk_modulo`, `nombre`, `controlador`, `mod
 (90, 7, 'Deducciones', 'deducciones_nomina', 'deduccion_nomina', 'nomina_deducciones', 'id', '', 'Nueva Deducción', '''Deducción: '' + getValorCampo(''Concepto'')', 'Deducciónes', 'Deducción Creada', 'Deducción Actualizada', '¿Eliminar Deducción?', 'Deducción Eliminada', '', ''),
 (91, 7, 'Incapacidades', 'incapacidades', 'incapacidad', 'nomina_incapacidades', 'id', '', 'Nueva Incapacidad', '''Incapacidad''', 'Incapacidades', 'Incapacidad Creada', 'Incapacidad Actualizada', '¿Eliminar Incapacidad?', 'Incapacidad Eliminada', '', ''),
 (92, 7, 'Tipo Horas', 'tipos_hora', 'tipo_hora', 'nomina_tipo_horas', 'id', '', 'Nuevo Tipo de Hora Extra', '''Tipo de Hora Extra: '' + getValorCampo(''nombre'')', 'Tipos de Horas Extra', 'Tipo de Hora Extra Creado', 'Tipo de Hora Extra Actualizado', '¿Eliminar Tipo de Hora Extra?', 'Tipo de Hora Extra Eliminada', '', ''),
-(93, 7, 'Horas Extra', 'horas_extra_nomina', 'hora_extra_nomina', 'nomina_horas_extra', 'id', '', 'Nueva Hora Extra', '''Hora Extra''', 'Horas Extra', 'Hora Extra Creada', 'Hora Extra Actualizada', '¿Eliminar Hora Extra ?', 'Hora Extra Eliminada', '', '');
+(93, 7, 'Horas Extra', 'horas_extra_nomina', 'hora_extra_nomina', 'nomina_horas_extra', 'id', '', 'Nueva Hora Extra', '''Hora Extra''', 'Horas Extra', 'Hora Extra Creada', 'Hora Extra Actualizada', '¿Eliminar Hora Extra ?', 'Hora Extra Eliminada', '', ''),
+(94, 2, 'App', 'apps', 'app', 'constructor_app', 'id', '', 'Nueva App', 'Aplicacion: {nombre}', 'Aplicaciones', 'Aplicacion Creada', 'Aplicacion Actualizada', 'Â¿Eliminar Aplicacion?', 'Aplicacion Eliminada', '', ''),
+(95, 2, 'Conexion', 'conexiones', 'conexion', 'constructor_db_config', 'id', '', 'Nueva Conexion', 'Conexion: {db_host} - {db_name}', 'Conexiones', 'Conexion Creada', 'Conexion Actualizada', 'Â¿Eliminar?', 'Conexion Eliminada', '', ''),
+(96, 2, 'Temas', 'temas', 'tema', 'system_tema', 'id', '', 'Nuevo Tema', 'Tema: {nombre}', 'Temas', 'Tema Creado', 'Tema Actualizado', 'Â¿Eliminar Tema?', 'Tema Eliminado', '', ''),
+(97, 7, 'Formas De Pago', 'formas_de_pago', 'forma_de_pago', 'facturacion_formas_de_pago', 'id', '', 'NuevaForma de Pago', 'Forma de Pago: {nombre}', 'Formas de Pago', 'Forma de Pago Creada', 'Forma de Pago Actualizada', '¿Eliminar Forma de Pago?', 'Forma de Pago Eliminada', '', ''),
+(98, 7, 'Métodos de Pago', 'metodos_de_pago', 'metodo_de_pago', 'facturacion_metodos_de_pago', 'id', '', 'Nuevo Método De Pago', 'Método De Pago: {nombre}', 'Métodos De Pago', 'Método De Pago Creado', 'Método De Pago Actualizado', '¿Eliminar Método De Pago?', 'Método De Pago Eliminado', '', ''),
+(99, 7, 'Monedas', 'monedas', 'moneda', 'facturacion_moneda', 'id', '', 'Nueva Moneda', 'Moneda: {moneda} ({codigo})', 'Monedas', 'Moneda Creada', 'Moneda Actualizada', '¿Eliminar Moneda?', 'Moneda Eliminada', '', ''),
+(100, 7, 'Conceptos de Nomina', 'conceptos_de_nomina', 'concepto_de_nomina', 'nomina_nomina_conceptos', 'id', '', 'Nuevo Concepto De Nomina', 'Concepto De Nomina: {descripcion}', 'Conceptos De Nomina', 'Concepto De Nomina Creado', 'Concepto De Nomina Actualizado', '¿Eliminar Concepto De Nomina?', 'Concepto De Nomina Eliminado', '', ''),
+(101, 7, 'Unidades De Medida', 'unidades_de_medida', 'unidad_de_medida', 'facturacion_um', 'id', '', 'Nueva Unidad De Medida', 'Unidad De Medida: {nombre}', 'Unidades De Medida', 'Unidad De Medida Creada', 'Unidad De Medida Actualizada', '¿Eliminar Unidad De Medida?', 'Unidad De Medida Eliminada', '', ''),
+(102, 7, 'Conceptos Para Nomina', 'conceptos_para_nomina', 'concepto_para_nomina', 'nomina_conceptos', 'id', '', 'Nuevo Concepto Para Nomina', 'Concepto Para Nomina: {nombre}', 'Conceptos Para Nomina', 'Concepto Para Nomina Creado', 'Concepto Para Nomina Actualizado', '¿Eliminar Concepto Para Nomina?', 'Concepto Para Nomina Eliminado', '', ''),
+(103, 7, 'Naturaleza del Impuesto', 'tipos_de_impuesto', 'tipo_de_impuesto', 'nomina_naturaleza_impuesto', 'id', '', 'Nuevo Tipo De Impuesto', 'Tipo De Impuesto: {nombre}', 'Tipos De Impuestos', 'Nuevo Tipo De Impuesto', 'Tipo De Impuesto Actualizado', '¿Eliminar Tipo De Impuesto?', 'Tipo De Impuesto Eliminado', '', ''),
+(104, 7, 'Impuestos', 'impuestos', 'impuesto', 'nomina_impuesto', 'id', '', 'Nuevo Impuesto', 'Impuesto: {nombre}', 'Impuestos', 'Impuesto Creado', 'Impuesto Actualizado', '¿Eliminar Impuesto?', 'Impuesto Eliminado', '', ''),
+(105, 7, 'Impuestos De Nomina', 'impuestos_de_nomina', 'impuesto_de_nomina', 'nomina_nomina_impuesto', 'id', '', 'Nuevo Impuesto De Nomina', 'Impuesto De Nomina: {nombre}', 'Impuestos De Nomina', 'Impuesto De Nomina Creado', 'Impuesto De Nomina Actualizado', '¿Eliminar Impuesto De Nomina?', 'Impuesto De Nomina Eliminado', '', '');
 
 -- --------------------------------------------------------
 
@@ -1687,6 +2098,54 @@ INSERT INTO `system_pagina` (`id`, `titulo`, `autor`, `contenido`, `fk_categoria
 (6, 'AAA', '1          ', 'BLA bla bla ble ble ble', 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (7, 'Un Titulo', '1', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (18, 'Nueva Pagina', '1 ', '', 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `system_tema`
+--
+
+CREATE TABLE IF NOT EXISTS `system_tema` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) DEFAULT NULL,
+  `ruta` char(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+
+--
+-- Volcado de datos para la tabla `system_tema`
+--
+
+INSERT INTO `system_tema` (`id`, `nombre`, `ruta`) VALUES
+(1, 'Artic', 'http://cdn.wijmo.com/themes/arctic/jquery-wijmo.css'),
+(2, 'Midnight', 'http://cdn.wijmo.com/themes/midnight/jquery-wijmo.css'),
+(3, 'aristo', 'http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css'),
+(4, 'rocket', 'http://cdn.wijmo.com/themes/rocket/jquery-wijmo.css'),
+(5, 'cobalt', 'http://cdn.wijmo.com/themes/cobalt/jquery-wijmo.css'),
+(6, 'Sterling', 'http://cdn.wijmo.com/themes/sterling/jquery-wijmo.css'),
+(7, 'Black Tie', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css'),
+(8, 'Blitzer', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/blitzer/jquery-ui.css'),
+(9, 'Cupertino', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/cupertino/jquery-ui.css'),
+(10, 'Dark Hive', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/dark-hive/jquery-ui.css'),
+(11, 'Dot Luv', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/dot-luv/jquery-ui.css'),
+(12, 'Eggplant', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/eggplant/jquery-ui.css'),
+(13, 'Excite Bike', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/excite-bike/jquery-ui.css'),
+(14, 'Flick', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/flick/jquery-ui.css'),
+(15, 'Humanity', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/humanity/jquery-ui.css'),
+(16, 'Le Frog', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/le-frog/jquery-ui.css'),
+(17, 'Mint Chocolate', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/mint-choc/jquery-ui.css'),
+(18, 'Overcast', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/overcast/jquery-ui.css'),
+(19, 'Pepper Grinder', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/pepper-grinder/jquery-ui.css'),
+(20, 'Redmond', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/redmond/jquery-ui.css'),
+(21, 'Smoothness', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery-ui.css'),
+(22, 'South Street', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/south-street/jquery-ui.css'),
+(23, 'Start', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/start/jquery-ui.css'),
+(24, 'Sunny', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/sunny/jquery-ui.css'),
+(25, 'Swanky Purse', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/swanky-purse/jquery-ui.css'),
+(26, 'Trontasic', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/trontastic/jquery-ui.css'),
+(27, 'UI Darkness', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-darkness/jquery-ui.css'),
+(28, 'UI Lightness', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-lightness/jquery-ui.css'),
+(29, 'Vader', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/vader/jquery-ui.css');
 
 -- --------------------------------------------------------
 
@@ -4294,7 +4753,7 @@ CREATE TABLE IF NOT EXISTS `system_usuarios` (
 
 INSERT INTO `system_usuarios` (`id`, `username`, `pass`, `email`, `nombre`, `ultima_conexion`, `creado`, `fk_rol`, `ip`) VALUES
 (16, 'admin', '098f6bcd4621d373cade4e832627b4f6', 'email@webmaster.com', 'Administrador del sistema', '2013-12-13 17:43:45', '0000-00-00 00:00:00', 1, ''),
-(102, 'demo', '098f6bcd4621d373cade4e832627b4f6', 'demo', 'Usuario Demo', '2013-12-21 11:56:11', '0000-00-00 00:00:00', 2, ''),
+(102, 'demo', '098f6bcd4621d373cade4e832627b4f6', 'demo', 'Usuario Demo', '2013-12-24 09:53:17', '0000-00-00 00:00:00', 2, ''),
 (103, NULL, '098f6bcd4621d373cade4e832627b4f6', NULL, NULL, NULL, NULL, NULL, ''),
 (104, NULL, NULL, NULL, NULL, '2013-12-19 17:34:19', NULL, NULL, ''),
 (105, NULL, NULL, NULL, NULL, '2013-12-19 17:34:28', NULL, NULL, ''),

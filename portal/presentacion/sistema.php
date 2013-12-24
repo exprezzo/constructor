@@ -24,7 +24,7 @@
 	 $user=sessionGet('user');
 	 // echo $rutaTema;
 	 if (empty($rutaTema)){
-		$rutaTema=getUrlTema('mint-choc');
+		$rutaTema=getUrlTema('midnight');
 	 }
 	 
 	 
@@ -135,7 +135,7 @@
     <div id="encabezado">
     	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
 		</img>
-		<div style="position:absolute; width:200px;">
+		<div style="position:absolute; display:none; width:200px;">
 			<?php
 				$modTema=getModelo( 'tema' );
 				$params=array();

@@ -151,6 +151,7 @@ if ( !empty( $this->datos['id'] ) ){
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/incapacidades_de_nomina.js"></script>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/horas_extra_de_nomina.js"></script>
 <script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/conceptos_de_nomina.js"></script>
+<script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/impuestos_de_nomina.js"></script>
 <script>			
 	$( function(){	
 		
@@ -261,6 +262,18 @@ if ( !empty( $this->datos['id'] ) ){
 
 		var conceptosDeNomina = new ConceptosDeNomina();		
 		conceptosDeNomina.init(configDet);
+				
+		var tabId='#'+config.tab.id;
+		configDet={
+			padre:editor,
+			tabId:'#<?php echo $_REQUEST['tabId']; ?>',
+			elementos: <?php echo json_encode($this->datos['impuestosDeNomina']); ?>,
+			target:'.tabla_impuestos',
+			contenedor:'.contenedor_tabla_impuestos',
+		};
+
+		var impuestosDeNomina = new ImpuestosDeNomina();		
+		impuestosDeNomina.init(configDet);
 				
 	});
 </script>
@@ -593,7 +606,7 @@ if ( !empty( $this->datos['id'] ) ){
 					<label style="">Total:</label>
 					<input title="Total" type="text" name="total" class="entradaDatos" value="<?php echo $this->datos['total']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_tipo_comprobante" style=""  >
+				<div class="inputBox contenedor_tipo_comprobante" style="display:none;"  >
 					<label style="">Tipo De Comprobante:</label>
 					<input title="Tipo De Comprobante" type="text" name="tipo_comprobante" class="entradaDatos" value="<?php echo $this->datos['tipo_comprobante']; ?>" style="width:500px;" />
 				</div>
@@ -633,6 +646,25 @@ if ( !empty( $this->datos['id'] ) ){
 					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-concepto_de_nomina" title="&iquest;Eliminar Concepto_de_nomina?">
 						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto_de_nomina?</p>
 					</div> 
+				</div>
+				<div class="tabla contenedor_tabla_impuestos" style="position: relative; margin-top: 26px;"  >
+					
+					<h1 class="tituloTabla" >Impuestos</h1>
+					<div class="toolbar_detalles" style="">
+						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+					</div>
+					<table class="tabla_impuestos">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
+					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-impuesto_de_nomina" title="&iquest;Eliminar Impuesto_de_nomina?">
+						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Impuesto_de_nomina?</p>
+					</div> 
+				</div>
+				<div class="inputBox contenedor_fecha_emision" style=""  >
+					<label style="">Fecha Emision:</label>
+					<input title="Fecha Emision" type="text" name="fecha_emision" class="entradaDatos" value="<?php echo $this->datos['fecha_emision']; ?>" style="width:500px;" />
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

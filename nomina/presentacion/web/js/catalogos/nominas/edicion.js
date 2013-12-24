@@ -1055,7 +1055,9 @@
 				var horas_extra=$(tabId+' .tabla_horas_extra').wijgrid('data');
 				datos.horas_extraDeNomina = horas_extra;$(tabId+' .tabla_conceptos').wijgrid('endEdit');
 				var conceptos=$(tabId+' .tabla_conceptos').wijgrid('data');
-				datos.conceptosDeNomina = conceptos;
+				datos.conceptosDeNomina = conceptos;$(tabId+' .tabla_impuestos').wijgrid('endEdit');
+				var impuestos=$(tabId+' .tabla_impuestos').wijgrid('data');
+				datos.impuestosDeNomina = impuestos;
 				
 		//Envia los datos al servidor, el servidor responde success true o false.
 		$("#contenedorDatos2").block({ 
@@ -1117,9 +1119,9 @@
 				
 				
 				//--------------------
-				var elementos=resp.datos.conceptosDeNomina;	
+				var elementos=resp.datos.impuestosDeNomina;	
 
-				var grid=$(me.tabId+" .tabla_conceptos");
+				var grid=$(me.tabId+" .tabla_impuestos");
 				var data=grid.wijgrid('data');				
 				data.length=0;
 				for(var i=0; i<elementos.length; i++){

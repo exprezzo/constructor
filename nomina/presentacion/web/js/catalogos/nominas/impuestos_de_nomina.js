@@ -1,19 +1,21 @@
-var ConceptosDeNomina=function (){	
+var ImpuestosDeNomina=function (){	
 	
-	this.configurarComboFk_um=function(target){		
+	this.configurarComboFk_impuesto=function(target){		
 		var tabId=this.tabId;
 		var me=this;
 		var fields=[										
 			
 			{name:'value',mapping: 'id' }, 
 			{name:'label',mapping: 'nombre' }, 
-			{name: 'abreviacion' }
+			{name: 'tasa' }, 
+			{name: 'fk_naturaleza' }, 
+			{name: 'detalles' }
 		];
 		
 		var myReader = new wijarrayreader(fields);
 		
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+kore.modulo+'/unidades_de_medida/buscar',
+			url: kore.url_base+kore.modulo+'/impuestos/buscar',
 			dataType:"json",
 			type:'POST'
 		});
@@ -46,29 +48,26 @@ var ConceptosDeNomina=function (){
 			search: function (e, obj) {},
 			select: function (e, item) 
 			{						
-				me.unidad_de_medida=item;
+				me.impuesto=item;
 				
 				return true;
 			}
 		});
 		combo.focus().select();			
 	};
-	this.configurarComboFk_concepto=function(target){		
+	this.configurarComboFk_tipo_impuesto=function(target){		
 		var tabId=this.tabId;
 		var me=this;
 		var fields=[										
 			
 			{name:'value',mapping: 'id' }, 
-			{name:'label',mapping: 'nombre' }, 
-			{name: 'descripcion' }, 
-			{name: 'precio' }, 
-			{name: 'fk_unidad' }
+			{name:'label',mapping: 'nombre' }
 		];
 		
 		var myReader = new wijarrayreader(fields);
 		
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+kore.modulo+'/conceptos_para_nomina/buscar',
+			url: kore.url_base+kore.modulo+'/tipos_de_impuesto/buscar',
 			dataType:"json",
 			type:'POST'
 		});
@@ -101,7 +100,7 @@ var ConceptosDeNomina=function (){
 			search: function (e, obj) {},
 			select: function (e, item) 
 			{						
-				me.concepto_para_nomina=item;
+				me.tipo_de_impuesto=item;
 				
 				return true;
 			}
@@ -134,7 +133,7 @@ var ConceptosDeNomina=function (){
 		this.configurarGrid(this.targetSelector, articulos);		
 		this.configurarToolbar(tabId);		
 		var me = this;
-		$(this.tabId + "-dialog-confirm-eliminar-concepto_de_nomina").wijdialog({
+		$(this.tabId + "-dialog-confirm-eliminar-impuesto_de_nomina").wijdialog({
 			autoOpen: false,
             captionButtons: {                  
 				pin: { visible: false },
@@ -172,15 +171,12 @@ var ConceptosDeNomina=function (){
 		var fields=[
 			
 				{ name: "id"},
-				{ name: "cantidad"},
-				{ name: "unidad"},
-				{ name: "fk_um"},
-				{ name: "fk_concepto"},
-				{ name: "descripcion"},
-				{ name: "valorUnitario"},
+				{ name: "fk_impuesto"},
+				{ name: "fk_nomina"},
 				{ name: "importe"},
-				{ name: "noIdentificacion"},
-				{ name: "fk_nomina"}
+				{ name: "tasai"},
+				{ name: "nombre"},
+				{ name: "fk_tipo_impuesto"}
 		];
 		
 		this.fields=fields;	
@@ -194,7 +190,7 @@ var ConceptosDeNomina=function (){
 			if(e.keyCode==46 && e.shiftKey){
 				me.recuperar();
 			}else if(e.keyCode==46){
-				$(me.tabId + "-dialog-confirm-eliminar-concepto_de_nomina").wijdialog('open');
+				$(me.tabId + "-dialog-confirm-eliminar-impuesto_de_nomina").wijdialog('open');
 			}
 		});
 		
@@ -216,17 +212,14 @@ var ConceptosDeNomina=function (){
 			columns: [
 				
 				{ dataKey: "id", visible:false, headerText: "Id" },
-				{ dataKey: "cantidad", visible:true, headerText: "Cantidad" },
-				{ dataKey: "unidad", visible:false, headerText: "Unidad" },
-				{ dataKey: "nombre_fk_um", visible:false, headerText: "UM" },
-				{ dataKey: "fk_um", visible:false, headerText: "UM" },
-				{ dataKey: "nombre_fk_concepto", visible:true, headerText: "Concepto" },
-				{ dataKey: "fk_concepto", visible:false, headerText: "Concepto" },
-				{ dataKey: "descripcion", visible:false, headerText: "Descripcion" },
-				{ dataKey: "valorUnitario", visible:true, headerText: "ValorUnitario" },
+				{ dataKey: "nombre_fk_impuesto", visible:true, headerText: "Impuesto" },
+				{ dataKey: "fk_impuesto", visible:false, headerText: "Impuesto" },
+				{ dataKey: "fk_nomina", visible:false, headerText: "Fk_nomina" },
 				{ dataKey: "importe", visible:true, headerText: "Importe" },
-				{ dataKey: "noIdentificacion", visible:false, headerText: "NoIdentificacion" },
-				{ dataKey: "fk_nomina", visible:false, headerText: "Fk_nomina" }
+				{ dataKey: "tasai", visible:true, headerText: "Tasai" },
+				{ dataKey: "nombre", visible:false, headerText: "Nombre" },
+				{ dataKey: "nombre_fk_tipo_impuesto", visible:true, headerText: "Tipo Impuesto" },
+				{ dataKey: "fk_tipo_impuesto", visible:false, headerText: "Tipo Impuesto" }
 			]
 		});
 		var me=this;
@@ -290,7 +283,7 @@ var ConceptosDeNomina=function (){
 		gridElementos.wijgrid({ beforeCellEdit: function(e, args) {
 			switch (args.cell.column().dataKey) {
 				
-			case "nombre_fk_um":
+			case "nombre_fk_impuesto":
 				var w,h;
 				var domCel = args.cell.tableCell();
 				w = $(domCel).width() ;
@@ -306,9 +299,9 @@ var ConceptosDeNomina=function (){
 				
 				args.handled = true;
 				
-				me.configurarComboFk_um(combo);						
+				me.configurarComboFk_impuesto(combo);						
 			break;
-			case "nombre_fk_concepto":
+			case "nombre_fk_tipo_impuesto":
 				var w,h;
 				var domCel = args.cell.tableCell();
 				w = $(domCel).width() ;
@@ -324,7 +317,7 @@ var ConceptosDeNomina=function (){
 				
 				args.handled = true;
 				
-				me.configurarComboFk_concepto(combo);						
+				me.configurarComboFk_tipo_impuesto(combo);						
 			break;
 				default:						
 					var domCel = args.cell.tableCell();						
@@ -348,21 +341,21 @@ var ConceptosDeNomina=function (){
 		gridElementos.wijgrid({beforeCellUpdate:function(e, args) {
 				switch (args.cell.column().dataKey) {
 					
-			case "nombre_fk_um":
+			case "nombre_fk_impuesto":
 				args.value = args.cell.container().find("input").val();
 
-				if (me.unidad_de_medida!=undefined){
+				if (me.impuesto!=undefined){
 					var row=args.cell.row();					
-					row.data.fk_um = me.unidad_de_medida.value;					
+					row.data.fk_impuesto = me.impuesto.value;					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;
-			case "nombre_fk_concepto":
+			case "nombre_fk_tipo_impuesto":
 				args.value = args.cell.container().find("input").val();
 
-				if (me.concepto_para_nomina!=undefined){
+				if (me.tipo_de_impuesto!=undefined){
 					var row=args.cell.row();					
-					row.data.fk_concepto = me.concepto_para_nomina.value;					
+					row.data.fk_tipo_impuesto = me.tipo_de_impuesto.value;					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;
@@ -571,7 +564,7 @@ var ConceptosDeNomina=function (){
 		  .click(function( event ) {
 			
 				// me.eliminar();	
-				$(me.tabId + "-dialog-confirm-eliminar-concepto_de_nomina").wijdialog('open');
+				$(me.tabId + "-dialog-confirm-eliminar-impuesto_de_nomina").wijdialog('open');
 		});
 	}
 }

@@ -474,6 +474,12 @@
 					filterValue: value
 				});
 		
+				data.proxy.options.data.filtering.push({
+					dataKey: "fecha_emision",
+					filterOperator: "Contains",
+					filterValue: value
+				});
+		
 				
 				
             }
@@ -562,7 +568,8 @@
 { dataKey: "fk_metodo_pago", visible:false, headerText: "Método de Pago" },
 { dataKey: "num_cta_pago", visible:true, headerText: "Num Cta Pago" },
 { dataKey: "totImpRet", visible:true, headerText: "Tot Imp Ret" },
-{ dataKey: "totImpTras", visible:true, headerText: "Tot Imp Tras" },
+{ dataKey: "totImpTras", visible:true, headerText: "Tot Imp Tras" },
+{ dataKey: "fecha_emision", visible:true, headerText: "Fecha Emision" },
 			]
 		});
 		

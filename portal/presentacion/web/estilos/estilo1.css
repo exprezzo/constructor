@@ -609,3 +609,11 @@ z-index: 10;
 	
 }
 .oculto{display:none;}
+
+.inputBox  div[role="combobox"] {
+	width: 398px !important; display: inline-block !important; vertical-align: top;	
+}
+div[role="combobox"] div[role="textbox"]{
+	width: 400px !important;
+	padding-top: 6px;
+}
