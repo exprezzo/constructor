@@ -163,7 +163,7 @@ display: inline;
 
 body {
 height: 100%;
-background-image:url(../img/background.png);
+background: #3f3f3f url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-lightness/images/ui-bg_diagonals-thick_20_666666_40x40.png) repeat top left;
 }
 
 h1{
@@ -200,9 +200,10 @@ h1{
 }
 
 #titulo {
+	display:none;
 	position: relative;
 	text-align:center;
-	background-color:#0091a0;
+	/* background-color:#0091a0; */
 	width:1041px;	
 	height:115px; /* */
 	padding-top:20px;
@@ -212,7 +213,7 @@ h1{
 }
 #cuerpo {
 	text-align:center;
-	background-image:url(../img/fondo.png);
+	/* background-image:url(../img/fondo.png); */
 	width:1041px;	
 	height:958px;
 	margin-left:auto;
@@ -496,7 +497,7 @@ h1{
 #pie{
 	width:100%;
 	height:46px;
-	background-color:#FFFFFF;
+	/* background-color:#FFFFFF; */
 }
 
 .globo{

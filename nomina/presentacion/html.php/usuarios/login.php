@@ -59,7 +59,7 @@
     	<div id="contenedorLogin">
 			
             <p>
-            Usuario
+            Acceso
             </p> 
             <form name="login" action="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/login#cuerpo" method="POST">
                     <input type="text" name="nick" value="<?php echo $this->username; ?>" class="textoLogin" placeholder="Username" required>
@@ -74,7 +74,7 @@
 					<?php
 						}
 					?>
-                    <input style="cursor:pointer;" type="submit" value="Login" id="botonLogin">
+                    <input style="cursor:pointer;" type="submit" value="Entrar" id="botonLogin">
             </form> 
             
         </div> 

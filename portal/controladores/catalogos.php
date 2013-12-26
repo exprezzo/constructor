@@ -92,8 +92,8 @@ class catalogos extends Controlador{
 		$res=array(
 			'success'=>true,
 			'msg'=>'Plantilla Obtenida',
-			// 'datos'=>utf8_decode($buffer)
-			 'datos'=>$buffer
+			'datos'=>utf8_decode($buffer)
+			 // 'datos'=>$buffer
 		);
 		 echo json_encode( $res );
 		return $res;

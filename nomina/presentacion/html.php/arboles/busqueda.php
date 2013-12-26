@@ -23,14 +23,14 @@
 			pk:"id"
 			
 		};				
-		 var lista=new BusquedaNominas();
+		 var lista=new BusquedaArboles();
 		 lista.init(config);		
 	});
 </script>
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>Nominas</h1>
+    	<h1>Nodos</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">
@@ -48,4 +48,4 @@
 	</div>
 	</div>
 	
-	</div>
+</div>

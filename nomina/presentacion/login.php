@@ -27,7 +27,7 @@ if ( isLoged() ){
 		
 		
 	}else{
-		$rutaTema=getUrlTema('midnight'); 
+		$rutaTema=getUrlTema('ui-lightness'); 
 		
 		// $rutaTema=''; 		
 		// $rutaTema=getUrlTema('rocket'); 
@@ -93,10 +93,10 @@ if ( isLoged() ){
 	</script>
 </head>
 
-<body>
+<body class="widgets">
 <div id="global">
 
-    <div id="encabezado" style="">
+    <div id="encabezado" style="display: none;">
     	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
 		</img>
         <div id="contenedorMenu" style="display: none;">
@@ -118,7 +118,7 @@ if ( isLoged() ){
     <?php $this->mostrar() ?>
     </div>
     
-    <div id="pie">
+    <div id="pie" style="display:none;">
     	<div id="contenedorMenu4">
         <ul>
         	<li>Inicio</li>
@@ -131,6 +131,21 @@ if ( isLoged() ){
     
 </div>
 	<script type="text/javascript" src="https://mylivechat.com/chatinline.aspx?hccid=43745055"></script>
+	<script type="text/javascript">
+	$(function(){
+		
+		// $('#cuerpo').addClass('ui-widget-content');		
+		$('#titulo').addClass('ui-widget-header');		
+		// $('input[type="text"]').wijtextbox();
+		// $('input[type="password"]').wijtextbox();
+		$('#contenedorMenu').addClass('ui-widget-header');
+		$('#contenedorMenu').css('border', 'none');
+		$('#contenedorMenu').css('background', 'none');		 
+		 
+		
+		
+	});
+</script>
 </body>
 </html>
 <?php

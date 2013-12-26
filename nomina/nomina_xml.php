@@ -142,7 +142,7 @@ class NominaXml{
 						'tasa'=>$imp['tasa'] * 1,
 						'importe'=>$imp['tasa'] * 1,
 					);
-				$totTras+= ($imp['tasa']/100) * $importe;
+				$totTras+= ( ($imp['tasa']/100) * $importe );
 				
 			}else if ($imp['naturaleza'] == 'RETENIDO'){
 				if ( !isset($retencionesArr[$imp['nombre']]) ){
@@ -150,7 +150,7 @@ class NominaXml{
 				}else{
 					$retencionesArr[$imp['nombre']] = ($retencionesArr[$imp['nombre']]*1) + ($imp['tasa'] * 1);
 				}
-				$totRet+= ($imp['tasa']/100) * $importe;
+				$totRet+= (($imp['tasa']/100) * $importe);
 			}
 		}
 			

@@ -34,19 +34,18 @@
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">
-		<table class="grid_busqueda">
-			<thead>				
-			</thead>  	 
-			<tbody>			
-			</tbody>
-		</table>
-		<div id="contenedorMenu2" class="toolbarEdicion">
+			<table class="grid_busqueda">
+				<thead>				
+				</thead>  	 
+				<tbody>			
+				</tbody>
+			</table>
+			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Editar" class="botonNuevo btnEditar">
 				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnEliminar">
 			</div>
-	</div>
+		</div>
 	</div>
 	
-	</div>
-<div>
+</div>

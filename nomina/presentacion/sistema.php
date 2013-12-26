@@ -132,61 +132,61 @@
 <body class="widgets" >
 	<div class="widget-list">
 
-<div id="global" >
+		<div id="global" >
+			<div class="hoja">
+				<div id="encabezado">
+					<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
+					</img>
+					
+					<div id="contenedorMenu">
+						<?php 
+							
+								include 'menu.php';
+							
+						
+						?>
+					</div>
+					
+					
+					<div class="contenedorDatos1" style="margin-top: 11px; background-color: transparent;display: inline-block;right: 17px;position: absolute;">         
+						
+								
+								<!--<br /><br />-->
+								<label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
+								<ul class="nav" style="display:inline-block;clear:both;">  
+									<li>
+										<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
+										<ul>
+											<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
+											<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
+										</ul>
+									</li>
+								</ul>
+								
+							 
 
-    <div id="encabezado">
-    	<img src="<?php echo $_PETICION->url_web; ?>img/logo.png" id="logo">
-		</img>
-		
-        <div id="contenedorMenu">
-            <?php 
-				
-					include 'menu.php';
-				
+								
+					</div>
+					
+					<form name="busqueda" action="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'.$_PETICION->controlador; ?>/buscar" method="get" id="contenedorBusqueda" style="position:absolute;bottom: 16px;right: 18px;">
+					<input type="text" name="query" id="barraBusqueda" value="<?php echo empty($_GET['query'])? '' : $_GET['query']; ?>">
+					<input type="submit" value=" " id="botonBusqueda">
+					</form> 
+				</div>
+				<div id="tabs"  class="" >
+				<?php $this->mostrar() ?>
+				</div>
+			</div>
+			<div id="pie">
+				<div id="contenedorMenu4">
+				<ul>
+					<li><a target="_blanck" href="http://www.solucionestriples.com">Soluciones Triples</a></li>            
+					
+				</ul>
+				</div>
+			</div>
 			
-			?>
 		</div>
-		
-		
-        <div class="contenedorDatos1" style="margin-top: 11px; background-color: transparent;display: inline-block;right: 17px;position: absolute;">         
-			
-                    
-                    <!--<br /><br />-->
-                    <label class="datos1" style="clear:both; float:none; display:inline-block; vertical-align:top;">USER</label>
-                    <ul class="nav" style="display:inline-block;clear:both;">  
-						<li>
-							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?> " class="estiloFactura">Perfil<span class="flecha"> ∨</span></a>
-							<ul>
-								<li><a class="elementoTop" href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/usuarios/editar/'.$user['id']; ?>" class="">Editar Mi Perfil<span class="flecha">∨</span></a></li>
-								<li><a class="elementoBottom" href="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/logout" class="">Salir del sistema<span class="flecha">∨</span></a></li>
-							</ul>
-						</li>
-                    </ul>
-                    
-                 
-
-                    
-        </div>
-        
-		<form name="busqueda" action="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'.$_PETICION->controlador; ?>/buscar" method="get" id="contenedorBusqueda" style="position:absolute;bottom: 16px;right: 18px;">
-		<input type="text" name="query" id="barraBusqueda" value="<?php echo empty($_GET['query'])? '' : $_GET['query']; ?>">
-		<input type="submit" value=" " id="botonBusqueda">
-		</form> 
-	</div>
-	<div id="tabs"  class="" >
-    <?php $this->mostrar() ?>
-    </div>
-    
-    <div id="pie">
-    	<div id="contenedorMenu4">
-        <ul>
-        	<li><a href="<?php echo $_PETICION->url_app;?>paginas/inicio">Inicio</a></li>            
-            <li>Ayuda</li>
-        </ul>
-        </div>
-    </div>
-    
-</div>
 	</div>
 </body>
 <script type="text/javascript">
