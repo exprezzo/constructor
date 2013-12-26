@@ -198,7 +198,7 @@ class nominas extends Controlador{
 		$resN = $nomXml->generarNomina( $res['datos'] );
 		
 		if ( !$resN['success']){
-			$resN['msg']='errores en el XML';
+			// $resN['msg']='errores en el XML';
 			echo json_encode($resN);
 		}else{
 			echo json_encode($res);

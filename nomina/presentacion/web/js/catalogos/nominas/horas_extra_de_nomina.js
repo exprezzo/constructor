@@ -6,6 +6,7 @@ var Horas_extraDeNomina=function (){
 		var fields=[										
 			
 			{name:'value',mapping: 'id' }, 
+			// {name: 'clave'},
 			{name:'label',mapping: 'nombre' }
 		];
 		
@@ -272,7 +273,10 @@ var Horas_extraDeNomina=function (){
 
 				if (me.tipo_hora!=undefined){
 					var row=args.cell.row();					
-					row.data.fk_TipoHoras = me.tipo_hora.value;					
+					row.data.fk_TipoHoras = me.tipo_hora.value;
+					// console.log(me.tipo_hora);
+					row.data.TipoHoras = me.tipo_hora.label;	
+					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;

@@ -276,7 +276,9 @@ var DeduccionesDeNomina=function (){
 
 				if (me.tipo_deduccion!=undefined){
 					var row=args.cell.row();					
-					row.data.fk_TipoDeduccion = me.tipo_deduccion.value;					
+					row.data.fk_TipoDeduccion = me.tipo_deduccion.value;	
+					row.data.TipoDeduccion = me.tipo_deduccion.clave;	
+					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;

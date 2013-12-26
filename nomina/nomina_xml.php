@@ -1,6 +1,93 @@
 <?php
 class NominaXml{	
+
+	function horas_extras(&$nodoNomina, $xml, $arr){
+		if ( empty($arr['horas_extraDeNomina']) ) return;
+		$horas_extras = $xml->createElement("nomina:HorasExtras");
+		$horas_extras = $nodoNomina->appendChild($horas_extras);
+		
+		foreach($arr['horas_extraDeNomina'] as $value){
+			$horaExtra = $xml->createElement("nomina:HorasExtra");
+			$horaExtra = $horas_extras->appendChild($horaExtra);
+			
+			// $cantidad = $importe * ($value['tasa']/100);
+			$this->_cargaAtt($horaExtra, array(
+				'Dias'=>$value['Dias'],									  
+				'TipoHoras'=>$value['TipoHoras'],
+				'HorasExtra'=>$value['HorasExtra'],
+				'ImportePagado'=>$value['ImportePagado']							
+				)
+			);
+		}
+	}
+	function incapacidades(&$nodoNomina, $xml, $arr){
+		if ( empty($arr['incapacidadesDeNomina']) ) return;
+		
+		$incapacidades = $xml->createElement("nomina:Incapacidades");
+		$incapacidades = $nodoNomina->appendChild($incapacidades);
+		
+		foreach($arr['incapacidadesDeNomina'] as $value){
+			$incapacidad = $xml->createElement("nomina:Incapacidad");
+			$incapacidad = $incapacidades->appendChild($incapacidad);
+			
+			// $cantidad = $importe * ($value['tasa']/100);
+			$this->_cargaAtt($incapacidad, array(
+				'DiasIncapacidad'=>$value['DiasIncapacidad'],									  
+				'TipoIncapacidad'=>$value['TipoIncapacidad'],
+				'Descuento'=>$value['Descuento']				
+				)
+			);
+		}
+	}
+	function ingresos(&$nodoNomina, $xml, $arr){
+		if ( empty($arr['percepcionesDeNomina']) ) return;
+		
+		$ingresos = $xml->createElement("nomina:Percepciones");
+		$ingresos = $nodoNomina->appendChild($ingresos);
+		$ingresos->SetAttribute("TotalGravado", $arr['percepcionesTotalGravado'] );
+		$ingresos->SetAttribute("TotalExento", $arr['percepcionesTotalExcento'] );
+		// print_r($arr);
+		foreach($arr['percepcionesDeNomina'] as $value){
+			$ingreso = $xml->createElement("nomina:Percepcion");
+			$ingreso = $ingresos->appendChild($ingreso);
+			
+			// $cantidad = $importe * ($value['tasa']/100);
+			$this->_cargaAtt($ingreso, array(
+				'TipoPercepcion'=>$value['TipoPercepcion'],									  
+				'Clave'=>$value['Clave'],
+				'Concepto'=>$value['Concepto'],
+				'ImporteGravado'=>$value['ImporteGravado'],
+				'ImporteExento'=>$value['ImporteExcento']
+				)
+			);
+		}
+	}
+	
+	function deducciones(&$nodoNomina, $xml, $arr){
+		if ( empty($arr['percepcionesDeNomina']) ) return;
+		
+		$deducciones = $xml->createElement("nomina:Deducciones");
+		$deducciones = $nodoNomina->appendChild($deducciones);
+		$deducciones->SetAttribute("TotalGravado", $arr['deduccionesTotalGravado'] );
+		$deducciones->SetAttribute("TotalExento", $arr['deduccionesTotalExcento'] );
+		// print_r($arr);
+		foreach($arr['deduccionesDeNomina'] as $value){
+			$ingreso = $xml->createElement("nomina:Deduccion");
+			$ingreso = $deducciones->appendChild($ingreso);
+			
+			// $cantidad = $importe * ($value['tasa']/100);
+			$this->_cargaAtt($ingreso, array(
+				'TipoDeduccion'=>$value['TipoDeduccion'],									  
+				'Clave'=>$value['Clave'],
+				'Concepto'=>$value['Concepto'],
+				'ImporteGravado'=>$value['ImporteGravado'],
+				'ImporteExento'=>$value['ImporteExcento']
+				)
+			);
+		}
+	}
 	/**
+	
 	 * http://www.lacorona.com.mx/fortiz/sat/xml.php
 	 * Calculo de sello
 	 */
@@ -28,10 +115,31 @@ class NominaXml{
 	}
 	function _generales(&$root, $arr) {	
 		// print_r($arr);
-		$this->_cargaAtt($root, array("xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance",
-								  "xsi:schemaLocation"=>"http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
-								 )
-							 );
+		// 
+		
+		// $this->_cargaAtt($root, array("xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance",
+								  // "xsi:schemaLocation"=>"http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd "
+								 // )
+							 // );
+				
+		// $root->setAttributeNS("http://www.sat.gob.mx/nomina" , 'xmlns:nomina', 'http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina.xsd');
+		
+		$root->setAttributeNS(
+	  'http://www.w3.org/2001/XMLSchema-instance',
+	  'xsi:schemaLocation',
+	  'http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd http://www.sat.gob.mx/nomina http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina11.xsd');
+
+		// add new namespace
+		$root->setAttributeNS(
+		  'http://www.w3.org/2000/xmlns/',
+		  'xmlns:nomina',
+		  'http://www.sat.gob.mx/nomina');
+		  
+		// $this->_cargaAtt($root, array("xmlns:nomina"=>"http://www.sat.gob.mx/nomina") );
+		
+		// $root->setAttributeNS('http://www.sat.gob.mx/nomina' ,'xmlns:nomina', 'http://www.w3.org/2001/XMLSchema-instance');
+		// $nomina = $xml->createElementNS('http://www.sat.gob.mx/nomina', 'nomina:Nomina');
+		// $nomina = $complemento->appendChild($nomina);
 		
 		$this->_cargaAtt($root, array(
 							  "version"=>$arr['version'],
@@ -118,7 +226,7 @@ class NominaXml{
 	/**
 	 * Impuesto (IVA)
 	 */
-	function _impuestos(&$root, $xml, $arr) {
+	function impuestos(&$root, $xml, $arr) {
 		
 		$impuestos = $xml->createElement("cfdi:Impuestos");
 		$impuestos = $root->appendChild($impuestos);
@@ -130,42 +238,38 @@ class NominaXml{
 		$retencionesArr=array();
 		
 		$importe = $arr['subTotal'] - $arr['descuento'];
-		
-		// print_r($arr['impuestos']); exit;
+		// FORMATO DECIMALES
 		
 		foreach($arr['impuestos'] as $imp){
-			if ( empty($imp['seleccionado']) ) continue;
+			// if ( empty($imp['seleccionado']) ) continue;
 			
-			if ($imp['naturaleza'] == 'TRASLADADO'){
+			if ($imp['tipo_impuesto'] == 1){
 				$trasladosArr[] = array(
-						'nombre'=>$imp['nombre'],
-						'tasa'=>$imp['tasa'] * 1,
-						'importe'=>$imp['tasa'] * 1,
-					);
-				$totTras+= ( ($imp['tasa']/100) * $importe );
+					'nombre'=>$imp['nombre'],
+					'tasa'=>$imp['tasa'] * 1,
+					'importe'=>$imp['importe'] * 1,
+				);
+			}else if ($imp['tipo_impuesto'] == 2){
+				$retencionesArr[] = array(
+					'nombre'=>$imp['nombre'],				
+					'importe'=>$imp['importe'] * 1,
+				);
 				
-			}else if ($imp['naturaleza'] == 'RETENIDO'){
-				if ( !isset($retencionesArr[$imp['nombre']]) ){
-					$retencionesArr[$imp['nombre']] = ($imp['tasa'] * 1);
-				}else{
-					$retencionesArr[$imp['nombre']] = ($retencionesArr[$imp['nombre']]*1) + ($imp['tasa'] * 1);
-				}
-				$totRet+= (($imp['tasa']/100) * $importe);
 			}
 		}
 			
 
 		if ( !empty($retencionesArr) ) {
-			$impuestos->SetAttribute("totalImpuestosRetenidos",round($totRet,6) );
+			$impuestos->SetAttribute("totalImpuestosRetenidos", $arr['totImpRet'] );
 			$traslados = $xml->createElement("cfdi:Retenciones");
 			$traslados = $impuestos->appendChild($traslados);
-			foreach($retencionesArr as $key => $value){
+			foreach($retencionesArr as $value){
 				$Retencion = $xml->createElement("cfdi:Retencion");
 				$Retencion = $traslados->appendChild($Retencion);
 				
-				$cantidad = $importe * ($value/100);
-				$this->_cargaAtt($Retencion, array("impuesto"=>$key,									  
-										  "importe"=>round($cantidad, 6)
+				// $cantidad = $importe * ($value/100);
+				$this->_cargaAtt($Retencion, array("impuesto"=>$value['nombre'],									  
+										  "importe"=>$value['importe']
 										 )
 									 );
 			}			
@@ -173,7 +277,7 @@ class NominaXml{
 
 		
 		if ( !empty($trasladosArr) ) {
-			$impuestos->SetAttribute("totalImpuestosTrasladados",round($totTras,6) );
+			$impuestos->SetAttribute("totalImpuestosTrasladados", $arr['totImpTras'] );
 		
 			$traslados = $xml->createElement("cfdi:Traslados");
 			$traslados = $impuestos->appendChild($traslados);
@@ -181,17 +285,14 @@ class NominaXml{
 				$traslado = $xml->createElement("cfdi:Traslado");
 				$traslado = $traslados->appendChild($traslado);
 				
-				$cantidad = $importe * ($value['tasa']/100);
+				// $cantidad = $importe * ($value['tasa']/100);
 				$this->_cargaAtt($traslado, array("impuesto"=>$value['nombre'],									  
-										  "importe"=>round($cantidad,6),
+										  "importe"=>$value['importe'],
 										  'tasa'=>$value['tasa']
 										 )
 									 );
 			}			
 		}
-		
-		
-		
 		
 	}
 		
@@ -224,11 +325,16 @@ class NominaXml{
 		// global $xml, $ret;
 		
 		$xml = new DOMdocument("1.0","UTF-8");
+				
+		// $root = $xml->createElementNS('http://www.sat.gob.mx/nomina', 'nomina:Nomina');
+		// $root = $xml->appendChild($root);
 		
-		// $root = $xml->createElement("Comprobante");
 		$root = $xml->createElementNS('http://www.sat.gob.mx/cfd/3', 'cfdi:Comprobante');
 		
 		$root = $xml->appendChild($root);
+		
+		// $root = $xml->createElementNS('http://www.sat.gob.mx/nomina', 'nomina:Nomina');
+		// $root = $xml->appendChild($root);
 		
 		$sello='';
 		
@@ -238,7 +344,7 @@ class NominaXml{
 		  $this->_emisor($root, $xml, $factura);
 		$this->_receptor($root, $xml, $factura);
 		$this->_conceptos($root, $xml, $factura);				
-		$this->_impuestos($root, $xml, $factura);
+		$this->impuestos($root, $xml, $factura);
 		
 		$this->complementoNomina($root, $xml, $factura['nomina']);
 		
@@ -257,7 +363,7 @@ class NominaXml{
 	function generarNomina($nomina){
 		// print_r($nomina); exit;
 		$factura=array();
-		$factura['nomina'] = $nomina;
+		
 		
 		$factura['version']='3.2';
 	    $factura['serie'] = $nomina['serie'];
@@ -285,6 +391,9 @@ class NominaXml{
 		$factura['SerieFolioFiscalOrig'] ='';		  
 		
 		$factura['MontoFolioFiscalOrig'] = 0; 
+		$factura['totImpRet'] = $nomina['totImpRet']; 
+		$factura['totImpTras'] = $nomina['totImpTras']; 
+		 
 		//----------------------------------------
 		$fk_moneda=$nomina['fk_moneda'];
 		$monMod = new monedaModelo();
@@ -345,15 +454,15 @@ class NominaXml{
 		$factura['conceptos']=$conceptosDeNomina;
 		//----------------------------------------				
 		$impuestosDeNomina=array();
-		// foreach($nomina['conceptosDeNomina'] as $concepto){
-			// $impuestosDeNomina[]=array(
-				// 'cantidad'		=>$concepto['cantidad'],
-				// 'unidad'		=>'Servicio',
-				// 'descripcion'	=>$concepto['nombre_fk_concepto'],
-				// 'valorUnitario' =>$concepto['valorUnitario'],
-				// 'importe' 		=>$concepto['importe']
-			// );		
-		// }
+		// print_r($nomina['impuestosDeNomina']);
+		foreach($nomina['impuestosDeNomina'] as $imp){
+			$impuestosDeNomina[]=array(			
+				'nombre'=>$imp['nombre_fk_impuesto'],
+				'tasa'=>$imp['tasai'] * 1,
+				'importe'=>$imp['importe'],	
+				'tipo_impuesto'=>$imp['fk_tipo_impuesto']*1	//1=traslado, 2=retencion
+			);		
+		}
 		$factura['impuestos']=$impuestosDeNomina;
 		//----------------------------------------	
 		$fk_TipoRegimen=$nomina['fk_TipoRegimen'];
@@ -369,14 +478,24 @@ class NominaXml{
 		$fk_Banco=$nomina['fk_banco'];
 		$bancoMod = new bancoModelo();
 		$banco = $bancoMod->obtener($fk_Banco);		
-		$nomina['Banco'] = $banco['nombre_corto'];
+		$nomina['Banco'] = $banco['clave'];
+		//----------------------------------------		
+		$factura['nomina'] = $nomina;
 		//----------------------------------------		
 		$res = $this->generarXml($factura);
 		$xml=$res['xml'];		
-		file_put_contents('../nomina.xml', '  '.$xml->saveXML() );
+		file_put_contents('../nomina.xml', $xml->saveXML() );
 		$valida = $this->_valida($xml->saveXML());
-		// print_r( $valida );
-		return $valida;
+		
+		
+		if ( !$valida['success'] ){
+			// print_r( $valida ) ;
+			return array(
+				'success'=>false,
+				'msg'=>$valida['errores'][0]->message
+			);
+		}
+		return $res;
 		// file_put_contents('../nomina.xml', $xml->saveXML());
 	}
 	function complementoNomina(&$root, $xml, $arr){
@@ -386,12 +505,35 @@ class NominaXml{
 		$complemento = $xml->createElement("cfdi:Complemento");
 		$complemento = $root->appendChild($complemento);
 		
-		 $nomina = $xml->createElementNS('http://www.sat.gob.mx/cfd/nomina/nomina.xslt', 'nomina:Nomina');		
+		$nomina = $xml->createElement('nomina:Nomina');		
 		$nomina = $complemento->appendChild($nomina);
 		
-		// $nomina = $xml->createElement("nomina:Nomina");
+		// $nomina = $xml->createElementNS('http://www.sat.gob.mx/nomina', 'nomina:Nomina');
 		// $nomina = $complemento->appendChild($nomina);
 		
+		
+		// $this->_cargaAtt($nomina, array("xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance",
+								  // "xsi:schemaLocation"=>"http://www.sat.gob.mx/cfd/3  http://www.sat.gob.mx/cfd/nomina/nomina.xslt"
+								 // )
+							 // );
+							 
+		// $nomina = $xml->createElement("nomina:Nomina");
+		// $nomina = $complemento->appendChild($nomina);
+		// print_r($arr);
+		$fechaPago=date_create_from_format('Y-d-m H:i:s', $arr['FechaPago']);
+		$fechaPago = $fechaPago->format('Y-d-m');
+		
+		$FechaInicialPago=date_create_from_format('Y-d-m H:i:s', $arr['FechaInicialPago']);
+		$FechaInicialPago = $FechaInicialPago->format('Y-d-m');
+		
+		$FechaFinalPago=date_create_from_format('Y-d-m H:i:s', $arr['FechaFinalPago']);
+		$FechaFinalPago = $FechaFinalPago->format('Y-d-m');
+		
+		
+		$FechaInicioRelLaboral=date_create_from_format('Y-d-m H:i:s', $arr['FechaInicioRelLaboral']);
+		$FechaInicioRelLaboral = $FechaInicioRelLaboral->format('Y-d-m');
+		
+		// print_r($arr);
 		$this->_cargaAtt($nomina, array(
 			"Version"=>'1.1',
 			"RegistroPatronal"=>$arr['RegistroPatronal'],
@@ -399,14 +541,15 @@ class NominaXml{
 			"CURP"=>$arr['CURP'],
 			"TipoRegimen"=>$arr['TipoRegimen'],
 			"NumSeguridadSocial"=>$arr['NumSeguridadSocial'],
-			"FechaPago"=>$arr['FechaPago'],
-			"FechaInicialPago"=>$arr['FechaInicialPago'],
-			"FechaFinalPago"=>$arr['FechaFinalPago'],
+			"FechaPago"=>$fechaPago,
+			"FechaInicialPago"=>$FechaInicialPago,
+			"FechaFinalPago"=>$FechaFinalPago,
 			"NumDiasPagados"=>$arr['NumDiasPagados'],
 			"Departamento"=>$arr['Departamento'],
+			"TipoRegimen"=>$arr['TipoRegimen'],
 			"CLABE"=>$arr['CLABE'],
 			"Banco"=>$arr['Banco'],
-			"FechaInicioRelLaboral"=>$arr['FechaInicioRelLaboral'],
+			"FechaInicioRelLaboral"=>$FechaInicioRelLaboral,
 			"Antiguedad"=>$arr['Antiguedad'],
 			"Puesto"=>$arr['Puesto'],
 			"TipoContrato"=>$arr['TipoContrato'],
@@ -417,6 +560,10 @@ class NominaXml{
 			"SalarioDiarioIntegrado"=>$arr['SalarioDiarioIntegrado']
 		));
 		
+		$this->ingresos($nomina, $xml, $arr);
+		$this->deducciones($nomina, $xml, $arr);
+		$this->incapacidades($nomina, $xml, $arr);
+		$this->horas_extras($nomina, $xml, $arr);
 	}
 	function _receptor($root, $xml, $arr) {
 		
@@ -483,10 +630,18 @@ $this->_cargaAtt($domfis, array("calle"=>$arr['emisor_calle'],
 		 $paso->loadXML($xml );
 		
 		libxml_use_internal_errors(true);  
+		
+		// $additionalSchema = simplexml_load_file('http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina.xsd');
+		// $additionalSchema->registerXPathNamespace("nomina", "http://www.w3.org/2001/XMLSchema");
+		// $nodes = $additionalSchema->xpath('/xs:schema/*');
 
 		// $file="http://www.sat.gob.mx/cfd/3/cfdv32.xsd";  
-		$file='../nomina/cfdv32.xsd';
+		// $file='../nomina/cfdv32.xsd';
+		
+		// http://stackoverflow.com/questions/9805359/how-to-handle-multiple-namespaces-with-different-uri-in-xsd
+		$file='../nomina/on_all.xsd';
 		$ok = @$paso->schemaValidate($file);
+		// $ok = @$paso->validate($file);
 		$errors=array();
 		
 		if (!$ok){

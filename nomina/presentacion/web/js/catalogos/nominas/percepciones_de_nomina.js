@@ -47,7 +47,7 @@ var PercepcionesDeNomina=function (){
 			select: function (e, item) 
 			{						
 				me.tipo_percepcion=item;
-				
+				// console.log();
 				return true;
 			}
 		});
@@ -165,7 +165,7 @@ var PercepcionesDeNomina=function (){
 				{ dataKey: "Concepto", visible:true, headerText: "Concepto" },
 				{ dataKey: "ImporteGravado", visible:true, headerText: "ImporteGravado" },
 				{ dataKey: "ImporteExcento", visible:true, headerText: "ImporteExcento" },
-				{ dataKey: "TipoPercepcion", visible:true, headerText: "TipoPercepcion" },
+				{ dataKey: "TipoPercepcion", visible:false, headerText: "TipoPercepcion" },
 				{ dataKey: "fk_nomina", visible:false, headerText: "Fk_nomina" }
 			]
 		});
@@ -276,6 +276,7 @@ var PercepcionesDeNomina=function (){
 				if (me.tipo_percepcion!=undefined){
 					var row=args.cell.row();					
 					row.data.fk_TipoPercepcion = me.tipo_percepcion.value;					
+					row.data.TipoPercepcion = me.tipo_percepcion.clave;					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;

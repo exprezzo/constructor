@@ -272,6 +272,7 @@ var IncapacidadesDeNomina=function (){
 				if (me.tipo_incapacidad!=undefined){
 					var row=args.cell.row();					
 					row.data.fk_TipoIncapacidad = me.tipo_incapacidad.value;					
+					row.data.TipoIncapacidad = me.tipo_incapacidad.clave;					
 					gridElementos.wijgrid('ensureControl',true);					
 				}
 				break;
