@@ -47,7 +47,177 @@ require_once $_PETICION->basePath.'/modelos/regimen.php';
 
 class nominas extends Controlador{
 	var $modelo="nomina";	
+	function extraerXML($zipname, $ruta_destino, $nombreArchivo ){
+		$zip = new ZipArchive;		
+		if($zip->open($zipname)){			 
+			for($i=0; $i<$zip->numFiles; $i++){			 
+			 $Filename=$zip->getNameIndex($i);			 
+			  $res = $zip->renameName($Filename, $nombreArchivo.'.xml');			 			  
+			 break;
+		   }
+		   
+		    $zip->close();
+			$zip->open($zipname);
+			
+		   if($zip->extractTo($ruta_destino)){ 
+				$msg= 'FILE EXTRACTED'; 
+				$success=true;
+			}else{ 
+				$msg= 'ERROR IN FILE ECTRACTING!'; 
+				$success=false;
+			}
+			
+		   // $zip->addFile($ruta_destino.$nombreArchivo.'.pdf', $nombreArchivo.'.pdf');
+		  
+		} 
+		else 
+		{
+		  $msg= 'ERROR IN FILE ECTRACTING!'; 
+			$success=false;
+		}
+		
+		
+		
+		return array('success'=>$success, 'msg'=>$msg);
+	}
+	function nominas(){
+		// $DB_CONFIG = sessionGet('DB_CONFIG');
+		// $this->modoPrueba = empty($DB_CONFIG['modo_prueba'])?  false : true;
+		$this->modoPrueba=true;
+	}
+	function timbrar(){
+		if ( empty($_POST['datos']) ||  empty($_POST['datos']['id']) ){
+			$res = array(
+				'success'=>false,
+				'msg'	 =>'Proporcione la nomina a timbrar'
+			);
+			echo json_encode( $res ); return $res;
+		}
+		$id= $_POST['datos']['id'];
+		
+		$params=array(
+			'id'=>$_POST['datos']['id']
+		);
+		
+		
+		$mod = $this->getModelo();
+		$obj = $mod->obtener( $_POST['datos']['id'] );
+
+		if ( !empty($obj['folio_fiscal']) && empty($obj['modo_prueba']) ){
+			$res=array(
+				'success'=>false,
+				'msg'=>utf8_encode('La nomina ya está timbrada')
+			);
+			echo json_encode($res);
+			return $res;
+		}
+		
+		
+		$resRNA=$mod->getRutayNombreDeArchivo($obj);
+		
+		$pathname=$resRNA['ruta'];
+		$nombreArchivo=$resRNA['nombre'];
+		
+		$filename =$pathname.$nombreArchivo;			
+		$xml = file_get_contents($filename.'.xml');		
+		$resTimbrado = $this->timbrarXML( $xml );
+		
+		if (!$resTimbrado['success']){			
+			echo json_encode( $resTimbrado ); return $resTimbrado;
+		}
 	
+		//guarda el xml
+			//lo incluye al zip
+			//genera pdf
+			//lo incluye al zip
+			//guarda en la tabla 
+			// todo OK
+		$filename =$pathname.$nombreArchivo.'.zip';						 
+		
+		@unlink($filename);
+		
+		$handle=fopen($filename ,'c');
+		fwrite ( $handle , base64_decode($resTimbrado['zip64']) );
+		fclose ( $handle );
+		
+		$this->extraerXML($filename, $pathname, $nombreArchivo );
+		
+		//abre el xml timbrado para obtener los datos de timbrado
+		
+		$string = file_get_contents($pathname.$nombreArchivo.'.xml');
+		$xml = new SimpleXMLElement($string);		
+		$xml->registerXPathNamespace('tfd', 'http://www.sat.gob.mx/TimbreFiscalDigital');		
+		$nodo = $xml->xpath('//tfd:TimbreFiscalDigital');		
+		$nomina=$obj;		
+		foreach($nodo[0]->attributes() as $key=>$val ){			
+			switch($key){
+				case 'UUID':
+					$nomina['folio_fiscal'] = $val;
+				break;
+				case 'FechaTimbrado':
+					// echo $val;
+					$val = str_replace ('T',' ',$val);
+					$ft= DateTime::createFromFormat ( 'Y-m-d H:i:s' , $val);
+					$nomina['FechaTimbrado'] = $ft->format('Y-m-d H:i:s');
+				break;
+				case 'noCertificadoSAT':
+					$nomina['noCertificadoSAT'] = $val;
+				break;
+				case 'selloSAT':
+					 $nomina['selloSAT'] = $val;										
+					 $selloSAT =$val;
+				break;
+				case 'selloCFD':
+					 $nomina['selloCFD'] = $val;					
+					 // echo $val;
+					 $selloCFD =$val;
+				break;
+				case 'version':
+					 $nomina['versionTimbre'] = $val;					
+					 $version =$val;
+				break;			
+			}
+		}
+		
+		$cadenaCFDI = '||'.$version.'|'.$nomina['folio_fiscal'].'|'.$nomina['FechaTimbrado'].'|'.$selloCFD.'|'.$nomina['noCertificadoSAT'].'||';		
+		$nomina['cadenaCFDI'] = $cadenaCFDI;
+		//======================================================================================================
+		$modelo = $this->getModelo();
+		
+		// $FechaFolioFiscalOrig=$nomina['FechaFolioFiscalOrig'];
+		// unset($nomina['FechaFolioFiscalOrig']);
+		$nomina['modo_prueba'] = empty($this->modoPrueba)? 0 : 1;		
+		
+		$res = $modelo->guardar($nomina);
+		
+		if ( !$res['success'] ){
+			echo json_encode($res); return $res;
+		}
+		$res['msg'] = empty($this->modoPrueba)? "Nomina Timbrada" : "Nomina Timbrada en modo de prueba";
+		//======================================================================================================		
+		// $mod->generarPdf($pathname, $nombreArchivo, $nomina, $res['datos']['conceptos'], $res['datos']['impuestos']);
+		// ==================================================================================================================================	
+		
+		$res['datos']['folio_fiscal']=$nomina['folio_fiscal'];
+		$res['datos']['FechaTimbrado']=$nomina['FechaTimbrado'];
+		$res['datos']['noCertificadoSAT']=$nomina['noCertificadoSAT'];
+		$res['datos']['cadenaCFDI'] = $nomina['cadenaCFDI'];
+		
+		$res['datos']['selloCFD'] =$nomina['selloCFD'];
+		$res['datos']['selloSAT'] =$nomina['selloSAT'];
+		
+		// if ( $nomina['fk_forma_pago']==2 && !empty($nomina['FolioFiscalOrig']) ){			
+			// $resSaldo=$modelo->actualizarSaldo( $nomina );
+			// if ( !$resSaldo['success'] ){
+				// $res['msg'].='<br />'.' El saldo NO pudo actualizarse, consulte a soporte tecnico<br />'.$resSaldo['msg'];
+				// $res['msgType']='warning';
+			// }
+		// }
+		
+		
+		echo json_encode( $res ); exit;
+		
+	}
 	function generarArchivos(){
 		
 		if ( empty($_POST['id'])  ){

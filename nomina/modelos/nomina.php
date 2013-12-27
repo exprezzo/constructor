@@ -44,6 +44,37 @@ class nominaModelo extends Modelo{
 		$res['certificado']=$certificado;
 		return $res;
 	}
+	
+	function getRutayNombreDeArchivo($nomina){
+		$empMod = new empresaModelo();
+		$empresa_id = $nomina['fk_patron'];
+		$empresa = $empMod->obtener( $empresa_id );
+		
+		$trabMod = new trabajadorModelo();
+		$trabajador_id = $nomina['fk_empleado'];
+		$trabajador = $trabMod->obtener( $trabajador_id );
+		$cliente_rfc = $trabajador['rfc'];
+		
+		$emisor_rfc=$empresa['rfc'];
+		$fecha=date_create_from_format('Y-m-d H:i:s',$nomina['fecha_emision']);
+		$anio=$fecha->format('Y');
+		
+		$mes=$fecha->format('m');
+		// $DB_CONFIG=sessionGet('DB_CONFIG');
+		global $DB_CONFIG;
+		$DB_CONFIG['id']=1;
+		$pathname='../nomina/archivos/nomina/corp_'.$DB_CONFIG['id'].'/'.$emisor_rfc.'/'.$anio.'/'.$mes.'/';
+		
+		@mkdir( $pathname , 0777 , true);
+		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc);
+		// $filename = $pathname.$nombreArchivo.'.xml';	
+		// @unlink($filename);	
+		return array(
+			'success'=>true,
+			'ruta'	 =>$pathname,
+			'nombre'=>$nombreArchivo
+		);
+	}
 	function generarArchivos($nomina_id){
 		// primero se revisa que la factura no este timbrada
 		$nomina = $this->obtener( $nomina_id );		
