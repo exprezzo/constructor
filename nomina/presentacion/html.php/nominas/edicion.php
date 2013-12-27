@@ -670,8 +670,11 @@ if ( !empty( $this->datos['id'] ) ){
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
+				<input type="submit" value="Timbrar" class="botonNuevo btnTimbrar">
 				<input type="submit" value="PDF" class="botonNuevo btnPdf">
-				<input type="submit" value="Eliminar" class="botonNuevo sinMargeDerecho btnDelete">
+				<input type="submit" value="XML" class="botonNuevo btnXML">
+				<input type="submit" value="ZIP" class="botonNuevo btnZip">
+				<input type="submit" value="Cancelar" class="botonNuevo sinMargeDerecho btnCancelar">
 			</div>
 		</div>
 	</div>

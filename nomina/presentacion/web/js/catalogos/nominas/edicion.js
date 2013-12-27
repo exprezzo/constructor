@@ -2,7 +2,70 @@
 	this.editado=false;
 	this.tituloNuevo='Nueva Nomina';
 	this.saveAndClose=false;
-	
+	this.generarArchivos=function(esNuevo){
+		var id = $(this.tabId + ' [name="id"]').val();
+		var me=this;
+		// $(this.tabId+' .tabla_conceptos').wijgrid('endEdit');
+		var params={esNuevo:esNuevo};
+		params['id']=id;
+		
+		
+		$("#contenedorDatos2").block({ 
+			message: '<h1>Generando Archivos</h1>'               
+		}); 
+		$.ajax({
+				type: "POST",
+				url: kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/generarArchivos',
+
+				data: params
+			}).done(function( response ) {		
+				$("#contenedorDatos2").unblock();
+				var msg, title, icon;
+				try{
+					var resp = eval('(' + response + ')');
+				}catch(err){
+					msg='El servidor ha respondido de manera incorrecta. <br />'+response;
+					title='Error al generar los archivos';
+					icon= kore.url_web+'imagenes/error.png';
+					$.gritter.add({
+						position: 'bottom-left',
+						title:title,
+						text: msg,
+						image: icon,
+						class_name: 'my-sticky-class'
+					});
+				}
+				 msg= (resp.msg)? resp.msg : '';
+				 title;
+				if ( resp.success == true	){					
+					icon=kore.url_web+'imagenes/yes.png';
+					title= 'Success';	
+					// window.location= kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
+					// $(me.tabId + ' [name="status"]').val(resp.nuevoStatus);
+					
+					$(me.tabId+' input[name="archivosGenerados"]').val(1); 
+				}else{
+					icon= kore.url_web+'imagenes/error.png';
+					title= 'Error';
+				}
+				
+				
+				me.editado=false;
+			
+				me.configBotonesPrefactura.call(me);
+				$.gritter.add({
+					position: 'bottom-left',
+					title:title,
+					text: msg,
+					image: icon,
+					class_name: 'my-sticky-class'
+				});
+				if (esNuevo){					
+					window.location = kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar/'+ id;
+				}
+			});
+		
+	}
 	this.configurarComboFk_patron=function(){
 		var me=this;
 		
@@ -1130,6 +1193,7 @@
 
 				grid.wijgrid('ensureControl', true);
 				//-----------------------------
+				me.generarArchivos(resp.esNuevo);
 				
 				if (me.saveAndClose===true){
 					//busca el indice del tab

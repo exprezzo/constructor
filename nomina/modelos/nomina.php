@@ -3,7 +3,195 @@ class nominaModelo extends Modelo{
 	var $tabla='nomina_nomina';
 	var $pk='id';
 	var $campos= array('id', 'fk_patron', 'razon_social_empresa', 'fk_empleado', 'nombre_trabajador', 'fk_serie', 'serie_serie_nomina', 'serie', 'folio', 'Version', 'RegistroPatronal', 'NumEmpleado', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'TipoRegimen', 'NumSeguridadSocial', 'FechaPago', 'FechaInicialPago', 'FechaFinalPago', 'NumDiasPagados', 'fk_Departamento', 'nombre_departamento', 'Departamento', 'CLABE', 'Banco', 'FechaInicioRelLaboral', 'Antiguedad', 'Puesto', 'TipoContrato', 'nombre_regimen_contratacion', 'TipoJornada', 'nombre_jornada', 'PeriodicidadPago', 'descripcion_periodo_pago', 'SalarioBaseCotApor', 'RiesgoPuesto', 'SalarioDiarioIntegrado', 'fk_banco', 'nombre_corto_banco', 'fk_RiesgoPuesto', 'descripcion_riesgo', 'percepcionesTotalGravado', 'percepcionesTotalExcento', 'deduccionesTotalGravado', 'deduccionesTotalExcento', 'fk_forma_pago', 'nombre_forma_de_pago', 'fk_certificado', 'no_serie_certificado', 'condiciones_de_pago', 'subTotal', 'descuento', 'motivo_descuento', 'tipo_cambio', 'fk_moneda', 'moneda_moneda', 'total', 'tipo_comprobante', 'fk_metodo_pago', 'nombre_metodo_de_pago', 'num_cta_pago', 'totImpRet', 'totImpTras', 'fecha_emision');
-	
+	function obtenerCertificado($params){
+		//Obtiene el certificado por default de esta razon social
+		$pdo=$this->getPdo();
+		$sql="SELECT * FROM facturacion_certificados WHERE fk_razon_social=:fk_razon_social and es_default=1";
+		$sth = $pdo->prepare($sql);
+		$fk_razon_social = $params['fk_patron'];
+		$sth->bindValue(':fk_razon_social',$fk_razon_social);
+		
+		$res = $this->execute($sth);
+		$certificado=array();
+		if ( $res['success'] ){
+			if ( empty($res['datos']) ){
+				$res=array(
+					'success'=>false,
+					'msg'=>'Vaya al catalogo certificados, y asigne uno a esa Razon social'
+				);
+			}else{
+				$certificado=$res['datos'][0];
+				$valido_desde= DateTime::createFromFormat ( 'Y-m-d H:i:s' , $certificado['valido_desde'] );
+				$valido_hasta= DateTime::createFromFormat ( 'Y-m-d H:i:s' , $certificado['valido_hasta'] );				
+				$ahora=new DateTime();
+				if ($ahora < $valido_desde  ){
+					$res=array(
+						'success'=>false,
+						'msg'=>utf8_encode('El certificado todavia no es valido, hasta: '.$valido_desde->format('d/m/Y H:i:s'))
+					);
+				}
+				
+				if ($ahora > $valido_hasta ){
+					$res=array(
+						'success'=>false,
+						'msg'=>utf8_encode('El certificado caducó el : '.$valido_hasta->format('d/m/Y H:i:s'))
+					);
+				}
+
+			}
+			
+		}
+		$res['certificado']=$certificado;
+		return $res;
+	}
+	function generarArchivos($nomina_id){
+		// primero se revisa que la factura no este timbrada
+		$nomina = $this->obtener( $nomina_id );		
+		if ( !empty($nomina['folio_fiscal']) && empty($nomina['modo_prueba']) ){
+			$res=array(
+				'success'=>false,
+				'msg'=>'La Nomina timbrada no puede actualizarse'
+			);			
+			return $res;
+		}
+		//======================================================================================================					
+		// Revisar certificado
+		$modelo=$this;
+		$res = $modelo->obtenerCertificado( $nomina );
+		if ( $res['success']==false ){
+			return $res;
+		}else{
+			$certificado=$res['certificado'];
+		}
+		$nomina['noCertificado'] = $certificado['no_serie'];
+		$nomina['cer_pem'] = $certificado['cer_pem'];
+		$nomina['key_pem'] = $certificado['key_pem'];
+		// if ( !isset($nomina['conceptos']) ) $nomina['conceptos'] = array();
+		//======================================================================================================
+		// BORRA LOS ARCHIVOS
+		
+		$empMod = new empresaModelo();
+		$empresa_id = $nomina['fk_patron'];
+		$empresa = $empMod->obtener( $empresa_id );
+		
+		$trabMod = new trabajadorModelo();
+		$trabajador_id = $nomina['fk_empleado'];
+		$trabajador = $trabMod->obtener( $trabajador_id );
+		$cliente_rfc = $trabajador['rfc'];
+		
+		$emisor_rfc=$empresa['rfc'];
+		$fecha=date_create_from_format('Y-m-d H:i:s',$nomina['fecha_emision']);
+		$anio=$fecha->format('Y');
+		
+		$mes=$fecha->format('m');
+		// $DB_CONFIG=sessionGet('DB_CONFIG');
+		global $DB_CONFIG;
+		$DB_CONFIG['id']=1;
+		$pathname='../nomina/archivos/nomina/corp_'.$DB_CONFIG['id'].'/'.$emisor_rfc.'/'.$anio.'/'.$mes.'/';
+		
+		@mkdir( $pathname , 0777 , true);
+		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc);
+		$filename = $pathname.$nombreArchivo.'.xml';	
+		@unlink($filename);	
+		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.xml';	
+		@unlink($filename);	
+		
+		$filename = $pathname.$nombreArchivo.'.pdf';	
+		@unlink($filename);	
+		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.pdf';	
+		@unlink($filename);	
+		
+		$filename = $pathname.$nombreArchivo.'.zip';	
+		@unlink($filename);	
+		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.zip';
+		@unlink($filename);	
+		
+		//======================================================================================================	
+		// GENERA XML
+		$nomXml = new nominaXml();
+		$res = $nomXml->generarNomina( $nomina );
+		// print_r($res);
+		if ( !$res['success']){			
+			
+			return $res;
+		}
+		
+		
+		//----------------------------------------
+		if ( !isset($nomina['fecha_emision']) ){
+			return array(
+				'success'=>false,
+				'msg'=>'Es necesaria la fecha de la factura para generar el XML'
+			);			
+		}
+		
+		//======================================================================================================		
+		//GUARDA XML		
+		//-----------------------------------------------------------------------------------------------------------
+		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc).'_f'.$nomina_id;
+		$filename = $pathname.$nombreArchivo.'.xml';						 				
+		$handle=fopen($filename ,'c');
+		
+		fwrite ( $handle , $res['xml'] );
+		fclose ( $handle );
+		//======================================================================================================
+		// ZIP		
+		// $zip = new ZipArchive;
+		
+		// if($zip->open($pathname.$nombreArchivo.'.zip',  ZipArchive::CREATE)){
+			// $zip->addFile($pathname.$nombreArchivo.'.xml', $nombreArchivo.'.xml');
+			// $zip->close();
+		// }
+		// $_POST['datos']['modoPrueba'] = empty($this->modoPrueba)? 0 : 1;
+		// $nomina['modoPrueba']=$_POST['datos']['modoPrueba'];
+		// $resPDF = $this->generarPdf($pathname, $nombreArchivo, $nomina, $nomina['conceptos'], $nomina['impuestos'] );
+		// if ( !$resPDF['success'] ){
+			 // return $resXML;
+		// }
+		
+		//======================================================================================================		
+		// if ( !empty( $nomina['id']) ){
+			// unset($nomina['fk_serie']);
+			// unset($nomina['serie']);
+			// unset($nomina['folio']);
+		// }		
+		// $_POST['datos']['folio_fiscal']='';
+		//======================================================================================================
+		// $conceptosMod= new concepto_facturaModelo();		
+		// $params = array(
+			// 'filtros'=>array(
+				// array(
+					// 'dataKey'		=>'fk_factura',
+					// 'filterOperator'=>'equals',
+					// 'filterValue'	=>$fk_factura,
+				// )
+			// )
+		// );		
+		// $resConceptos = $conceptosMod->buscar($params);
+		// if ( !$resConceptos['success'] ){			
+			
+			
+			// return $resConceptos;
+		// }		
+		// $res['datos']['conceptos']=$resConceptos['datos'];	
+		
+		// $impuestoMod=new impuesto_facturaModelo();
+		// $params=array(
+			// 'fk_factura'=>$fk_factura
+		// );
+		
+		// if ( !empty($res['datos']['clave']) ){
+			// $params['clave']=$res['datos']['clave'];
+		// }
+		// $resImpuestos = $impuestoMod->buscar( $params );
+		// $res['datos']['impuestos']=$resImpuestos['datos'];	
+		//======================================================================================================		
+		// $res['datos']['folio_fiscal']='';
+		// $res['datos']['FechaTimbrado']='';
+		// $res['datos']['noCertificadoSAT']='';
+		// $res['datos']['cadenaCFDI'] = '';
+		return $res;
+	}
 	function buscar($params){
 		
 		$pdo = $this->getConexion();
@@ -900,6 +1088,11 @@ class nominaModelo extends Modelo{
 		if ( isset( $datos['fk_patron'] ) ){
 			$strCampos .= ' fk_patron=:fk_patron, ';
 		} 
+		
+		if ( isset( $datos['archivosGenerados'] ) ){
+			$strCampos .= ' archivosGenerados=:archivosGenerados, ';
+		} 
+		
 		if ( isset( $datos['fk_empleado'] ) ){
 			$strCampos .= ' fk_empleado=:fk_empleado, ';
 		} 
@@ -1068,6 +1261,11 @@ class nominaModelo extends Modelo{
 		if  ( isset( $datos['fk_patron'] ) ){
 			$sth->bindValue(':fk_patron', $datos['fk_patron'] );
 		}
+		
+		if  ( isset( $datos['archivosGenerados'] ) ){
+			$sth->bindValue(':archivosGenerados', $datos['archivosGenerados'] );
+		}
+				
 		if  ( isset( $datos['fk_empleado'] ) ){
 			$sth->bindValue(':fk_empleado', $datos['fk_empleado'] );
 		}
@@ -1235,6 +1433,8 @@ class nominaModelo extends Modelo{
 		
 		
 		$percepcion_nominaMod = new percepcion_nominaModelo();
+		
+		if ( !empty($datos['percepcionesDeNomina']) )
 		foreach( $datos['percepcionesDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){
@@ -1260,6 +1460,7 @@ class nominaModelo extends Modelo{
 			
 		}
 		$deduccion_nominaMod = new deduccion_nominaModelo();
+		if ( !empty($datos['deduccionesDeNomina']) )
 		foreach( $datos['deduccionesDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){
@@ -1285,6 +1486,7 @@ class nominaModelo extends Modelo{
 			
 		}
 		$incapacidadMod = new incapacidadModelo();
+		if ( !empty($datos['incapacidadesDeNomina']) )
 		foreach( $datos['incapacidadesDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){
@@ -1310,6 +1512,7 @@ class nominaModelo extends Modelo{
 			
 		}
 		$hora_extra_nominaMod = new hora_extra_nominaModelo();
+		if ( !empty($datos['horas_extraDeNomina']) )
 		foreach( $datos['horas_extraDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){
@@ -1335,6 +1538,7 @@ class nominaModelo extends Modelo{
 			
 		}
 		$concepto_de_nominaMod = new concepto_de_nominaModelo();
+		if ( !empty($datos['conceptosDeNomina']) )
 		foreach( $datos['conceptosDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){
@@ -1360,6 +1564,7 @@ class nominaModelo extends Modelo{
 			
 		}
 		$impuesto_de_nominaMod = new impuesto_de_nominaModelo();
+		if ( !empty($datos['impuestosDeNomina']) )
 		foreach( $datos['impuestosDeNomina'] as $el ){
 			if ( !empty($el['eliminado']) ){
 				if ( !empty($el['id']) ){

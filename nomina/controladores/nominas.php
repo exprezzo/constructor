@@ -48,7 +48,41 @@ require_once $_PETICION->basePath.'/modelos/regimen.php';
 class nominas extends Controlador{
 	var $modelo="nomina";	
 	
-	
+	function generarArchivos(){
+		
+		if ( empty($_POST['id'])  ){
+			$res = array(
+				'success'=>false,
+				'msg'	 =>'Proporcione la Nomina a generar'
+			);
+			echo json_encode( $res ); return $res;
+		}
+		
+		$esNuevo = ( $_POST['esNuevo']=='false' ) ? false : true;
+		$nomina_id= $_POST['id'];
+
+		$mod = $this->getModelo();
+		$res = $obj = $mod->generarArchivos( $nomina_id );
+		if ($res['success']){
+			unset($res['datos']);
+			$res['msg']='Archivos Generados';
+			
+			$nomina=array();
+			$nomina['id'] = $nomina_id;			
+			$nomina['archivosGenerados']=1;
+			$mod->guardar($nomina);
+			
+		}
+		if ( $esNuevo ){					
+			// $res['esNuevo']=true;				
+			// $_SESSION['res']=$res;
+			sessionSet('res', $res);
+		}
+		
+		unset($res['xml']);
+		echo json_encode( $res );
+		return $res;
+	}	
 		function buscarEmpresa(){
 			$empresaMod= new empresaModelo();
 			$res = $empresaMod->buscar( array() );
@@ -189,21 +223,22 @@ class nominas extends Controlador{
 			return $res;
 		}
 		
+		$res['esNuevo']=$esNuevo;	
 		if ( $esNuevo ){					
-			$res['esNuevo']=true;				
+						
 			sessionSet('res', $res);			
 		}
 		
-		$nomXml = new nominaXml();
-		$resN = $nomXml->generarNomina( $res['datos'] );
+		// $nomXml = new nominaXml();
+		// $resN = $nomXml->generarNomina( $res['datos'] );
 		
-		if ( !$resN['success']){
+		// if ( !$resN['success']){
 			// $resN['msg']='errores en el XML';
-			echo json_encode($resN);
-		}else{
-			echo json_encode($res);
-		}
-		
+			// echo json_encode($resN);
+		// }else{
+			// echo json_encode($res);
+		// }
+		 echo json_encode($res);
 		return $res;
 	}
 	function eliminar(){

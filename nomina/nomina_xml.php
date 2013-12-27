@@ -91,9 +91,20 @@ class NominaXml{
 	 * http://www.lacorona.com.mx/fortiz/sat/xml.php
 	 * Calculo de sello
 	 */
-	function _sella(&$root, $arr, $cadena_original) {
+	function _sella(&$root, $fk_certificado, $cadena_original) {
 		
-		$pkeyid = openssl_get_privatekey( $arr['key_pem'] );			
+		 // print_r($arr);
+		 // $fk_certificado = $arr['fk_certificado'];
+		$certMod = new certificadoModelo();
+		$certificado=$certMod->obtener( $fk_certificado );
+		// print_r($certificado);
+		
+		$cer_pem=$certificado['cer_pem'];
+		$key_pem = $certificado['key_pem'];
+		// $key_pem = str_replace('-----BEGIN PRIVATE KEY-----','', $key_pem);
+		// $key_pem = str_replace('-----END PRIVATE KEY-----','', $key_pem);
+		
+		$pkeyid = openssl_get_privatekey( $key_pem );			
 		
 		openssl_sign($cadena_original, $crypttext, $pkeyid, OPENSSL_ALGO_SHA1);
 		openssl_free_key($pkeyid);
@@ -101,14 +112,15 @@ class NominaXml{
 		$sello = base64_encode($crypttext);      // lo codifica en formato base64
 		$root->setAttribute("sello",$sello);
 		
-		// $certificado = $arr[''];
-		$certificado = str_replace('-----BEGIN CERTIFICATE-----','', $arr['cer_pem']);
+		
+		
+		$certificado = str_replace('-----BEGIN CERTIFICATE-----','', $cer_pem);
 		$certificado = str_replace('-----END CERTIFICATE-----','', $certificado);
 		
 		// El certificado como base64 lo agrega al XML para simplificar la validacion
 		$certificado= trim($certificado);
 		$certificado= preg_replace("(\r\n)", "", $certificado);
-		// echo $certificado; exit;
+		
 		$root->setAttribute("certificado",$certificado );
 		
 		return $sello;
@@ -305,18 +317,15 @@ class NominaXml{
 		$paso->loadXML($xml->saveXML());
 		$xsl = new DOMDocument;		
 		
-		//$file='http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_0/cadenaoriginal_3_2.xslt';
-		// $file='http://www.sat.gob.mx/sitio_internet/cfd/3/cadenaoriginal_3_0/cadenaoriginal_3_2.xslt';
-		$file='../sistema/cadenaoriginal_3_2.xslt';
-		// $file = realpath ( '../sistema/cadenaoriginal_3_2.xslt' );
+		$file='../nomina/cadenaoriginal_3_2.xslt';
+		
 		$xsl->load($file);
 		$proc = new XSLTProcessor;
 		@$proc->importStyleSheet($xsl); 
 		$cadena_original = $proc->transformToXML($paso);
 		
 		// $cadena_original = utf8_decode($cadena_original);
-		 // echo $cadena_original ; exit;
-		// echo md5($cadena_original); exit;
+		 
 		return $cadena_original;
 	}
 	public function generarXml($factura){				
@@ -348,15 +357,15 @@ class NominaXml{
 		
 		$this->complementoNomina($root, $xml, $factura['nomina']);
 		
-		// $cadena = $this->_genera_cadena_original($xml);			
+		$cadena = $this->_genera_cadena_original($xml);			
 		// return array('success'=>false, 'msg'=>'ErROR DE PRUEBA');
-		// $sello = $this->_sella($root, $factura, $cadena);
+		 $sello = $this->_sella($root, $factura['nomina']['fk_certificado'], $cadena);
 	
 		
 		return array(
-			'xml'=>$xml,
-			// 'sello'=>$sello,
-			// 'cadena'=>$cadena,
+			'xml'=>$xml->saveXml(),
+			 'sello'=>$sello,
+			 'cadena'=>$cadena,
 			'success'=>true
 		);
 	}
@@ -484,8 +493,8 @@ class NominaXml{
 		//----------------------------------------		
 		$res = $this->generarXml($factura);
 		$xml=$res['xml'];		
-		file_put_contents('../nomina.xml', $xml->saveXML() );
-		$valida = $this->_valida($xml->saveXML());
+		// file_put_contents('../nomina.xml', $xml->saveXML() );
+		$valida = $this->_valida( $xml );
 		
 		
 		if ( !$valida['success'] ){
@@ -592,7 +601,7 @@ class NominaXml{
 
 	$emisor = $xml->createElement("cfdi:Emisor");
 	$emisor = $root->appendChild($emisor);
-	 // echo '<pre>'; print_r($arr);  echo '</pre>'; exit;
+	 
 	$this->_cargaAtt($emisor, array("rfc"=>$arr['emisor_rfc'],
 						   "nombre"=>$arr['emisor_razon_social']
 					   )
