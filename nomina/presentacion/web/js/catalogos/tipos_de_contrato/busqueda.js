@@ -1,4 +1,4 @@
-﻿var BusquedaTrabajadores=function(){
+﻿var BusquedaTipos_de_contrato=function(){
 	
 	this.buscar=function(){
 		var gridBusqueda=$(this.tabId+" .grid_busqueda");				
@@ -105,7 +105,7 @@
 		
 		$(this.tabId + ' .toolbarEdicion .btnEliminar').click( function(){
 			if (me.selected==undefined) return false;
-			var r=confirm("¿Eliminar Trabajador?");
+			var r=confirm("Tipo De Contrato Eliminado");
 			if (r==true){
 			  me.eliminar();
 			}
@@ -131,7 +131,7 @@
 					break;
 					case 'eliminar':
 						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Trabajador?");
+						var r=confirm("Tipo De Contrato Eliminado");
 						if (r==true){
 						  me.eliminar();
 						}
@@ -187,163 +187,7 @@
 				});
 		
 				data.proxy.options.data.filtering.push({
-					dataKey: "rfc",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "email",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "CURP",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_regimen_contratacion",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "NumSeguridadSocial",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "calle",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "noExterior",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "noInterior",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "colonia",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "localidad",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "referencia",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_pais",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_estado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_municipio",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "codigoPostal",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "NoEmpleado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "SalarioDiarioIntegrado",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "SalarioBaseCotApor",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "FechaInicioRelLaboral",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "puesto",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_tipo_de_contrato",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_departamento",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_jornada",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion_periodo_pago",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "descripcion_riesgo",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "nombre_corto_banco",
-					filterOperator: "Contains",
-					filterValue: value
-				});
-		
-				data.proxy.options.data.filtering.push({
-					dataKey: "CLABE",
+					dataKey: "descripcion",
 					filterOperator: "Contains",
 					filterValue: value
 				});
@@ -375,43 +219,7 @@
 			columns: [ 
 				{ dataKey: "id", visible:false, headerText: "Id" },
 { dataKey: "nombre", visible:true, headerText: "Nombre" },
-{ dataKey: "rfc", visible:true, headerText: "Rfc" },
-{ dataKey: "email", visible:true, headerText: "Email" },
-{ dataKey: "CURP", visible:true, headerText: "CURP" },
-{ dataKey: "nombre_fk_TipoRegimen", visible:true, headerText: "Tipo Regimen" },
-{ dataKey: "fk_TipoRegimen", visible:false, headerText: "Tipo Regimen" },
-{ dataKey: "NumSeguridadSocial", visible:true, headerText: "NumSeguridadSocial" },
-{ dataKey: "calle", visible:true, headerText: "Calle" },
-{ dataKey: "noExterior", visible:true, headerText: "NoExterior" },
-{ dataKey: "noInterior", visible:true, headerText: "NoInterior" },
-{ dataKey: "colonia", visible:true, headerText: "Colonia" },
-{ dataKey: "localidad", visible:true, headerText: "Localidad" },
-{ dataKey: "referencia", visible:true, headerText: "Referencia" },
-{ dataKey: "nombre_fk_pais", visible:true, headerText: "Pais" },
-{ dataKey: "fk_pais", visible:false, headerText: "Pais" },
-{ dataKey: "nombre_fk_estado", visible:true, headerText: "Estado" },
-{ dataKey: "fk_estado", visible:false, headerText: "Estado" },
-{ dataKey: "nombre_fk_municipio", visible:true, headerText: "Municipio" },
-{ dataKey: "fk_municipio", visible:false, headerText: "Municipio" },
-{ dataKey: "codigoPostal", visible:true, headerText: "Codigo Postal" },
-{ dataKey: "NoEmpleado", visible:true, headerText: "No Empleado" },
-{ dataKey: "SalarioDiarioIntegrado", visible:true, headerText: "Salario Diario Integrado" },
-{ dataKey: "SalarioBaseCotApor", visible:true, headerText: "Salario Base Cot" },
-{ dataKey: "FechaInicioRelLaboral", visible:true, headerText: "Fecha Contratación" },
-{ dataKey: "puesto", visible:true, headerText: "Puesto" },
-{ dataKey: "nombre_fk_TipoContrato", visible:true, headerText: "Tipo Contrato" },
-{ dataKey: "fk_TipoContrato", visible:false, headerText: "Tipo Contrato" },
-{ dataKey: "nombre_fk_departamento", visible:true, headerText: "Departamento" },
-{ dataKey: "fk_departamento", visible:false, headerText: "Departamento" },
-{ dataKey: "nombre_fk_TipoJornada", visible:true, headerText: "Tipo Jornada" },
-{ dataKey: "fk_TipoJornada", visible:false, headerText: "Tipo Jornada" },
-{ dataKey: "descripcion_fk_PeriodicidadPago", visible:true, headerText: "Periodicidad Pago" },
-{ dataKey: "fk_PeriodicidadPago", visible:false, headerText: "Periodicidad Pago" },
-{ dataKey: "descripcion_fk_RiesgoPuesto", visible:true, headerText: "Riesgo Puesto" },
-{ dataKey: "fk_RiesgoPuesto", visible:false, headerText: "Riesgo Puesto" },
-{ dataKey: "nombre_corto_fk_banco", visible:true, headerText: "Banco" },
-{ dataKey: "fk_banco", visible:false, headerText: "Banco" },
-{ dataKey: "CLABE", visible:true, headerText: "CLABE" },
+{ dataKey: "descripcion", visible:true, headerText: "Descripcion" },
 			]
 		});
 		

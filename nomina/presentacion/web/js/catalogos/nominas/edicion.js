@@ -2,6 +2,89 @@
 	this.editado=false;
 	this.tituloNuevo='Nueva Nomina';
 	this.saveAndClose=false;
+	var me=this;
+	this.timbrar= function(){
+		
+		var tabId = this.tabId;		
+		var id = $(this.tabId + ' [name="id"]').val();
+		var datos = {
+			id:id
+		};
+		
+		$("#contenedorDatos2").block({ 
+			message: '<h1>Timbrando</h1>'               
+		});
+		$.ajax({
+			type: "POST",
+			url: kore.url_base+this.configuracion.modulo.nombre+'/'+this.controlador.nombre+'/timbrar',
+			data: { datos: datos}
+		}).done(function( response ) {
+			$("#contenedorDatos2").unblock(); 
+			try{
+					var resp = eval('(' + response + ')');
+			}catch(err){
+				msg='El servidor no ha respondido de manera correcta. <br />'+response;
+				title='Error al timbrar la nomina';
+				icon= kore.url_web+'imagenes/error.png';
+				$.gritter.add({
+					position: 'bottom-left',
+					title:title,
+					text: msg,
+					image: icon,
+					class_name: 'my-sticky-class'
+				});
+			}
+			var msg= (resp.msg)? resp.msg : '';
+			var title;			
+			if ( resp.success == true	){
+				// actualizarTimbres();
+				
+				$(me.tabId+' .cadenaCFDI').html(resp.datos.cadenaCFDI); 
+				if (resp.datos.selloCFD != null)
+					$(me.tabId+' .selloCFD').html(resp.datos.selloCFD[0]); 
+				if (resp.datos.selloSAT != null)
+					$(me.tabId+' .selloSAT').html(resp.datos.selloSAT[0]); 
+				if (resp.datos.folio_fiscal != null){
+					$(me.tabId+' .folioFiscal').html(resp.datos.folio_fiscal[0]);
+					$(me.tabId+' [name="folio_fiscal"]').val(resp.datos.folio_fiscal[0]);
+				}
+					
+				if (resp.msgType!=undefined ){
+					if (resp.msgType == 'info'){
+						icon=kore.url_web+'imagenes/yes.png';					
+					}else if (resp.msgType == 'warning'){
+						icon=kore.url_web+'imagenes/warning.png';
+					}else{
+						icon=kore.url_web+'imagenes/info.png';
+					}				
+				}else{
+					icon=kore.url_web+'imagenes/info.png';
+				}
+				// me.configBotonesPrefactura();
+				title= 'Success';
+				$.gritter.add({
+					position: 'bottom-left',
+					title:title,
+					text: msg,
+					image: icon,
+					class_name: 'my-sticky-class'
+				});
+				
+			}else{
+				icon= kore.url_web+'imagenes/error.png';
+				title= 'Error';					
+				$.gritter.add({
+					position: 'bottom-left',
+					title:title,
+					text: msg,
+					image: icon,
+					class_name: 'my-sticky-class'
+				});
+			}
+			
+			
+		});
+	};
 	this.generarArchivos=function(esNuevo){
 		var id = $(this.tabId + ' [name="id"]').val();
 		var me=this;
@@ -52,7 +135,7 @@
 				
 				me.editado=false;
 			
-				me.configBotonesPrefactura.call(me);
+				// me.configBotonesPrefactura.call(me);
 				$.gritter.add({
 					position: 'bottom-left',
 					title:title,
@@ -124,7 +207,30 @@
 			minLength:1,
 			autoFilter:false,	
 			forceSelectionText:true,
-			select : function (e, data) {						
+			select : function (e, data) {	
+				console.log(data);
+				$('[name="NumEmpleado"]').val(data.NoEmpleado);
+				$('[name="CURP"]').val(data.CURP);
+				
+				$('[name="NumSeguridadSocial"]').val(data.NumSeguridadSocial);
+				$('[name="FechaInicioRelLaboral"]').val(data.FechaInicioRelLaboral);
+				$('[name="SalarioDiarioIntegrado"]').val(data.SalarioDiarioIntegrado);
+				$('[name="SalarioBaseCotApor"]').val(data.SalarioBaseCotApor);
+				$('[name="CURP"]').val(data.CURP);
+				$('[name="Puesto"]').val(data.puesto);
+				$('[name="CLABE"]').val(data.CLABE);
+				
+				var regimen={
+					'fk_TipoRegimen':data.fk_TipoRegimen,
+					'fk_TipoRegimen':data.nombre_fk_TipoRegimen,
+				};
+				var dataRegimen = $('select[name="fk_TipoRegimen"]').wijcombobox('option','data');
+				$('select[name="fk_TipoRegimen"]').wijcombobox('option','selectedIndex',-1);
+				dataRegimen.lenght=0;
+				dataRegimen.push(regimen);
+				$('select[name="fk_TipoRegimen"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_TipoRegimen"]').wijcombobox('repaint');
+				
 			},
 			search: function (e, obj) { 						
 			}
@@ -154,6 +260,21 @@
 
 		var myReader = new wijarrayreader([
 		{name:'label', mapping:'nombre' }, 
+		{name:'rfc'}, 
+		{name:'email'}, 
+		{name:'CURP'}, 
+		{name:'fk_TipoRegimen'}, 
+		{name:'nombre_fk_TipoRegimen'}, 		
+		{name:'nombre_regimen_contratacion'}, 
+		{name:'NumSeguridadSocial'}, 
+		{name:'NoEmpleado'}, 
+		
+		{name:'FechaInicioRelLaboral'}, 
+		{name:'SalarioDiarioIntegrado'}, 
+		{name:'SalarioBaseCotApor'}, 
+		{name:'puesto'}, 
+		{name:'CLABE'}, 
+	
 		{name:'value', mapping:'id' }]); 
 
 		var datasource = new wijdatasource({ 
@@ -338,7 +459,7 @@
 		
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
-			url: kore.url_base+kore.modulo+'/nominas/buscarRegimen_contratacion',
+			url: kore.url_base+kore.modulo+'/nominas/buscarTipoContrato',
 			dataType: "json", 
 			type:"POST",
 			data: {
@@ -1285,7 +1406,12 @@
 	},	
 	this.configurarFormulario=function(tabId){		
 		var me=this;
-		// $(this.tabId+' .frmEdicion input[type="text"]').wijtextbox();		
+		$(this.tabId+' [name="FechaPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
+		$(this.tabId+' [name="FechaInicialPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
+		$(this.tabId+' [name="FechaFinalPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});
+		$(this.tabId+' [name="FechaInicioRelLaboral"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
+		$(this.tabId+' [name="fecha_emision"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});
+		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
 this.configurarComboFk_patron();
@@ -1305,6 +1431,10 @@ this.configurarComboFk_metodo_pago();
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			
+		$(this.tabId + ' .toolbarEdicion .btnTimbrar').click( function(){
+			me.timbrar();
+			me.editado=true;
+		});
 		$(this.tabId + ' .toolbarEdicion .btnNuevo').click( function(){
 			window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/nuevo';
 		});

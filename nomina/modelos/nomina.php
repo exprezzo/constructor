@@ -2,7 +2,7 @@
 class nominaModelo extends Modelo{	
 	var $tabla='nomina_nomina';
 	var $pk='id';
-	var $campos= array('id', 'fk_patron', 'razon_social_empresa', 'fk_empleado', 'nombre_trabajador', 'fk_serie', 'serie_serie_nomina', 'serie', 'folio', 'Version', 'RegistroPatronal', 'NumEmpleado', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'TipoRegimen', 'NumSeguridadSocial', 'FechaPago', 'FechaInicialPago', 'FechaFinalPago', 'NumDiasPagados', 'fk_Departamento', 'nombre_departamento', 'Departamento', 'CLABE', 'Banco', 'FechaInicioRelLaboral', 'Antiguedad', 'Puesto', 'TipoContrato', 'nombre_regimen_contratacion', 'TipoJornada', 'nombre_jornada', 'PeriodicidadPago', 'descripcion_periodo_pago', 'SalarioBaseCotApor', 'RiesgoPuesto', 'SalarioDiarioIntegrado', 'fk_banco', 'nombre_corto_banco', 'fk_RiesgoPuesto', 'descripcion_riesgo', 'percepcionesTotalGravado', 'percepcionesTotalExcento', 'deduccionesTotalGravado', 'deduccionesTotalExcento', 'fk_forma_pago', 'nombre_forma_de_pago', 'fk_certificado', 'no_serie_certificado', 'condiciones_de_pago', 'subTotal', 'descuento', 'motivo_descuento', 'tipo_cambio', 'fk_moneda', 'moneda_moneda', 'total', 'tipo_comprobante', 'fk_metodo_pago', 'nombre_metodo_de_pago', 'num_cta_pago', 'totImpRet', 'totImpTras', 'fecha_emision');
+	var $campos= array('id', 'fk_patron', 'razon_social_empresa', 'fk_empleado', 'nombre_trabajador', 'fk_serie', 'serie_serie_nomina', 'serie', 'folio', 'Version', 'RegistroPatronal', 'NumEmpleado', 'CURP', 'fk_TipoRegimen', 'nombre_regimen_contratacion', 'TipoRegimen', 'NumSeguridadSocial', 'FechaPago', 'FechaInicialPago', 'FechaFinalPago', 'NumDiasPagados', 'fk_Departamento', 'nombre_departamento', 'Departamento', 'CLABE', 'Banco', 'FechaInicioRelLaboral', 'Antiguedad', 'Puesto', 'TipoContrato', 'nombre_regimen_contratacion', 'TipoJornada', 'nombre_jornada', 'PeriodicidadPago', 'descripcion_periodo_pago', 'SalarioBaseCotApor', 'RiesgoPuesto', 'SalarioDiarioIntegrado', 'fk_banco', 'nombre_corto_banco', 'fk_RiesgoPuesto', 'descripcion_riesgo', 'percepcionesTotalGravado', 'percepcionesTotalExcento', 'deduccionesTotalGravado', 'deduccionesTotalExcento', 'fk_forma_pago', 'nombre_forma_de_pago', 'fk_certificado', 'no_serie_certificado', 'condiciones_de_pago', 'subTotal', 'descuento', 'motivo_descuento', 'tipo_cambio', 'fk_moneda', 'moneda_moneda', 'total', 'tipo_comprobante', 'fk_metodo_pago', 'nombre_metodo_de_pago', 'num_cta_pago', 'totImpRet', 'totImpTras', 'fecha_emision','folio_fiscal');
 	function obtenerCertificado($params){
 		//Obtiene el certificado por default de esta razon social
 		$pdo=$this->getPdo();
@@ -66,7 +66,7 @@ class nominaModelo extends Modelo{
 		$pathname='../nomina/archivos/nomina/corp_'.$DB_CONFIG['id'].'/'.$emisor_rfc.'/'.$anio.'/'.$mes.'/';
 		
 		@mkdir( $pathname , 0777 , true);
-		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc);
+		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc).'_n'.$nomina['id'];
 		// $filename = $pathname.$nombreArchivo.'.xml';	
 		// @unlink($filename);	
 		return array(
@@ -99,42 +99,20 @@ class nominaModelo extends Modelo{
 		$nomina['key_pem'] = $certificado['key_pem'];
 		// if ( !isset($nomina['conceptos']) ) $nomina['conceptos'] = array();
 		//======================================================================================================
+
+		$resRNA=$this->getRutayNombreDeArchivo($nomina);		
+		$pathname=$resRNA['ruta'];
+		$nombreArchivo=$resRNA['nombre'];
+		
 		// BORRA LOS ARCHIVOS
-		
-		$empMod = new empresaModelo();
-		$empresa_id = $nomina['fk_patron'];
-		$empresa = $empMod->obtener( $empresa_id );
-		
-		$trabMod = new trabajadorModelo();
-		$trabajador_id = $nomina['fk_empleado'];
-		$trabajador = $trabMod->obtener( $trabajador_id );
-		$cliente_rfc = $trabajador['rfc'];
-		
-		$emisor_rfc=$empresa['rfc'];
-		$fecha=date_create_from_format('Y-m-d H:i:s',$nomina['fecha_emision']);
-		$anio=$fecha->format('Y');
-		
-		$mes=$fecha->format('m');
-		// $DB_CONFIG=sessionGet('DB_CONFIG');
-		global $DB_CONFIG;
-		$DB_CONFIG['id']=1;
-		$pathname='../nomina/archivos/nomina/corp_'.$DB_CONFIG['id'].'/'.$emisor_rfc.'/'.$anio.'/'.$mes.'/';
-		
-		@mkdir( $pathname , 0777 , true);
-		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc);
+
 		$filename = $pathname.$nombreArchivo.'.xml';	
-		@unlink($filename);	
-		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.xml';	
-		@unlink($filename);	
-		
+		@unlink($filename);			
+
 		$filename = $pathname.$nombreArchivo.'.pdf';	
 		@unlink($filename);	
-		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.pdf';	
-		@unlink($filename);	
-		
-		$filename = $pathname.$nombreArchivo.'.zip';	
-		@unlink($filename);	
-		$filename = $pathname.$nombreArchivo.'_f'.$nomina_id.'.zip';
+
+		$filename = $pathname.$nombreArchivo.'.zip';
 		@unlink($filename);	
 		
 		//======================================================================================================	
@@ -142,8 +120,7 @@ class nominaModelo extends Modelo{
 		$nomXml = new nominaXml();
 		$res = $nomXml->generarNomina( $nomina );
 		// print_r($res);
-		if ( !$res['success']){			
-			
+		if ( !$res['success']){						
 			return $res;
 		}
 		
@@ -158,8 +135,7 @@ class nominaModelo extends Modelo{
 		
 		//======================================================================================================		
 		//GUARDA XML		
-		//-----------------------------------------------------------------------------------------------------------
-		$nombreArchivo=$emisor_rfc.'_'.$nomina['serie'].'_'.$nomina['folio'].'_'.trim($cliente_rfc).'_f'.$nomina_id;
+		//-----------------------------------------------------------------------------------------------------------		
 		$filename = $pathname.$nombreArchivo.'.xml';						 				
 		$handle=fopen($filename ,'c');
 		
@@ -908,7 +884,7 @@ class nominaModelo extends Modelo{
 			$obj['serie_serie_nomina']='';
 			$obj['serie']='';
 			$obj['folio']='';
-			$obj['Version']='';
+			$obj['Version']='1.1';
 			$obj['RegistroPatronal']='';
 			$obj['NumEmpleado']='';
 			$obj['CURP']='';
@@ -986,7 +962,7 @@ class nominaModelo extends Modelo{
  LEFT JOIN nomina_series AS serie_nomina2 ON serie_nomina2.id = nomina.fk_serie
  LEFT JOIN nomina_regimen_contratacion AS regimen_contratacion3 ON regimen_contratacion3.id = nomina.fk_TipoRegimen
  LEFT JOIN nomina_departamento AS departamento4 ON departamento4.id = nomina.fk_Departamento
- LEFT JOIN nomina_regimen_contratacion AS regimen_contratacion5 ON regimen_contratacion5.id = nomina.TipoContrato
+ LEFT JOIN nomina_tipo_contrato  AS regimen_contratacion5 ON regimen_contratacion5.id = nomina.TipoContrato
  LEFT JOIN nomina_jornada AS jornada6 ON jornada6.id = nomina.TipoJornada
  LEFT JOIN nomina_periodicidad_pago AS periodo_pago7 ON periodo_pago7.id = nomina.PeriodicidadPago
  LEFT JOIN nomina_bancos AS banco8 ON banco8.id = nomina.fk_banco
@@ -1122,6 +1098,14 @@ class nominaModelo extends Modelo{
 		
 		if ( isset( $datos['archivosGenerados'] ) ){
 			$strCampos .= ' archivosGenerados=:archivosGenerados, ';
+		} 
+		
+		if ( isset( $datos['folio_fiscal'] ) ){
+			$strCampos .= ' folio_fiscal=:folio_fiscal, ';
+		} 
+		
+		if ( isset( $datos['modo_prueba'] ) ){
+			$strCampos .= ' modo_prueba=:modo_prueba, ';
 		} 
 		
 		if ( isset( $datos['fk_empleado'] ) ){
@@ -1296,6 +1280,15 @@ class nominaModelo extends Modelo{
 		if  ( isset( $datos['archivosGenerados'] ) ){
 			$sth->bindValue(':archivosGenerados', $datos['archivosGenerados'] );
 		}
+		
+		if  ( isset( $datos['folio_fiscal'] ) ){
+			$sth->bindValue(':folio_fiscal', $datos['folio_fiscal'] );
+		}
+		
+		if  ( isset( $datos['modo_prueba'] ) ){
+			$sth->bindValue(':modo_prueba', $datos['modo_prueba'] );
+		}
+				
 				
 		if  ( isset( $datos['fk_empleado'] ) ){
 			$sth->bindValue(':fk_empleado', $datos['fk_empleado'] );

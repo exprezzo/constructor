@@ -19,9 +19,10 @@ if ( !empty( $this->datos['id'] ) ){
 			$fk_empleado_listado[]=array('id'=>$this->datos['fk_empleado'],'nombre'=>$this->datos['nombre_fk_empleado'] );
 			$this->fk_empleado_listado = $fk_empleado_listado;
 		}else{
-			$mod=new trabajadorModelo();
-			$objs=$mod->buscar( array() );		
-			$this->fk_empleado_listado = $objs['datos'];
+			// $mod=new trabajadorModelo();
+			// $objs=$mod->buscar( array() );		
+			// $this->fk_empleado_listado = $objs['datos'];
+			$this->fk_empleado_listado = array();
 		}
 if ( !empty( $this->datos['id'] ) ){
 			
@@ -59,7 +60,7 @@ if ( !empty( $this->datos['id'] ) ){
 			$TipoContrato_listado[]=array('id'=>$this->datos['TipoContrato'],'nombre'=>$this->datos['nombre_TipoContrato'] );
 			$this->TipoContrato_listado = $TipoContrato_listado;
 		}else{
-			$mod=new regimen_contratacionModelo();
+			$mod=new tipo_de_contratoModelo();
 			$objs=$mod->buscar( array() );		
 			$this->TipoContrato_listado = $objs['datos'];
 		}
@@ -274,11 +275,23 @@ if ( !empty( $this->datos['id'] ) ){
 
 		var impuestosDeNomina = new ImpuestosDeNomina();		
 		impuestosDeNomina.init(configDet);
-				
+		
+		var options={requireOpenedPane: false, active: false, collapsible: true};
+		// $(".datos_empleado").wijaccordion(options);
+		$(".datos_empleado").accordion(options);
+		$(".datos_facturacion").accordion(options);
+		
+		
 	});
 </script>
 <style>
+.wijmo-wijinput{display:inline-block; }
 
+.contenedor_fecha_emision .inputBox div[role="combobox"] {width: 91px !important;}
+div[role="combobox"] input[role="textbox"] {height:24px !important; }
+.datos_empleado .inputBox label:nth-child(1), .datos_facturacion .inputBox label:nth-child(1){
+	margin-left:0;
+}
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
@@ -288,19 +301,32 @@ if ( !empty( $this->datos['id'] ) ){
 		<div id="contenedorDatos2">
 			<form class="frmEdicion" style="">
 				
-				<div class="inputBox contenedor_id oculto" style=""  >
+				<div class="inputBox contenedor_id oculto"   >
 					<label style="">Id:</label>
 					<input title="Id" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_fk_patron" style=""  >
-					<label style="">Patron:</label>
-					<select name="fk_patron" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_patron_listado as $empresa){
-								echo '<option value="'.$empresa['id'].' " >'.$empresa['razon_social'].'</option>';
-							}
-						?>
-					</select>
+				<div class="inputBox contenedor_fecha_emision" style="display:inline-block;"  >
+					<div style="display:inline-block;">
+						<label style="">Fecha Emision:</label>
+						<input title="Fecha Emision" type="text" name="fecha_emision" class="entradaDatos" value="<?php echo $this->datos['fecha_emision']; ?>" style="width:150px;" />
+					</div>
+					<div class="inputBox contenedor_fk_serie" style="display:inline-block;"  >
+						<label style="margin:0 10px 0 20px; width:auto;">Serie Y Folio:</label>
+						<select name="fk_serie" class="entradaDatos" style="width:80px;">
+							<?php
+								foreach($this->fk_serie_listado as $serie_nomina){
+									echo '<option value="'.$serie_nomina['id'].' " >'.$serie_nomina['serie'].'</option>';
+								}
+							?>
+						</select>
+											
+							<input title="Folio" type="text" name="folio" class="entradaDatos" value="<?php echo $this->datos['folio']; ?>" style="width:20px; display:inline-block;" />
+						
+					</div>
+				</div>
+				<div class="inputBox contenedor_serie oculto" style=""  >
+					<label style="">Serie:</label>
+					<input title="Serie" type="text" name="serie" class="entradaDatos" value="<?php echo $this->datos['serie']; ?>" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_fk_empleado" style=""  >
 					<label style="">Empleado:</label>
@@ -312,186 +338,45 @@ if ( !empty( $this->datos['id'] ) ){
 						?>
 					</select>
 				</div>
-				<div class="inputBox contenedor_fk_serie" style=""  >
-					<label style="">Serie:</label>
-					<select name="fk_serie" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_serie_listado as $serie_nomina){
-								echo '<option value="'.$serie_nomina['id'].' " >'.$serie_nomina['serie'].'</option>';
-							}
-						?>
-					</select>
+				<div class="datos_empleado" style="width:800px; margin:10px 0 20px 100px;">
+					<?php 
+					// $path=dirname (__FILE__);
+					// echo $path; 
+					?>
+					
+						<h3>Datos del empleado</h3>
+						<div>
+							<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
+						</div>
+					
 				</div>
-				<div class="inputBox contenedor_serie oculto" style=""  >
-					<label style="">Serie:</label>
-					<input title="Serie" type="text" name="serie" class="entradaDatos" value="<?php echo $this->datos['serie']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_folio" style=""  >
-					<label style="">Folio:</label>
-					<input title="Folio" type="text" name="folio" class="entradaDatos" value="<?php echo $this->datos['folio']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_Version" style=""  >
-					<label style="">Version:</label>
-					<input title="Version" type="text" name="Version" class="entradaDatos" value="<?php echo $this->datos['Version']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_RegistroPatronal" style=""  >
-					<label style="">RegistroPatronal:</label>
-					<input title="RegistroPatronal" type="text" name="RegistroPatronal" class="entradaDatos" value="<?php echo $this->datos['RegistroPatronal']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_NumEmpleado" style=""  >
-					<label style="">NumEmpleado:</label>
-					<input title="NumEmpleado" type="text" name="NumEmpleado" class="entradaDatos" value="<?php echo $this->datos['NumEmpleado']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_CURP" style=""  >
-					<label style="">CURP:</label>
-					<input title="CURP" type="text" name="CURP" class="entradaDatos" value="<?php echo $this->datos['CURP']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_fk_TipoRegimen" style=""  >
-					<label style="">Tipo Regimen:</label>
-					<select name="fk_TipoRegimen" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_TipoRegimen_listado as $regimen_contratacion){
-								echo '<option value="'.$regimen_contratacion['id'].' " >'.$regimen_contratacion['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_TipoRegimen oculto" style=""  >
-					<label style="">TipoRegimen:</label>
-					<input title="TipoRegimen" type="text" name="TipoRegimen" class="entradaDatos" value="<?php echo $this->datos['TipoRegimen']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_NumSeguridadSocial" style=""  >
-					<label style="">NumSeguridadSocial:</label>
-					<input title="NumSeguridadSocial" type="text" name="NumSeguridadSocial" class="entradaDatos" value="<?php echo $this->datos['NumSeguridadSocial']; ?>" style="width:500px;" />
-				</div>
+				
+				
+				
+				
+				
 				<div class="inputBox contenedor_FechaPago" style=""  >
-					<label style="">FechaPago:</label>
-					<input title="FechaPago" type="text" name="FechaPago" class="entradaDatos" value="<?php echo $this->datos['FechaPago']; ?>" style="width:500px;" />
+					<label style="">Fecha Pago:</label>
+					<input title="FechaPago" type="text" name="FechaPago" class="entradaDatos" value="<?php echo $this->datos['FechaPago']; ?>" style="width:150px; display:inline-block;" />
 				</div>
 				<div class="inputBox contenedor_FechaInicialPago" style=""  >
-					<label style="">FechaInicialPago:</label>
-					<input title="FechaInicialPago" type="text" name="FechaInicialPago" class="entradaDatos" value="<?php echo $this->datos['FechaInicialPago']; ?>" style="width:500px;" />
+					<label style="">F. Inicial Pago:</label>
+					<input title="FechaInicialPago" type="text" name="FechaInicialPago" class="entradaDatos" value="<?php echo $this->datos['FechaInicialPago']; ?>" style="width:150px;" />
 				</div>
 				<div class="inputBox contenedor_FechaFinalPago" style=""  >
-					<label style="">FechaFinalPago:</label>
-					<input title="FechaFinalPago" type="text" name="FechaFinalPago" class="entradaDatos" value="<?php echo $this->datos['FechaFinalPago']; ?>" style="width:500px;" />
+					<label style="">F. Final Pago:</label>
+					<input title="FechaFinalPago" type="text" name="FechaFinalPago" class="entradaDatos" value="<?php echo $this->datos['FechaFinalPago']; ?>" style="width:150px;" />
 				</div>
 				<div class="inputBox contenedor_NumDiasPagados" style=""  >
-					<label style="">NumDiasPagados:</label>
-					<input title="NumDiasPagados" type="text" name="NumDiasPagados" class="entradaDatos" value="<?php echo $this->datos['NumDiasPagados']; ?>" style="width:500px;" />
+					<label style="">Dias Pagados:</label>
+					<input title="Numero de Días pagados" type="text" name="NumDiasPagados" class="entradaDatos" value="<?php echo $this->datos['NumDiasPagados']; ?>" style="width:50px;" />
 				</div>
-				<div class="inputBox contenedor_fk_Departamento" style=""  >
-					<label style="">Departamento:</label>
-					<select name="fk_Departamento" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_Departamento_listado as $departamento){
-								echo '<option value="'.$departamento['id'].' " >'.$departamento['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_Departamento oculto" style=""  >
-					<label style="">Departamento:</label>
-					<input title="Departamento" type="text" name="Departamento" class="entradaDatos" value="<?php echo $this->datos['Departamento']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_CLABE" style=""  >
-					<label style="">CLABE:</label>
-					<input title="CLABE" type="text" name="CLABE" class="entradaDatos" value="<?php echo $this->datos['CLABE']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_Banco oculto" style=""  >
-					<label style="">Banco:</label>
-					<input title="Banco" type="text" name="Banco" class="entradaDatos" value="<?php echo $this->datos['Banco']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_FechaInicioRelLaboral" style=""  >
-					<label style="">FechaInicioRelLaboral:</label>
-					<input title="FechaInicioRelLaboral" type="text" name="FechaInicioRelLaboral" class="entradaDatos" value="<?php echo $this->datos['FechaInicioRelLaboral']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_Antiguedad" style=""  >
-					<label style="">Antiguedad:</label>
-					<input title="Antiguedad" type="text" name="Antiguedad" class="entradaDatos" value="<?php echo $this->datos['Antiguedad']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_Puesto" style=""  >
-					<label style="">Puesto:</label>
-					<input title="Puesto" type="text" name="Puesto" class="entradaDatos" value="<?php echo $this->datos['Puesto']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_TipoContrato" style=""  >
-					<label style="">TipoContrato:</label>
-					<select name="TipoContrato" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->TipoContrato_listado as $regimen_contratacion){
-								echo '<option value="'.$regimen_contratacion['id'].' " >'.$regimen_contratacion['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_TipoJornada" style=""  >
-					<label style="">Tipo Jornada:</label>
-					<select name="TipoJornada" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->TipoJornada_listado as $jornada){
-								echo '<option value="'.$jornada['id'].' " >'.$jornada['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_PeriodicidadPago" style=""  >
-					<label style="">Periodicidad Pago:</label>
-					<select name="PeriodicidadPago" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->PeriodicidadPago_listado as $periodo_pago){
-								echo '<option value="'.$periodo_pago['id'].' " >'.$periodo_pago['descripcion'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_SalarioBaseCotApor" style=""  >
-					<label style="">SalarioBaseCotApor:</label>
-					<input title="SalarioBaseCotApor" type="text" name="SalarioBaseCotApor" class="entradaDatos" value="<?php echo $this->datos['SalarioBaseCotApor']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_RiesgoPuesto oculto" style=""  >
-					<label style="">RiesgoPuesto:</label>
-					<input title="RiesgoPuesto" type="text" name="RiesgoPuesto" class="entradaDatos" value="<?php echo $this->datos['RiesgoPuesto']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_SalarioDiarioIntegrado" style=""  >
-					<label style="">SalarioDiarioIntegrado:</label>
-					<input title="SalarioDiarioIntegrado" type="text" name="SalarioDiarioIntegrado" class="entradaDatos" value="<?php echo $this->datos['SalarioDiarioIntegrado']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_fk_banco" style=""  >
-					<label style="">Banco:</label>
-					<select name="fk_banco" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_banco_listado as $banco){
-								echo '<option value="'.$banco['id'].' " >'.$banco['nombre_corto'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_fk_RiesgoPuesto" style=""  >
-					<label style="">Riesgo Puesto:</label>
-					<select name="fk_RiesgoPuesto" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_RiesgoPuesto_listado as $riesgo){
-								echo '<option value="'.$riesgo['id'].' " >'.$riesgo['descripcion'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_percepcionesTotalGravado" style=""  >
-					<label style="">P. Tot. Gravado:</label>
-					<input title="Percepciones Total Gravado" type="text" name="percepcionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalGravado']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_percepcionesTotalExcento" style=""  >
-					<label style="">P. Tot. Excento:</label>
-					<input title="Percepciones Total Excento" type="text" name="percepcionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalExcento']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_deduccionesTotalGravado" style=""  >
-					<label style="">D Tot. Gravado:</label>
-					<input title="Deducciones Total Gravado" type="text" name="deduccionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalGravado']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_deduccionesTotalExcento" style=""  >
-					<label style="">D. Tot. Excento:</label>
-					<input title="Deducciones" type="text" name="deduccionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalExcento']; ?>" style="width:500px;" />
-				</div>
+				
+				
+				
+				
+				
+				
 				<div class="tabla contenedor_tabla_percepciones" style="position: relative; margin-top: 26px;"  >
 					
 					<h1 class="tituloTabla" >Percepciones</h1>
@@ -507,6 +392,17 @@ if ( !empty( $this->datos['id'] ) ){
 						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Percepcion_nomina?</p>
 					</div> 
 				</div>
+				<div style="display:none;">
+					<div class="inputBox contenedor_percepcionesTotalGravado" style=""  >
+						<label style="">P. Tot. Gravado:</label>
+						<input title="Percepciones Total Gravado" type="text" name="percepcionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalGravado']; ?>" style="width:500px;" />
+					</div>
+					<div class="inputBox contenedor_percepcionesTotalExcento" style=""  >
+						<label style="">P. Tot. Excento:</label>
+						<input title="Percepciones Total Excento" type="text" name="percepcionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalExcento']; ?>" style="width:500px;" />
+					</div>
+				</div>
+				
 				<div class="tabla contenedor_tabla_deducciones" style="position: relative; margin-top: 26px;"  >
 					
 					<h1 class="tituloTabla" >Deducciones</h1>
@@ -522,6 +418,17 @@ if ( !empty( $this->datos['id'] ) ){
 						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Deduccion_nomina?</p>
 					</div> 
 				</div>
+				<div style="display:none;">
+					<div class="inputBox contenedor_deduccionesTotalGravado" style=""  >
+						<label style="">D Tot. Gravado:</label>
+						<input title="Deducciones Total Gravado" type="text" name="deduccionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalGravado']; ?>" style="width:500px;" />
+					</div>
+					<div class="inputBox contenedor_deduccionesTotalExcento" style=""  >
+						<label style="">D. Tot. Excento:</label>
+						<input title="Deducciones" type="text" name="deduccionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalExcento']; ?>" style="width:500px;" />
+					</div>
+				</div>
+				
 				<div class="tabla contenedor_tabla_incapacidades" style="position: relative; margin-top: 26px;"  >
 					
 					<h1 class="tituloTabla" >Incapacidades</h1>
@@ -552,119 +459,40 @@ if ( !empty( $this->datos['id'] ) ){
 						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Hora_extra_nomina?</p>
 					</div> 
 				</div>
-				<div class="inputBox contenedor_fk_forma_pago" style=""  >
-					<label style="">Forma de Pago:</label>
-					<select name="fk_forma_pago" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_forma_pago_listado as $forma_de_pago){
-								echo '<option value="'.$forma_de_pago['id'].' " >'.$forma_de_pago['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_fk_certificado" style=""  >
-					<label style="">Certificado:</label>
-					<select name="fk_certificado" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_certificado_listado as $certificado){
-								echo '<option value="'.$certificado['id'].' " >'.$certificado['no_serie'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_condiciones_de_pago" style=""  >
-					<label style="">Condiciones De Pago:</label>
-					<input title="Condiciones De Pago" type="text" name="condiciones_de_pago" class="entradaDatos" value="<?php echo $this->datos['condiciones_de_pago']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_subTotal" style=""  >
-					<label style="">Subtotal:</label>
-					<input title="Subtotal" type="text" name="subTotal" class="entradaDatos" value="<?php echo $this->datos['subTotal']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_descuento" style=""  >
-					<label style="">Descuento:</label>
-					<input title="Descuento" type="text" name="descuento" class="entradaDatos" value="<?php echo $this->datos['descuento']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_motivo_descuento" style=""  >
-					<label style="">Motivo de descuento:</label>
-					<input title="Motivo de descuento" type="text" name="motivo_descuento" class="entradaDatos" value="<?php echo $this->datos['motivo_descuento']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_tipo_cambio" style=""  >
-					<label style="">Tipo de Cambio:</label>
-					<input title="Tipo de Cambio" type="text" name="tipo_cambio" class="entradaDatos" value="<?php echo $this->datos['tipo_cambio']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_fk_moneda" style=""  >
-					<label style="">Moneda:</label>
-					<select name="fk_moneda" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_moneda_listado as $moneda){
-								echo '<option value="'.$moneda['id'].' " >'.$moneda['moneda'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_total" style=""  >
-					<label style="">Total:</label>
-					<input title="Total" type="text" name="total" class="entradaDatos" value="<?php echo $this->datos['total']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_tipo_comprobante" style="display:none;"  >
-					<label style="">Tipo De Comprobante:</label>
-					<input title="Tipo De Comprobante" type="text" name="tipo_comprobante" class="entradaDatos" value="<?php echo $this->datos['tipo_comprobante']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_fk_metodo_pago" style=""  >
-					<label style="">Método de Pago:</label>
-					<select name="fk_metodo_pago" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_metodo_pago_listado as $metodo_de_pago){
-								echo '<option value="'.$metodo_de_pago['id'].' " >'.$metodo_de_pago['nombre'].'</option>';
-							}
-						?>
-					</select>
-				</div>
-				<div class="inputBox contenedor_num_cta_pago" style=""  >
-					<label style="">Num Cta Pago:</label>
-					<input title="Ultimos 4 digitos de la cuenta" type="text" name="num_cta_pago" class="entradaDatos" value="<?php echo $this->datos['num_cta_pago']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_totImpRet" style=""  >
-					<label style="">Tot Imp Ret:</label>
-					<input title="Total de Impuestos Retenidos" type="text" name="totImpRet" class="entradaDatos" value="<?php echo $this->datos['totImpRet']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_totImpTras" style=""  >
-					<label style="">Tot Imp Tras:</label>
-					<input title="Total de Impuestos Trasladados" type="text" name="totImpTras" class="entradaDatos" value="<?php echo $this->datos['totImpTras']; ?>" style="width:500px;" />
-				</div>
-				<div class="tabla contenedor_tabla_conceptos" style="position: relative; margin-top: 26px;"  >
+				
+				<div class="datos_facturacion" style="width:800px; margin:10px 0 20px 100px;">
+					<?php 
+					// $path=dirname (__FILE__);
+					// echo $path; 
+					?>
 					
-					<h1 class="tituloTabla" >Conceptos</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_conceptos">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-concepto_de_nomina" title="&iquest;Eliminar Concepto_de_nomina?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto_de_nomina?</p>
-					</div> 
-				</div>
-				<div class="tabla contenedor_tabla_impuestos" style="position: relative; margin-top: 26px;"  >
+						<h3>Datos de Facturacion</h3>
+						<div>
+							<?php include dirname(__FILE__).'/_datos_facturacion.php'; ?>	
+						</div>
 					
-					<h1 class="tituloTabla" >Impuestos</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_impuestos">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-impuesto_de_nomina" title="&iquest;Eliminar Impuesto_de_nomina?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Impuesto_de_nomina?</p>
-					</div> 
 				</div>
-				<div class="inputBox contenedor_fecha_emision" style=""  >
-					<label style="">Fecha Emision:</label>
-					<input title="Fecha Emision" type="text" name="fecha_emision" class="entradaDatos" value="<?php echo $this->datos['fecha_emision']; ?>" style="width:500px;" />
+				
+				<div   style="display:none;"> 
+					<div class="inputBox contenedor_fk_patron"  >
+						<label style="">Patron:</label>
+						<select name="fk_patron" class="entradaDatos" style="width:250px;">
+							<?php
+								foreach($this->fk_patron_listado as $empresa){
+									echo '<option value="'.$empresa['id'].' " >'.$empresa['razon_social'].'</option>';
+								}
+							?>
+						</select>
+					</div>
+					
+					<div class="inputBox contenedor_Version" style=""  >
+						<label style="">Version:</label>
+						<input title="Version" type="text" name="Version" class="entradaDatos" value="<?php echo $this->datos['Version']; ?>" style="width:500px;" />
+					</div>
+					<div class="inputBox contenedor_RegistroPatronal" style=""  >
+						<label style="">RegistroPatronal:</label>
+						<input title="RegistroPatronal" type="text" name="RegistroPatronal" class="entradaDatos" value="<?php echo $this->datos['RegistroPatronal']; ?>" style="width:500px;" />
+					</div>
 				</div>
 			</form>
 			<div id="contenedorMenu2" class="toolbarEdicion">

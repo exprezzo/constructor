@@ -1,92 +1,12 @@
 <?php
 
-require_once $_PETICION->basePath.'/modelos/trabajador.php';
-require_once $_PETICION->basePath.'/presentacion/html.php/trabajadores/trabajador_pdf.php';
-
-require_once $_PETICION->basePath.'/modelos/regimen_contratacion.php';
-
-require_once $_PETICION->basePath.'/modelos/pais.php';
-
-require_once $_PETICION->basePath.'/modelos/estado.php';
-
-require_once $_PETICION->basePath.'/modelos/municipio.php';
-
 require_once $_PETICION->basePath.'/modelos/tipo_de_contrato.php';
+require_once $_PETICION->basePath.'/presentacion/html.php/tipos_de_contrato/tipo_de_contrato_pdf.php';
 
-require_once $_PETICION->basePath.'/modelos/departamento.php';
-
-require_once $_PETICION->basePath.'/modelos/jornada.php';
-
-require_once $_PETICION->basePath.'/modelos/periodo_pago.php';
-
-require_once $_PETICION->basePath.'/modelos/riesgo.php';
-
-require_once $_PETICION->basePath.'/modelos/banco.php';
-
-class trabajadores extends Controlador{
-	var $modelo="trabajador";	
+class tipos_de_contrato extends Controlador{
+	var $modelo="tipo_de_contrato";	
 	
 	
-		function buscarRegimen_contratacion(){
-			$regimen_contratacionMod= new regimen_contratacionModelo();
-			$res = $regimen_contratacionMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarPais(){
-			$paisMod= new paisModelo();
-			$res = $paisMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarEstado(){
-			$estadoMod= new estadoModelo();
-			$res = $estadoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarMunicipio(){
-			$municipioMod= new municipioModelo();
-			$res = $municipioMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarTipo_de_contrato(){
-			$tipo_de_contratoMod= new tipo_de_contratoModelo();
-			$res = $tipo_de_contratoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarDepartamento(){
-			$departamentoMod= new departamentoModelo();
-			$res = $departamentoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarJornada(){
-			$jornadaMod= new jornadaModelo();
-			$res = $jornadaMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarPeriodo_pago(){
-			$periodo_pagoMod= new periodo_pagoModelo();
-			$res = $periodo_pagoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarRiesgo(){
-			$riesgoMod= new riesgoModelo();
-			$res = $riesgoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
-		function buscarBanco(){
-			$bancoMod= new bancoModelo();
-			$res = $bancoMod->buscar( array() );
-			echo json_encode( $res );
-		}
-		
 	
 	function bajarPdf(){
 		//-------
@@ -95,7 +15,7 @@ class trabajadores extends Controlador{
 		$id=$_PETICION->params[0];
 		$datos= $mod->obtener( $id );
 		//-------
-		$objPdf = new TrabajadorPdf('P','mm','letter');
+		$objPdf = new Tipo_de_contratoPdf('P','mm','letter');
 		$objPdf->datos=$datos;
 		$objPdf->AddPage();
 		$objPdf->imprimir(  );

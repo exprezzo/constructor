@@ -23,14 +23,14 @@
 			pk:"id"
 			
 		};				
-		 var lista=new BusquedaTrabajadores();
+		 var lista=new BusquedaTipos_de_contrato();
 		 lista.init(config);		
 	});
 </script>
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>Trabajadores</h1>
+    	<h1>Tipos De Contrato</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">

@@ -64,7 +64,7 @@ class NominaXml{
 	}
 	
 	function deducciones(&$nodoNomina, $xml, $arr){
-		if ( empty($arr['percepcionesDeNomina']) ) return;
+		if ( empty($arr['deduccionesDeNomina']) ) return;
 		
 		$deducciones = $xml->createElement("nomina:Deducciones");
 		$deducciones = $nodoNomina->appendChild($deducciones);

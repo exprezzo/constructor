@@ -38,15 +38,143 @@ require_once $_PETICION->basePath.'/modelos/certificado.php';
 require_once $_PETICION->basePath.'/modelos/moneda.php';
 
 require_once $_PETICION->basePath.'/modelos/metodo_de_pago.php';
+require_once $_PETICION->basePath.'/modelos/tipo_de_contrato.php';
 
 require_once $_PETICION->basePath.'/modelos/concepto_de_nomina.php';
 
 require_once $_PETICION->basePath.'/modelos/impuesto_de_nomina.php';
 require_once $_PETICION->basePath.'/nomina_xml.php';
 require_once $_PETICION->basePath.'/modelos/regimen.php';
+@require_once "../php_libs/nusoap/lib/nusoap.php";
 
 class nominas extends Controlador{
 	var $modelo="nomina";	
+	private function timbrarXML( $xml ){
+		$modoPrueba = $this->modoPrueba;
+		// echo $modoPrueba;
+		$client = new nusoap_client("https://cfdiws.sedeb2b.com/EdiwinWS/services/CFDi?wsdl", true);
+		$error = $client->getError();
+		if ($error) {
+			return array(
+				'success'=>false,
+				'msg'=>$error,
+			);			
+		}
+		
+		global $APP_CONFIG;
+		$Usuario=$APP_CONFIG['cfdi_user'];
+		$pass=$APP_CONFIG['cfdi_pass'];
+		
+		// $handle = fopen ($filename,'r+');
+		// $contents = fread($handle, filesize($filename));
+		$contents = base64_encode($xml);
+		
+		if ($this->modoPrueba){
+			$result = @$client->call("getCfdiTest", array('user'=>$Usuario,'password'=>$pass, 'file'=>$contents ) );
+		}else{
+			$mod=$this->getModelo();
+			$res=$mod->getTimbresDisponibles();
+			if ( !$res['success'] ){
+				return $res;
+			}
+			if ( empty($res['disponibles']) ){
+				$res=array(
+					'success'=>false,
+					'msg'=>'Sus timbres se han agotado, solicite un nuevo paquete con su proveedor'
+				);
+				return $res;
+			}
+			
+			$result = @$client->call("getCfdi", array('user'=>$Usuario,'password'=>$pass, 'file'=>$contents ) );
+		}
+		
+		
+		if ( $result == false && !empty($client->error_str ) ){
+			$result['success']=false;
+			$result['msg']=$client->error_str;
+		}
+		
+		if ( !empty($result['faultcode']) ){
+			$result['success']=false;
+						
+			// switch($result['detail']['fault']['cod']){
+				// case '301':					
+					// $result['detail']['fault']['text'] =utf8_encode('El comprobante no cumple con el estándar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).');
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '302':					
+					// $result['detail']['fault']['text'] = 'El sello del emisor no es válido..';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '303':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '304':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '305':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '306':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '307':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '308':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '401':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '402':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;
+				// case '403':					
+					// $result['detail']['fault']['text'] = 'El comprobante no cumple con el estandar XML (Conforme al W3C) o con la estructura XML (XSD ycomplementos aplicables).';
+					// $result['detail']['fault']['text'].=' '.$result['faultstring'];
+				// break;				
+			// }
+			
+			$result['detail']['fault']['text'] =utf8_encode( $result['detail']['fault']['text'] );
+			
+			if ( empty( $result['detail']['fault']['text'] ) ) $result['msg'] = 'Error al timbrar';
+			
+			
+			$result['msg']=$result['detail']['fault']['text'];
+			error_log( $result['msg'] );
+		}
+		
+		$result['zip64']='';
+		if ($this->modoPrueba){
+			if ( !empty($result['getCfdiTestReturn']) ){
+				$result['success']=true;
+				$result['msg']="Timbrado en modo Prueba";	
+				$result['zip64']=$result['getCfdiTestReturn'];
+			}
+		}else{
+			$mod->consumirTimbre();
+			if ( !empty($result['getCfdiReturn']) ){
+				$result['success']=true;
+				$result['msg']="Timbre Correcto";			
+				$result['zip64']=$result['getCfdiReturn'];
+			}
+		}
+
+		return array(
+			'success'=>$result['success'],
+			'msg'	 =>$result['msg'],
+			'zip64'	 =>$result['zip64']
+		);
+	}
 	function extraerXML($zipname, $ruta_destino, $nombreArchivo ){
 		$zip = new ZipArchive;		
 		if($zip->open($zipname)){			 
@@ -122,6 +250,7 @@ class nominas extends Controlador{
 		$xml = file_get_contents($filename.'.xml');		
 		$resTimbrado = $this->timbrarXML( $xml );
 		
+		// print_r($resTimbrado);
 		if (!$resTimbrado['success']){			
 			echo json_encode( $resTimbrado ); return $resTimbrado;
 		}
@@ -136,6 +265,7 @@ class nominas extends Controlador{
 		
 		@unlink($filename);
 		
+		// echo $filename;
 		$handle=fopen($filename ,'c');
 		fwrite ( $handle , base64_decode($resTimbrado['zip64']) );
 		fclose ( $handle );
@@ -148,7 +278,8 @@ class nominas extends Controlador{
 		$xml = new SimpleXMLElement($string);		
 		$xml->registerXPathNamespace('tfd', 'http://www.sat.gob.mx/TimbreFiscalDigital');		
 		$nodo = $xml->xpath('//tfd:TimbreFiscalDigital');		
-		$nomina=$obj;		
+		$nomina=array();
+		$nomina['id'] = $obj['id'];		
 		foreach($nodo[0]->attributes() as $key=>$val ){			
 			switch($key){
 				case 'UUID':
@@ -187,7 +318,7 @@ class nominas extends Controlador{
 		// $FechaFolioFiscalOrig=$nomina['FechaFolioFiscalOrig'];
 		// unset($nomina['FechaFolioFiscalOrig']);
 		$nomina['modo_prueba'] = empty($this->modoPrueba)? 0 : 1;		
-		
+		// print_r($nomina);
 		$res = $modelo->guardar($nomina);
 		
 		if ( !$res['success'] ){
@@ -274,6 +405,12 @@ class nominas extends Controlador{
 		function buscarRegimen_contratacion(){
 			$regimen_contratacionMod= new regimen_contratacionModelo();
 			$res = $regimen_contratacionMod->buscar( array() );
+			echo json_encode( $res );
+		}
+		
+		function buscarTipoContrato(){
+			$tipo_de_contratoMod= new tipo_de_contratoModelo();
+			$res = $tipo_de_contratoMod->buscar( array() );
 			echo json_encode( $res );
 		}
 		
@@ -383,6 +520,21 @@ class nominas extends Controlador{
 	function guardar(){
 		$modelo=$this->getModelo();
 		$esNuevo = empty( $_POST['datos'][$modelo->pk] );
+		
+		function formatJsToMysql($fechaJs){
+			$fecha = date_create_from_format('d/m/Y', $fechaJs);
+			return $fecha->format('Y-m-d H:i:s');
+		}
+		 $_POST['datos']['FechaPago'] = formatJsToMysql($_POST['datos']['FechaPago']);
+		 $_POST['datos']['FechaInicialPago'] = formatJsToMysql($_POST['datos']['FechaInicialPago']);
+		 $_POST['datos']['FechaFinalPago'] = formatJsToMysql($_POST['datos']['FechaFinalPago']);
+		 $_POST['datos']['FechaInicioRelLaboral'] = formatJsToMysql($_POST['datos']['FechaInicioRelLaboral']);
+		 $_POST['datos']['fecha_emision'] = formatJsToMysql($_POST['datos']['fecha_emision']);
+		
+		
+		
+		
+		// print_r( $_POST ); exit;
 		
 		ob_start();
 		$res = parent::guardar();

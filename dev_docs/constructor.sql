@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-12-2013 a las 01:57:26
+-- Tiempo de generación: 28-12-2013 a las 01:57:32
 -- Versión del servidor: 5.6.11
 -- Versión de PHP: 5.5.3
 
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `constructor_elemento_catalogo` (
   `fk_catalogo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_catalogo` (`fk_catalogo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1065 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1080 ;
 
 --
 -- Volcado de datos para la tabla `constructor_elemento_catalogo`
@@ -478,7 +478,7 @@ INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo
 (934, '', '', 'FechaInicioRelLaboral', '', 'NO', 'datetime', 'Text Input', '{"etiqueta":"FechaInicioRelLaboral","requerido":"0","editable":"1","oculto":"0","ayuda":"FechaInicioRelLaboral" }', 88),
 (935, '', '', 'Antiguedad', '', 'NO', 'decimal(18,6)', 'Text Input', '{"etiqueta":"Antiguedad","requerido":"0","editable":"1","oculto":"0","ayuda":"Antiguedad" }', 88),
 (936, '', '', 'Puesto', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Puesto","requerido":"0","editable":"1","oculto":"0","ayuda":"Puesto" }', 88),
-(937, '', '', 'TipoContrato', '', 'NO', 'char(100)', 'Combo Box', '{"etiqueta":"TipoContrato","ayuda":"TipoContrato","requerido":"0","oculto":"0","editable":"1","target":"74","campo_a_mostrar":"nombre"}', 88),
+(937, '', '', 'TipoContrato', '', 'NO', 'char(100)', 'Combo Box', '{"etiqueta":"TipoContrato","ayuda":"TipoContrato","requerido":"0","oculto":"0","editable":"1","target":"107","campo_a_mostrar":"nombre"}', 88),
 (938, '', '', 'TipoJornada', '', 'NO', 'char(100)', 'Combo Box', '{"etiqueta":"Tipo Jornada","ayuda":"Tipo Jornada","requerido":"0","oculto":"0","editable":"1","target":"85","campo_a_mostrar":"nombre"}', 88),
 (939, '', '', 'PeriodicidadPago', '', 'NO', 'char(100)', 'Combo Box', '{"etiqueta":"Periodicidad Pago","ayuda":"Periodicidad del Pago","requerido":"0","oculto":"0","editable":"1","target":"86","campo_a_mostrar":"descripcion"}', 88),
 (940, '', '', 'SalarioBaseCotApor', '', 'NO', 'decimal(18,6)', 'Text Input', '{"etiqueta":"SalarioBaseCotApor","requerido":"0","editable":"1","oculto":"0","ayuda":"SalarioBaseCotApor" }', 88),
@@ -605,7 +605,21 @@ INSERT INTO `constructor_elemento_catalogo` (`id`, `esDefault`, `extras`, `campo
 (1061, '', '', 'title', '', 'NO', 'varchar(50)', 'Text Input', '{"etiqueta":"Title","requerido":"0","editable":"1","oculto":"0","ayuda":"Title" }', 106),
 (1062, '0', '', 'lft', '', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Lft","requerido":"0","editable":"1","oculto":"0","ayuda":"Lft" }', 106),
 (1063, '0', '', 'rgt', '', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Rgt","requerido":"0","editable":"1","oculto":"0","ayuda":"Rgt" }', 106),
-(1064, '0', '', 'parent', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Parent","ayuda":"Parent","requerido":"0","oculto":"0","editable":"1","target":"106","campo_a_mostrar":"title"}', 106);
+(1064, '0', '', 'parent', '', 'NO', 'int(11)', 'Combo Box', '{"etiqueta":"Parent","ayuda":"Parent","requerido":"0","oculto":"0","editable":"1","target":"106","campo_a_mostrar":"title"}', 106),
+(1065, '', '', 'SalarioDiarioIntegrado', '', '', '', 'Text Input', '{"etiqueta":"Salario Diario Integrado","ayuda":"Salario Diario Integrado","requerido":"1","oculto":"0","editable":"1"}', 80),
+(1066, '', '', 'SalarioBaseCotApor', '', '', '', 'Text Input', '{"etiqueta":"Salario Base Cot","ayuda":"Salario Base ","requerido":"1","oculto":"0","editable":"1"}', 80),
+(1067, '', '', 'FechaInicioRelLaboral', '', '', '', 'Text Input', '{"etiqueta":"Fecha Contratación","ayuda":"Fecha De Inicio De La Relación Laboral","requerido":"1","oculto":"0","editable":"1"}', 80),
+(1068, '', '', 'puesto', '', '', '', 'Text Input', '{"etiqueta":"Puesto","ayuda":"Puesto","requerido":"1","oculto":"0","editable":"1"}', 80),
+(1069, '', '', 'fk_TipoContrato', '', '', '', 'Combo Box', '{"etiqueta":"Tipo Contrato","ayuda":"Tipo De Contrato","requerido":"0","oculto":"0","editable":"1","target":"107","campo_a_mostrar":"nombre"}', 80),
+(1070, '', 'auto_increment', 'id', 'PRI', 'NO', 'int(11)', 'Text Input', '{"etiqueta":"Id","ayuda":"Id","requerido":"0","oculto":"1","editable":"1"}', 107),
+(1071, '', '', 'nombre', '', 'NO', 'char(255)', 'Text Input', '{"etiqueta":"Nombre","requerido":"0","editable":"1","oculto":"0","ayuda":"Nombre" }', 107),
+(1072, '', '', 'descripcion', '', '', '', 'Text Input', '{"etiqueta":"Descripcion","ayuda":"Descripcion","requerido":"0","oculto":"0","editable":"1"}', 107),
+(1073, '', '', 'fk_departamento', '', '', '', 'Combo Box', '{"etiqueta":"Departamento","ayuda":"Departamento","requerido":"0","oculto":"0","editable":"1","target":"87","campo_a_mostrar":"nombre"}', 80),
+(1075, '', '', 'fk_TipoJornada', '', '', '', 'Combo Box', '{"etiqueta":"Tipo Jornada","ayuda":"Tipo Jornada","requerido":"0","oculto":"0","editable":"1","target":"85","campo_a_mostrar":"nombre"}', 80),
+(1076, '', '', 'fk_PeriodicidadPago', '', '', '', 'Combo Box', '{"etiqueta":"Periodicidad Pago","ayuda":"Periodicidad Pago","requerido":"0","oculto":"0","editable":"1","target":"86","campo_a_mostrar":"descripcion"}', 80),
+(1077, '', '', 'fk_RiesgoPuesto', '', '', '', 'Combo Box', '{"etiqueta":"Riesgo Puesto","ayuda":"Riesgo Puesto","requerido":"0","oculto":"0","editable":"1","target":"76","campo_a_mostrar":"descripcion"}', 80),
+(1078, '', '', 'fk_banco', '', '', '', 'Combo Box', '{"etiqueta":"Banco","ayuda":"Banco","requerido":"0","oculto":"0","editable":"1","target":"75","campo_a_mostrar":"nombre_corto"}', 80),
+(1079, '', '', 'CLABE', '', '', '', 'Text Input', '{"etiqueta":"CLABE","ayuda":"Clave interbancaria","requerido":"0","oculto":"0","editable":"1"}', 80);
 
 -- --------------------------------------------------------
 
@@ -1201,7 +1215,7 @@ CREATE TABLE IF NOT EXISTS `nomina_deducciones` (
   `ImporteExcento` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `nomina_deducciones`
@@ -1227,7 +1241,7 @@ CREATE TABLE IF NOT EXISTS `nomina_departamento` (
   `nombre` char(100) NOT NULL,
   `codigo` char(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `nomina_departamento`
@@ -1235,7 +1249,8 @@ CREATE TABLE IF NOT EXISTS `nomina_departamento` (
 
 INSERT INTO `nomina_departamento` (`id`, `nombre`, `codigo`) VALUES
 (1, 'Sistemas', ''),
-(2, 'Soporte Técnico', '');
+(2, 'Soporte Técnico', ''),
+(3, 'Diseño', '');
 
 -- --------------------------------------------------------
 
@@ -1252,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `nomina_horas_extra` (
   `ImportePagado` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `nomina_horas_extra`
@@ -1302,7 +1317,7 @@ CREATE TABLE IF NOT EXISTS `nomina_incapacidades` (
   `Descuento` decimal(18,6) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `nomina_incapacidades`
@@ -1437,19 +1452,21 @@ CREATE TABLE IF NOT EXISTS `nomina_nomina` (
   `modo_prueba` int(11) NOT NULL,
   `folio_fiscal` char(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `nomina_nomina`
 --
 
 INSERT INTO `nomina_nomina` (`id`, `fk_patron`, `fk_empleado`, `fk_serie`, `serie`, `folio`, `Version`, `RegistroPatronal`, `NumEmpleado`, `CURP`, `fk_TipoRegimen`, `TipoRegimen`, `NumSeguridadSocial`, `FechaPago`, `FechaInicialPago`, `FechaFinalPago`, `NumDiasPagados`, `fk_Departamento`, `Departamento`, `CLABE`, `Banco`, `FechaInicioRelLaboral`, `Antiguedad`, `Puesto`, `TipoContrato`, `TipoJornada`, `PeriodicidadPago`, `SalarioBaseCotApor`, `RiesgoPuesto`, `SalarioDiarioIntegrado`, `fk_banco`, `fk_RiesgoPuesto`, `percepcionesTotalGravado`, `percepcionesTotalExcento`, `deduccionesTotalGravado`, `deduccionesTotalExcento`, `fecha_expedicion`, `fk_forma_pago`, `fk_certificado`, `condiciones_de_pago`, `subTotal`, `descuento`, `motivo_descuento`, `tipo_cambio`, `fk_moneda`, `total`, `tipo_comprobante`, `fk_metodo_pago`, `num_cta_pago`, `totImpRet`, `totImpTras`, `fecha_emision`, `archivosGenerados`, `modo_prueba`, `folio_fiscal`) VALUES
-(1, 1, 1, 1, '', '1', '1.1', '', '', '0', 4, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '2', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, ''),
-(2, 1, 1, 1, 'A', '1', '1.1', 'xxx2038', '050', 'BIAC810830HSLBLS02', 1, '', '001', '2013-12-26 00:00:00', '2013-12-15 00:00:00', '2013-12-26 00:00:00', 10, 1, '', '000000000000000000', '', '2013-12-26 00:00:00', 1, 'programador', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '1.000000', '2.000000', '3.000000', '4.000000', '0000-00-00 00:00:00', 1, 1, '', '758.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '55561', '0.000000', '0.000000', '2013-12-24 11:18:00', 1, 0, ''),
+(1, 1, 1, 1, '', '1', '1.1', '', '', '0', 4, '', '', '2013-12-27 15:16:17', '2013-12-27 15:16:17', '2013-12-27 15:16:17', 0, 1, '', '', '', '2013-12-27 15:16:17', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '2013-12-27 15:16:17', 0, 0, ''),
+(2, 1, 1, 1, 'A', '1', '1.1', 'xxx2038', '050', 'BIAC810830HSLBLS02', 1, '', '001', '2013-12-26 15:19:50', '2013-12-15 15:19:50', '2013-12-26 15:19:50', 10, 1, '', '000000000000000000', '', '2013-12-26 15:19:50', 1, 'programador', '3', '1', '1', '0.000000', '', '0.000000', 1, 1, '1.000000', '2.000000', '3.000000', '4.000000', '0000-00-00 00:00:00', 1, 1, '', '758.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '55561', '0.000000', '0.000000', '2014-01-24 15:19:50', 1, 1, 'DDCBEA25-7E57-47E3-A9BD-A439BB32DD76'),
 (3, 1, 1, 1, '', '1', '', '', '', '0', 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, ''),
 (4, 1, 1, 1, '', '1', '', '', '', '0', 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, ''),
 (5, 1, 1, 1, '', '1', '', '', '', '0', 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '', '0.000000', '0.000000', '', '0.000000', 0, '0.000000', '', 0, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, ''),
-(6, 1, 1, 1, '', '', '', '', '', '0', 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, '');
+(6, 1, 1, 1, '', '', '', '', '', '0', 1, '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, '', '', '', '0000-00-00 00:00:00', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '0000-00-00 00:00:00', 0, 0, ''),
+(7, 1, 1, 1, '', '1', '', 'asfasdf', '1234', 'BIAC810830HSLBLS02', 1, '', '23028127597', '2013-12-27 12:28:49', '2013-12-27 12:28:49', '2013-12-27 12:28:49', 0, 1, '', '', '', '2013-12-27 12:28:49', 0, '', '1', '1', '1', '0.000000', '', '0.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '2014-12-27 12:28:49', 1, 1, '33C9257A-7E57-42E6-802D-85BB7E4B1D11'),
+(8, 1, 2, 1, '', '', '1.1', '', '007', 'OUGD890424HSLSRG03', 1, '', '23098925151', '2013-12-27 17:15:03', '2013-12-27 17:15:03', '2013-12-27 17:15:03', 0, 1, '', '111111111122222522', '', '2013-12-27 17:15:03', 0, 'Diseñador', '1', '1', '1', '400.000000', '', '400.000000', 1, 1, '0.000000', '0.000000', '0.000000', '0.000000', '0000-00-00 00:00:00', 1, 1, '', '0.000000', '0.000000', '', '0.000000', 1, '0.000000', '', 2, '', '0.000000', '0.000000', '2014-12-27 17:15:03', 1, 1, '95990E54-7E57-4D9C-B74E-D2E506097728');
 
 -- --------------------------------------------------------
 
@@ -1469,7 +1486,7 @@ CREATE TABLE IF NOT EXISTS `nomina_nomina_conceptos` (
   `noIdentificacion` char(255) DEFAULT NULL,
   `fk_nomina` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `nomina_nomina_conceptos`
@@ -1477,7 +1494,9 @@ CREATE TABLE IF NOT EXISTS `nomina_nomina_conceptos` (
 
 INSERT INTO `nomina_nomina_conceptos` (`id`, `cantidad`, `unidad`, `fk_um`, `fk_concepto`, `descripcion`, `valorUnitario`, `importe`, `noIdentificacion`, `fk_nomina`) VALUES
 (1, '1.000000', '', 0, 1, '', '580.000000', '580.000000', '', 6),
-(2, '1.000000', '', 0, 3, '', '0.000000', '0.000000', '', 2);
+(2, '1.000000', '', 0, 3, '', '0.000000', '0.000000', '', 2),
+(3, '0.000000', '', 0, 3, '', '0.000000', '0.000000', '', 7),
+(4, '0.000000', '', 0, 3, '', '0.000000', '0.000000', '', 8);
 
 -- --------------------------------------------------------
 
@@ -1496,14 +1515,15 @@ CREATE TABLE IF NOT EXISTS `nomina_nomina_impuesto` (
   PRIMARY KEY (`id`),
   KEY `fk_impuesto` (`fk_impuesto`),
   KEY `fk_nomina` (`fk_nomina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `nomina_nomina_impuesto`
 --
 
 INSERT INTO `nomina_nomina_impuesto` (`id`, `fk_impuesto`, `fk_nomina`, `importe`, `tasai`, `nombre`, `fk_tipo_impuesto`) VALUES
-(1, 1, 2, '12.000000', '16.000000', '', '1');
+(1, 1, 2, '12.000000', '16.000000', '', '1'),
+(3, 0, 8, '0.000000', '0.000000', '', '');
 
 -- --------------------------------------------------------
 
@@ -1521,7 +1541,7 @@ CREATE TABLE IF NOT EXISTS `nomina_percepciones` (
   `TipoPercepcion` char(50) NOT NULL,
   `fk_nomina` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `nomina_percepciones`
@@ -1535,7 +1555,8 @@ INSERT INTO `nomina_percepciones` (`id`, `fk_TipoPercepcion`, `Clave`, `Concepto
 (5, 0, '', '', '0.000000', '0.000000', '', 3),
 (6, 0, '', '', '0.000000', '0.000000', '', 4),
 (8, 2, '550', '15', '580.000000', '590.000000', 'Gratificación Anual (Aguinaldo)', 6),
-(9, 1, '560', 'asdf', '1.000000', '1.000000', '001', 2);
+(9, 1, '560', 'asdf', '1.000000', '1.000000', '001', 2),
+(10, 1, '123', 'asdfasdf', '0.000000', '0.000000', '001', 7);
 
 -- --------------------------------------------------------
 
@@ -1629,6 +1650,29 @@ CREATE TABLE IF NOT EXISTS `nomina_series` (
 
 INSERT INTO `nomina_series` (`id`, `serie`, `sig_folio`, `es_default`, `documento`, `fk_razon_social`) VALUES
 (1, 'A', 13, b'1', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nomina_tipo_contrato`
+--
+
+CREATE TABLE IF NOT EXISTS `nomina_tipo_contrato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` char(255) NOT NULL,
+  `descripcion` char(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `nomina_tipo_contrato`
+--
+
+INSERT INTO `nomina_tipo_contrato` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Base', ''),
+(2, 'Eventual', ''),
+(3, 'Sindicalizado', ''),
+(4, 'a prueba', '');
 
 -- --------------------------------------------------------
 
@@ -1728,7 +1772,7 @@ CREATE TABLE IF NOT EXISTS `nomina_trabajador` (
   `NoEmpleado` char(15) NOT NULL,
   `fk_RiesgoPuesto` int(11) NOT NULL,
   `fk_Puesto` int(11) NOT NULL,
-  `FechaInicioRelLaboral` int(11) NOT NULL,
+  `FechaInicioRelLaboral` datetime NOT NULL,
   `fk_TipoContrato` int(11) NOT NULL,
   `fk_PeriodicidadPago` int(11) NOT NULL,
   `fk_TipoJornada` int(11) NOT NULL,
@@ -1747,15 +1791,23 @@ CREATE TABLE IF NOT EXISTS `nomina_trabajador` (
   `fk_estado` int(11) NOT NULL,
   `fk_municipio` int(11) NOT NULL,
   `codigoPostal` char(10) NOT NULL,
+  `SalarioDiarioIntegrado` decimal(18,6) NOT NULL,
+  `SalarioBaseCotApor` decimal(18,6) NOT NULL,
+  `puesto` char(255) NOT NULL,
+  `fk_banco` int(11) NOT NULL,
+  `CLABE` char(50) NOT NULL,
+  `fk_departamento` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `nomina_trabajador`
 --
 
-INSERT INTO `nomina_trabajador` (`id`, `nombre`, `rfc`, `NoEmpleado`, `fk_RiesgoPuesto`, `fk_Puesto`, `FechaInicioRelLaboral`, `fk_TipoContrato`, `fk_PeriodicidadPago`, `fk_TipoJornada`, `Salario`, `email`, `CURP`, `fk_TipoRegimen`, `NumSeguridadSocial`, `calle`, `noExterior`, `noInterior`, `colonia`, `localidad`, `referencia`, `fk_pais`, `fk_estado`, `fk_municipio`, `codigoPostal`) VALUES
-(1, 'Cesar Octavio', 'BIAC810830TH2', '001', 0, 0, 0, 0, 0, 0, '0.000000', 'cbibriesca@hotmail.com', 'BIAC810830HSLBLS02', 1, '23028127597', 'calle', '1', '0', 'juarez', 'mazatlan', '', 1, 25, 2844, '82180');
+INSERT INTO `nomina_trabajador` (`id`, `nombre`, `rfc`, `NoEmpleado`, `fk_RiesgoPuesto`, `fk_Puesto`, `FechaInicioRelLaboral`, `fk_TipoContrato`, `fk_PeriodicidadPago`, `fk_TipoJornada`, `Salario`, `email`, `CURP`, `fk_TipoRegimen`, `NumSeguridadSocial`, `calle`, `noExterior`, `noInterior`, `colonia`, `localidad`, `referencia`, `fk_pais`, `fk_estado`, `fk_municipio`, `codigoPostal`, `SalarioDiarioIntegrado`, `SalarioBaseCotApor`, `puesto`, `fk_banco`, `CLABE`, `fk_departamento`) VALUES
+(1, 'Cesar Octavio', 'BIAC810830TH2', '001', 1, 0, '2013-11-01 12:00:00', 1, 3, 1, '0.000000', 'cbibriesca@hotmail.com', 'BIAC810830HSLBLS02', 1, '23028127597', 'calle', '1050', '', 'juarez', 'mazatlan', '', 1, 25, 2844, '82180', '500.000000', '500.000000', 'programador', 1, '0000000000', 1),
+(2, 'Diego Osuna', 'OUGD890424DV9', '007', 3, 0, '2012-01-01 01:12:00', 3, 2, 2, '0.000000', 'diego.osunag@hotmail.com', 'OUGD890424HSLSRG03', 4, '23098925151', '', '', '', '', '', '', 1, 25, 2844, '82180', '400.000000', '400.000000', 'Diseñador', 1, '1111111111', 3),
+(3, 'Carlos Cañedo Robles', 'CARC860922MH5', '002', 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '0.000000', 'ccanedo@solucionestriples.mx', '', 1, '', '', '', '', '', '', '', 1, 1, 2489, '19180', '600.000000', '600.000000', '', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1933,7 +1985,7 @@ CREATE TABLE IF NOT EXISTS `system_catalogos` (
   `msg_cambios` char(255) DEFAULT NULL,
   `campos_busqueda` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=107 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=108 ;
 
 --
 -- Volcado de datos para la tabla `system_catalogos`
@@ -2008,7 +2060,8 @@ INSERT INTO `system_catalogos` (`id`, `fk_modulo`, `nombre`, `controlador`, `mod
 (103, 7, 'Naturaleza del Impuesto', 'tipos_de_impuesto', 'tipo_de_impuesto', 'nomina_naturaleza_impuesto', 'id', '', 'Nuevo Tipo De Impuesto', 'Tipo De Impuesto: {nombre}', 'Tipos De Impuestos', 'Nuevo Tipo De Impuesto', 'Tipo De Impuesto Actualizado', '¿Eliminar Tipo De Impuesto?', 'Tipo De Impuesto Eliminado', '', ''),
 (104, 7, 'Impuestos', 'impuestos', 'impuesto', 'nomina_impuesto', 'id', '', 'Nuevo Impuesto', 'Impuesto: {nombre}', 'Impuestos', 'Impuesto Creado', 'Impuesto Actualizado', '¿Eliminar Impuesto?', 'Impuesto Eliminado', '', ''),
 (105, 7, 'Impuestos De Nomina', 'impuestos_de_nomina', 'impuesto_de_nomina', 'nomina_nomina_impuesto', 'id', '', 'Nuevo Impuesto De Nomina', 'Impuesto De Nomina: {nombre}', 'Impuestos De Nomina', 'Impuesto De Nomina Creado', 'Impuesto De Nomina Actualizado', '¿Eliminar Impuesto De Nomina?', 'Impuesto De Nomina Eliminado', '', ''),
-(106, 7, 'Arbol', 'arboles', 'arbol', 'mptt', 'id', '', 'Nuevo Nodo', 'Nodo: {title}', 'Nodos', 'Nodo Creado', 'Nodo Actualizado', 'Â¿Actualizar Nodo?', 'Nodo Eliminado', '', '');
+(106, 7, 'Arbol', 'arboles', 'arbol', 'mptt', 'id', '', 'Nuevo Nodo', 'Nodo: {title}', 'Nodos', 'Nodo Creado', 'Nodo Actualizado', 'Â¿Actualizar Nodo?', 'Nodo Eliminado', '', ''),
+(107, 7, 'Tipo De Contrato', 'tipos_de_contrato', 'tipo_de_contrato', 'nomina_tipo_contrato', 'id', '', 'Nuevo Tipo De Contrato', 'Tipo De Contrato: {nombre}', 'Tipos De Contrato', 'Tipo De Contrato Creado', 'Tipo De Contrato Actualizado', 'Tipo De Contrato Eliminado', '¿Eliminar Tipo De Contrato?', '', '');
 
 -- --------------------------------------------------------
 
@@ -4779,7 +4832,7 @@ CREATE TABLE IF NOT EXISTS `system_usuarios` (
 
 INSERT INTO `system_usuarios` (`id`, `username`, `pass`, `email`, `nombre`, `ultima_conexion`, `creado`, `fk_rol`, `ip`) VALUES
 (16, 'admin', '098f6bcd4621d373cade4e832627b4f6', 'email@webmaster.com', 'Administrador del sistema', '2013-12-13 17:43:45', '0000-00-00 00:00:00', 1, ''),
-(102, 'demo', '098f6bcd4621d373cade4e832627b4f6', 'demo', 'Usuario Demo', '2013-12-25 11:18:45', '0000-00-00 00:00:00', 2, ''),
+(102, 'demo', '098f6bcd4621d373cade4e832627b4f6', 'demo', 'Usuario Demo', '2013-12-27 13:17:26', '0000-00-00 00:00:00', 2, ''),
 (103, NULL, '098f6bcd4621d373cade4e832627b4f6', NULL, NULL, NULL, NULL, NULL, ''),
 (104, NULL, NULL, NULL, NULL, '2013-12-19 17:34:19', NULL, NULL, ''),
 (105, NULL, NULL, NULL, NULL, '2013-12-19 17:34:28', NULL, NULL, ''),

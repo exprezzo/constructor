@@ -199,7 +199,301 @@
 		$('select[name="fk_municipio"]').wijcombobox('option','data',datasource);
 	};
 		
+	this.configurarComboFk_TipoContrato=function(){
+		var me=this;
+		
+		$('select[name="fk_TipoContrato"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_TipoContrato input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_TipoContratoEnAjax) return true;			
+			me.setDSFk_TipoContrato();
+			me.Fk_TipoContratoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_TipoContrato = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarTipo_de_contrato',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
 	
+		$('select[name="fk_TipoContrato"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_departamento=function(){
+		var me=this;
+		
+		$('select[name="fk_departamento"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			// forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_departamento input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_departamentoEnAjax) return true;			
+			me.setDSFk_departamento();
+			me.Fk_departamentoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_departamento = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarDepartamento',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_departamento"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_TipoJornada=function(){
+		var me=this;
+		
+		$('select[name="fk_TipoJornada"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_TipoJornada input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_TipoJornadaEnAjax) return true;			
+			me.setDSFk_TipoJornada();
+			me.Fk_TipoJornadaEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_TipoJornada = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarJornada',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_TipoJornada"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_PeriodicidadPago=function(){
+		var me=this;
+		
+		$('select[name="fk_PeriodicidadPago"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_PeriodicidadPago input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_PeriodicidadPagoEnAjax) return true;			
+			me.setDSFk_PeriodicidadPago();
+			me.Fk_PeriodicidadPagoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_PeriodicidadPago = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarPeriodo_pago',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'descripcion' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_PeriodicidadPago"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_RiesgoPuesto=function(){
+		var me=this;
+		
+		$('select[name="fk_RiesgoPuesto"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_RiesgoPuesto input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_RiesgoPuestoEnAjax) return true;			
+			me.setDSFk_RiesgoPuesto();
+			me.Fk_RiesgoPuestoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_RiesgoPuesto = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarRiesgo',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'descripcion' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_RiesgoPuesto"]').wijcombobox('option','data',datasource);
+	};
+		
+	this.configurarComboFk_banco=function(){
+		var me=this;
+		
+		$('select[name="fk_banco"]').wijcombobox({			
+			showTrigger: true,
+			width:300,
+			minLength:1,
+			autoFilter:false,	
+			// forceSelectionText:true,
+			select : function (e, data) {						
+			},
+			search: function (e, obj) { 						
+			}
+		 });
+		 
+		 $('.contenedor_fk_banco input[role="textbox"]').bind('keypress', function(){			
+			if (me.Fk_bancoEnAjax) return true;			
+			me.setDSFk_banco();
+			me.Fk_bancoEnAjax=true;
+		 });
+	};
+		
+		
+	this.setDSFk_banco = function(){		
+		
+		var filtering=new Array();
+		var proxy = new wijhttpproxy({
+			url: kore.url_base+kore.modulo+'/trabajadores/buscarBanco',
+			dataType: "json", 
+			type:"POST",
+			data: {
+				style: "full",
+				 filtering:filtering						
+			},
+			key: 'datos'
+		}); 
+
+		var myReader = new wijarrayreader([
+		{name:'label', mapping:'nombre_corto' }, 
+		{name:'value', mapping:'id' }]); 
+
+		var datasource = new wijdatasource({ 
+			reader: myReader, 
+			proxy: proxy 
+		}); 
+	
+		$('select[name="fk_banco"]').wijcombobox('option','data',datasource);
+	};
+		
+	var me=this;
 	this.borrar=function(){		
 		var r=confirm("¿Eliminar Trabajador?");
 		if (r==true){
@@ -310,7 +604,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Trabajador: ' + getValorCampo('nombre'));
+			$(tabId +' #titulo h1').html('Trabajador:  ' + getValorCampo('nombre') + ''); 
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -399,6 +693,96 @@
 				paramObj['fk_municipio'] =selectedItem[selectedIndex]['value'];
 			}else{
 				paramObj['fk_municipio'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_TipoContrato"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_TipoContrato"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_TipoContrato'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_TipoContrato'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_TipoContrato'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_departamento"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_departamento"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_departamento'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_departamento'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_departamento'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_TipoJornada"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_TipoJornada"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_TipoJornada'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_TipoJornada'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_TipoJornada'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_PeriodicidadPago"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_PeriodicidadPago"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_PeriodicidadPago'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_PeriodicidadPago'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_PeriodicidadPago'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_RiesgoPuesto"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_RiesgoPuesto"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_RiesgoPuesto'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_RiesgoPuesto'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_RiesgoPuesto'] =selectedItem.data[selectedIndex]['id'];
+			}
+		}
+		//-----------------------------------
+		
+
+		//-----------------------------------		
+		var selectedIndex = $('[name="fk_banco"]').wijcombobox('option','selectedIndex');  
+		var selectedItem = $('[name="fk_banco"]').wijcombobox("option","data");		
+		if (selectedIndex == -1){
+			paramObj['fk_banco'] =0;
+		}else{
+			if (selectedItem.data == undefined ){
+				paramObj['fk_banco'] =selectedItem[selectedIndex]['value'];
+			}else{
+				paramObj['fk_banco'] =selectedItem.data[selectedIndex]['id'];
 			}
 		}
 		//-----------------------------------
@@ -563,6 +947,12 @@ this.configurarComboFk_TipoRegimen();
 this.configurarComboFk_pais();
 this.configurarComboFk_estado();
 this.configurarComboFk_municipio();
+this.configurarComboFk_TipoContrato();
+this.configurarComboFk_departamento();
+this.configurarComboFk_TipoJornada();
+this.configurarComboFk_PeriodicidadPago();
+this.configurarComboFk_RiesgoPuesto();
+this.configurarComboFk_banco();
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;			
