@@ -1414,23 +1414,30 @@
 		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
 		
-this.configurarComboFk_patron();
-this.configurarComboFk_empleado();
-this.configurarComboFk_serie();
-this.configurarComboFk_TipoRegimen();
-this.configurarComboFk_Departamento();
-this.configurarComboTipoContrato();
-this.configurarComboTipoJornada();
-this.configurarComboPeriodicidadPago();
-this.configurarComboFk_banco();
-this.configurarComboFk_RiesgoPuesto();
-this.configurarComboFk_forma_pago();
-this.configurarComboFk_certificado();
-this.configurarComboFk_moneda();
-this.configurarComboFk_metodo_pago();
+		this.configurarComboFk_patron();
+		this.configurarComboFk_empleado();
+		this.configurarComboFk_serie();
+		this.configurarComboFk_TipoRegimen();
+		this.configurarComboFk_Departamento();
+		this.configurarComboTipoContrato();
+		this.configurarComboTipoJornada();
+		this.configurarComboPeriodicidadPago();
+		this.configurarComboFk_banco();
+		this.configurarComboFk_RiesgoPuesto();
+		this.configurarComboFk_forma_pago();
+		this.configurarComboFk_certificado();
+		this.configurarComboFk_moneda();
+		this.configurarComboFk_metodo_pago();
+		var options={autoOpen:false, width:800};
+		$("#datos_empleado").wijdialog(options);
 	};
 	this.configurarToolbar=function(tabId){					
-		var me=this;			
+		var me=this;	
+		
+		$('#lnkDetallesTrabajador').click( function(){
+			$("#datos_empleado").wijdialog('open');
+		});
+		
 		$(this.tabId + ' .toolbarEdicion .btnTimbrar').click( function(){
 			me.timbrar();
 			me.editado=true;

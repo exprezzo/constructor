@@ -278,7 +278,7 @@ if ( !empty( $this->datos['id'] ) ){
 		
 		var options={requireOpenedPane: false, active: false, collapsible: true};
 		// $(".datos_empleado").wijaccordion(options);
-		$(".datos_empleado").accordion(options);
+		// $(".datos_empleado").accordion(options);
 		$(".datos_facturacion").accordion(options);
 		
 		
@@ -289,9 +289,11 @@ if ( !empty( $this->datos['id'] ) ){
 
 .contenedor_fecha_emision .inputBox div[role="combobox"] {width: 91px !important;}
 div[role="combobox"] input[role="textbox"] {height:24px !important; }
-.datos_empleado .inputBox label:nth-child(1), .datos_facturacion .inputBox label:nth-child(1){
+#datos_empleado .inputBox label:nth-child(1), .datos_facturacion .inputBox label:nth-child(1){
 	margin-left:0;
 }
+#tablaFechas thead td{width:164px;}
+#tablaFechas thead td{width:164px;}
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
@@ -337,14 +339,15 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 							}
 						?>
 					</select>
+					<a id="lnkDetallesTrabajador" href="#datos_empleado" style="text-decoration:underline;">ver detalles</a>
 				</div>
-				<div class="datos_empleado" style="width:800px; margin:10px 0 20px 100px;">
+				<div id="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px;">
 					<?php 
 					// $path=dirname (__FILE__);
 					// echo $path; 
 					?>
 					
-						<h3>Datos del empleado</h3>
+						
 						<div>
 							<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
 						</div>
@@ -353,30 +356,28 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 				
 				
 				
-				
-				
-				<div class="inputBox contenedor_FechaPago" style=""  >
-					<label style="">Fecha Pago:</label>
-					<input title="FechaPago" type="text" name="FechaPago" class="entradaDatos" value="<?php echo $this->datos['FechaPago']; ?>" style="width:150px; display:inline-block;" />
+				<div id="tablaFechas" style="text-align:center; margin:33px 0 20px 0;">
+					<table style="display:inline-block; text-align:left;">
+						<thead>
+							<tr>
+								<td><div class="inputBox"><label style="margin-left:0;">Fecha Pago</label></div></td>
+								<td><div class="inputBox"><label style="margin-left:0;">F. Inicial Pago</label></div></td>
+								<td><div class="inputBox"><label style="margin-left:0;">F. Final Pago</label></div></td>
+								<td><div class="inputBox"><label style="margin-left:0;">Dias Pagados</label></div></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input title="FechaPago" type="text" name="FechaPago" class="entradaDatos" value="<?php echo $this->datos['FechaPago']; ?>" style="width:150px; display:inline-block;" /></td>
+								<td><input title="FechaInicialPago" type="text" name="FechaInicialPago" class="entradaDatos" value="<?php echo $this->datos['FechaInicialPago']; ?>" style="width:150px;" /></td>
+								<td><input title="FechaFinalPago" type="text" name="FechaFinalPago" class="entradaDatos" value="<?php echo $this->datos['FechaFinalPago']; ?>" style="width:150px;" /></td>
+								<td><input title="Numero de Días pagados" type="text" name="NumDiasPagados" class="entradaDatos" value="<?php echo $this->datos['NumDiasPagados']; ?>" style="width:115px;" /></td>
+								
+								
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<div class="inputBox contenedor_FechaInicialPago" style=""  >
-					<label style="">F. Inicial Pago:</label>
-					<input title="FechaInicialPago" type="text" name="FechaInicialPago" class="entradaDatos" value="<?php echo $this->datos['FechaInicialPago']; ?>" style="width:150px;" />
-				</div>
-				<div class="inputBox contenedor_FechaFinalPago" style=""  >
-					<label style="">F. Final Pago:</label>
-					<input title="FechaFinalPago" type="text" name="FechaFinalPago" class="entradaDatos" value="<?php echo $this->datos['FechaFinalPago']; ?>" style="width:150px;" />
-				</div>
-				<div class="inputBox contenedor_NumDiasPagados" style=""  >
-					<label style="">Dias Pagados:</label>
-					<input title="Numero de Días pagados" type="text" name="NumDiasPagados" class="entradaDatos" value="<?php echo $this->datos['NumDiasPagados']; ?>" style="width:50px;" />
-				</div>
-				
-				
-				
-				
-				
-				
 				<div class="tabla contenedor_tabla_percepciones" style="position: relative; margin-top: 26px;"  >
 					
 					<h1 class="tituloTabla" >Percepciones</h1>
