@@ -1,6 +1,6 @@
 ﻿var EdicionNominas = function(){
 	this.editado=false;
-	this.tituloNuevo='Nueva Nomina';
+	this.tituloNuevo='Nuevo Recibo de Nomina';
 	this.saveAndClose=false;
 	var me=this;
 	this.timbrar= function(){
@@ -875,7 +875,7 @@
 		
 	
 	this.borrar=function(){		
-		var r=confirm("¿Eliminar Nomina?");
+		var r=confirm("¿Eliminar Recibo de Nomina?");
 		if (r==true){
 		  this.eliminar();
 		}
@@ -984,7 +984,7 @@
 		var tabId = this.tabId;		
 		var id = $(this.tabId + ' [name="id"]').val();
 		if (id>0){						
-			$(tabId +' #titulo h1').html('Nomina: ' + getValorCampo('serie') + '  ' + getValorCampo('folio') + ''); 
+			$(tabId +' #titulo h1').html('Recibo de Nomina: ' + getValorCampo('serie') + '  ' + getValorCampo('folio') + ''); 
 		}else{
 			$(tabId +' #titulo h1').html(this.tituloNuevo);
 			// $('a[href="'+tabId+'"]').html('Nuevo');
@@ -1466,5 +1466,7 @@
 			  me.nuevo();
 			}
 		});
+		
+		  $("#tabsConceptosDeNomina").wijtabs();
 	};	
 }

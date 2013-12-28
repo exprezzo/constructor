@@ -30,7 +30,7 @@
 
 <div class="contenedor_catalogo" id="<?php echo $id; ?>">	
 	<div id="titulo">
-    	<h1>Nominas</h1>
+    	<h1>Recibos de Nomina</h1>
 	</div>		
 	<div id="cuerpo" >				
 		<div id="contenedorDatos2">

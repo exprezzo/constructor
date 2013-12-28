@@ -279,7 +279,7 @@ if ( !empty( $this->datos['id'] ) ){
 		var options={requireOpenedPane: false, active: false, collapsible: true};
 		// $(".datos_empleado").wijaccordion(options);
 		// $(".datos_empleado").accordion(options);
-		$(".datos_facturacion").accordion(options);
+		// $(".datos_facturacion").accordion(options);
 		
 		
 	});
@@ -294,6 +294,10 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 }
 #tablaFechas thead td{width:164px;}
 #tablaFechas thead td{width:164px;}
+
+#tablaTotales input{text-align: right; }
+
+.toolbar_detalles{margin-bottom:24px !important;}
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
@@ -307,172 +311,156 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 					<label style="">Id:</label>
 					<input title="Id" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
-				<div class="inputBox contenedor_fecha_emision" style="display:inline-block;"  >
-					<div style="display:inline-block;">
-						<label style="">Fecha Emision:</label>
-						<input title="Fecha Emision" type="text" name="fecha_emision" class="entradaDatos" value="<?php echo $this->datos['fecha_emision']; ?>" style="width:150px;" />
-					</div>
-					<div class="inputBox contenedor_fk_serie" style="display:inline-block;"  >
-						<label style="margin:0 10px 0 20px; width:auto;">Serie Y Folio:</label>
-						<select name="fk_serie" class="entradaDatos" style="width:80px;">
-							<?php
-								foreach($this->fk_serie_listado as $serie_nomina){
-									echo '<option value="'.$serie_nomina['id'].' " >'.$serie_nomina['serie'].'</option>';
-								}
-							?>
-						</select>
-											
-							<input title="Folio" type="text" name="folio" class="entradaDatos" value="<?php echo $this->datos['folio']; ?>" style="width:20px; display:inline-block;" />
+				
+				<div class="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px; display:none;">
+					<div>
+						<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
+					</div>				
+				</div>
+				<div class="datos_generales" style="">
+					<?php include dirname(__FILE__).'/_generales.php'; ?>		
+				</div>			
+					
+				
+				<div id="tabsConceptosDeNomina" style="margin: 0 30px 20px 30px;">
+					<ul>
+						<li><a href="#tabPercepciones">Percepciones</a></li>
+						<li><a href="#tabDeducciones">Deducciones</a></li>
+						<li><a href="#tabIncapacidades">Incapacidades</a></li>
+						<li><a href="#tabHorasExtra">Horas Extra</a></li>
+						<li><a href="#tabConceptos">Conceptos</a></li>
+						<li><a href="#tabImpuestos">Impuestos</a></li>
+					</ul>
+					<div id="tabPercepciones" class="tabla contenedor_tabla_percepciones" style="position: relative; margin-bottom: 35px;"  >
 						
+						<h1 class="tituloTabla" style="" >Percepciones</h1>
+						<div class="toolbar_detalles" style="">
+							<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+							<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+						</div>
+						<table class="tabla_percepciones">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+						<div id="<?php echo $id; ?>-dialog-confirm-eliminar-percepcion_nomina" title="&iquest;Eliminar Percepcion_nomina?">
+							<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Percepcion_nomina?</p>
+						</div> 
+						<div style="display:none;">
+							<div class="inputBox contenedor_percepcionesTotalGravado" style=""  >
+								<label style="">P. Tot. Gravado:</label>
+								<input title="Percepciones Total Gravado" type="text" name="percepcionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalGravado']; ?>" style="width:500px;" />
+							</div>
+							<div class="inputBox contenedor_percepcionesTotalExcento" style=""  >
+								<label style="">P. Tot. Excento:</label>
+								<input title="Percepciones Total Excento" type="text" name="percepcionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalExcento']; ?>" style="width:500px;" />
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="inputBox contenedor_serie oculto" style=""  >
-					<label style="">Serie:</label>
-					<input title="Serie" type="text" name="serie" class="entradaDatos" value="<?php echo $this->datos['serie']; ?>" style="width:500px;" />
-				</div>
-				<div class="inputBox contenedor_fk_empleado" style=""  >
-					<label style="">Empleado:</label>
-					<select name="fk_empleado" class="entradaDatos" style="width:250px;">
-						<?php
-							foreach($this->fk_empleado_listado as $trabajador){
-								echo '<option value="'.$trabajador['id'].' " >'.$trabajador['nombre'].'</option>';
-							}
-						?>
-					</select>
-					<a id="lnkDetallesTrabajador" href="#datos_empleado" style="text-decoration:underline;">ver detalles</a>
-				</div>
-				<div id="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px;">
-					<?php 
-					// $path=dirname (__FILE__);
-					// echo $path; 
-					?>
 					
+					
+					<div id="tabDeducciones" class="tabla contenedor_tabla_deducciones" style="position: relative; margin-bottom: 35px;"  >
 						
-						<div>
-							<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
+						<h1 class="tituloTabla" >Deducciones</h1>
+						<div class="toolbar_detalles" style="">
+							<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+							<input type="button" value="" class="btnEliminar" id="botonEliminar" />
 						</div>
-					
-				</div>
-				
-				
-				
-				<div id="tablaFechas" style="text-align:center; margin:33px 0 20px 0;">
-					<table style="display:inline-block; text-align:left;">
-						<thead>
-							<tr>
-								<td><div class="inputBox"><label style="margin-left:0;">Fecha Pago</label></div></td>
-								<td><div class="inputBox"><label style="margin-left:0;">F. Inicial Pago</label></div></td>
-								<td><div class="inputBox"><label style="margin-left:0;">F. Final Pago</label></div></td>
-								<td><div class="inputBox"><label style="margin-left:0;">Dias Pagados</label></div></td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><input title="FechaPago" type="text" name="FechaPago" class="entradaDatos" value="<?php echo $this->datos['FechaPago']; ?>" style="width:150px; display:inline-block;" /></td>
-								<td><input title="FechaInicialPago" type="text" name="FechaInicialPago" class="entradaDatos" value="<?php echo $this->datos['FechaInicialPago']; ?>" style="width:150px;" /></td>
-								<td><input title="FechaFinalPago" type="text" name="FechaFinalPago" class="entradaDatos" value="<?php echo $this->datos['FechaFinalPago']; ?>" style="width:150px;" /></td>
-								<td><input title="Numero de Días pagados" type="text" name="NumDiasPagados" class="entradaDatos" value="<?php echo $this->datos['NumDiasPagados']; ?>" style="width:115px;" /></td>
-								
-								
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="tabla contenedor_tabla_percepciones" style="position: relative; margin-top: 26px;"  >
-					
-					<h1 class="tituloTabla" >Percepciones</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_percepciones">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-percepcion_nomina" title="&iquest;Eliminar Percepcion_nomina?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Percepcion_nomina?</p>
-					</div> 
-				</div>
-				<div style="display:none;">
-					<div class="inputBox contenedor_percepcionesTotalGravado" style=""  >
-						<label style="">P. Tot. Gravado:</label>
-						<input title="Percepciones Total Gravado" type="text" name="percepcionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalGravado']; ?>" style="width:500px;" />
-					</div>
-					<div class="inputBox contenedor_percepcionesTotalExcento" style=""  >
-						<label style="">P. Tot. Excento:</label>
-						<input title="Percepciones Total Excento" type="text" name="percepcionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['percepcionesTotalExcento']; ?>" style="width:500px;" />
-					</div>
-				</div>
-				
-				<div class="tabla contenedor_tabla_deducciones" style="position: relative; margin-top: 26px;"  >
-					
-					<h1 class="tituloTabla" >Deducciones</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_deducciones">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-deduccion_nomina" title="&iquest;Eliminar Deduccion_nomina?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Deduccion_nomina?</p>
-					</div> 
-				</div>
-				<div style="display:none;">
-					<div class="inputBox contenedor_deduccionesTotalGravado" style=""  >
-						<label style="">D Tot. Gravado:</label>
-						<input title="Deducciones Total Gravado" type="text" name="deduccionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalGravado']; ?>" style="width:500px;" />
-					</div>
-					<div class="inputBox contenedor_deduccionesTotalExcento" style=""  >
-						<label style="">D. Tot. Excento:</label>
-						<input title="Deducciones" type="text" name="deduccionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalExcento']; ?>" style="width:500px;" />
-					</div>
-				</div>
-				
-				<div class="tabla contenedor_tabla_incapacidades" style="position: relative; margin-top: 26px;"  >
-					
-					<h1 class="tituloTabla" >Incapacidades</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_incapacidades">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-incapacidad" title="&iquest;Eliminar Incapacidad?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Incapacidad?</p>
-					</div> 
-				</div>
-				<div class="tabla contenedor_tabla_horas_extra" style="position: relative; margin-top: 26px;"  >
-					
-					<h1 class="tituloTabla" >Horas Extra</h1>
-					<div class="toolbar_detalles" style="">
-						<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
-						<input type="button" value="" class="btnEliminar" id="botonEliminar" />
-					</div>
-					<table class="tabla_horas_extra">
-						<thead></thead>
-						<tbody></tbody>
-					</table>
-					<div id="<?php echo $id; ?>-dialog-confirm-eliminar-hora_extra_nomina" title="&iquest;Eliminar Hora_extra_nomina?">
-						<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Hora_extra_nomina?</p>
-					</div> 
-				</div>
-				
-				<div class="datos_facturacion" style="width:800px; margin:10px 0 20px 100px;">
-					<?php 
-					// $path=dirname (__FILE__);
-					// echo $path; 
-					?>
-					
-						<h3>Datos de Facturacion</h3>
-						<div>
-							<?php include dirname(__FILE__).'/_datos_facturacion.php'; ?>	
+						<table class="tabla_deducciones">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+						<div id="<?php echo $id; ?>-dialog-confirm-eliminar-deduccion_nomina" title="&iquest;Eliminar Deduccion_nomina?">
+							<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Deduccion_nomina?</p>
 						</div>
+						<div style="display:none;">
+							<div class="inputBox contenedor_deduccionesTotalGravado" style=""  >
+								<label style="">D Tot. Gravado:</label>
+								<input title="Deducciones Total Gravado" type="text" name="deduccionesTotalGravado" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalGravado']; ?>" style="width:500px;" />
+							</div>
+							<div class="inputBox contenedor_deduccionesTotalExcento" style=""  >
+								<label style="">D. Tot. Excento:</label>
+								<input title="Deducciones" type="text" name="deduccionesTotalExcento" class="entradaDatos" value="<?php echo $this->datos['deduccionesTotalExcento']; ?>" style="width:500px;" />
+							</div>
+						</div>
+					</div>
+					
+					
+					<div id="tabIncapacidades" class="tabla contenedor_tabla_incapacidades" style="position: relative;  margin-bottom: 35px;"  >
+						
+						<h1 class="tituloTabla" >Incapacidades</h1>
+						<div class="toolbar_detalles" style="">
+							<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+							<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+						</div>
+						<table class="tabla_incapacidades">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+						<div id="<?php echo $id; ?>-dialog-confirm-eliminar-incapacidad" title="&iquest;Eliminar Incapacidad?">
+							<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Incapacidad?</p>
+						</div> 
+					</div>
+					<div id="tabHorasExtra" class="tabla contenedor_tabla_horas_extra" style="position: relative;  margin-bottom: 35px;"  >
+						
+						<h1 class="tituloTabla" >Horas Extra</h1>
+						<div class="toolbar_detalles" style="">
+							<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+							<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+						</div>
+						<table class="tabla_horas_extra">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+						<div id="<?php echo $id; ?>-dialog-confirm-eliminar-hora_extra_nomina" title="&iquest;Eliminar Hora_extra_nomina?">
+							<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Hora_extra_nomina?</p>
+						</div> 
+					</div>
+					<div id="tabConceptos">
+						<div class="tabla contenedor_tabla_conceptos" style="position: relative;  margin-bottom: 35px;"  >		
+							<h1 class="tituloTabla" >Conceptos</h1>
+							<div class="toolbar_detalles" style="">
+								<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+								<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+							</div>
+							<table class="tabla_conceptos">
+								<thead></thead>
+								<tbody></tbody>
+							</table>
+							<div id="<?php echo $id; ?>-dialog-confirm-eliminar-concepto_de_nomina" title="&iquest;Eliminar Concepto_de_nomina?">
+								<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Concepto_de_nomina?</p>
+							</div> 
+						</div>
+					</div>
+					<div id="tabImpuestos">
+						<div class="tabla contenedor_tabla_impuestos" style="position: relative; margin-bottom: 35px;"  >		
+							<h1 class="tituloTabla" >Impuestos</h1>
+							<div class="toolbar_detalles" style="">
+								<input type="button" value="" class="btnAgregar" id="botonAgregar"/>
+								<input type="button" value="" class="btnEliminar" id="botonEliminar" />
+							</div>
+							<table class="tabla_impuestos">
+								<thead></thead>
+								<tbody></tbody>
+							</table>
+							<div id="<?php echo $id; ?>-dialog-confirm-eliminar-impuesto_de_nomina" title="&iquest;Eliminar Impuesto_de_nomina?">
+								<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>&iquest;Eliminar Impuesto_de_nomina?</p>
+							</div> 
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="datos_facturacion" style="display:inline-block; margin-left: 30px;">
+					
+					<div>
+						<?php include dirname(__FILE__).'/_datos_facturacion.php'; ?>	
+					</div>
 					
 				</div>
+				
+				<?php include dirname(__FILE__).'/_totales.php'; ?>	
+				
 				
 				<div   style="display:none;"> 
 					<div class="inputBox contenedor_fk_patron"  >
@@ -495,7 +483,14 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 						<input title="RegistroPatronal" type="text" name="RegistroPatronal" class="entradaDatos" value="<?php echo $this->datos['RegistroPatronal']; ?>" style="width:500px;" />
 					</div>
 				</div>
+				
 			</form>
+			
+			<div id="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px;">
+				<div>
+					<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
+				</div>				
+			</div>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
 				<input type="submit" value="Guardar" class="botonNuevo btnGuardar">
