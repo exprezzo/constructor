@@ -1,4 +1,4 @@
-<div class="inputBox contenedor_fk_forma_pago" style=""  >
+<div class="inputBox contenedor_fk_forma_pago" style="display: none;" >
 		<label style="">Forma de Pago:</label>
 		<select name="fk_forma_pago" class="entradaDatos" style="width:250px;">
 			<?php
@@ -18,29 +18,27 @@
 			?>
 		</select>
 	</div>
-	<div class="inputBox contenedor_condiciones_de_pago" style=""  >
-		<label style="">Condiciones De Pago:</label>
-		<input title="Condiciones De Pago" type="text" name="condiciones_de_pago" class="entradaDatos" value="<?php echo $this->datos['condiciones_de_pago']; ?>" style="width:300px;" />
-	</div>
 	
 	
-	<div class="inputBox contenedor_motivo_descuento" style=""  >
+	
+	<div class="inputBox contenedor_motivo_descuento" style="display: none;"  >
 		<label style="">Motivo de descuento:</label>
 		<input title="Motivo de descuento" type="text" name="motivo_descuento" class="entradaDatos" value="<?php echo $this->datos['motivo_descuento']; ?>" style="width:300px;" />
 	</div>
-	<div class="inputBox contenedor_tipo_cambio" style=""  >
-		<label style="">Tipo de Cambio:</label>
-		<input title="Tipo de Cambio" type="text" name="tipo_cambio" class="entradaDatos" value="<?php echo $this->datos['tipo_cambio']; ?>" style="width:300px;" />
-	</div>
+	
 	<div class="inputBox contenedor_fk_moneda" style=""  >
 		<label style="">Moneda:</label>
-		<select name="fk_moneda" class="entradaDatos" style="width:250px;">
+		<select name="fk_moneda" class="entradaDatos" style="width:150px !important;">
 			<?php
 				foreach($this->fk_moneda_listado as $moneda){
 					echo '<option value="'.$moneda['id'].' " >'.$moneda['moneda'].'</option>';
 				}
 			?>
 		</select>
+	</div>
+	<div class="inputBox contenedor_tipo_cambio" style="display:none;"  >
+		<label style="">Tipo de Cambio:</label>
+		<input title="Tipo de Cambio" type="text" name="tipo_cambio" class="entradaDatos" value="<?php echo $this->datos['tipo_cambio']; ?>" style="width:300px;" />
 	</div>
 	
 	<div class="inputBox contenedor_tipo_comprobante" style="display:none;"  >
@@ -57,7 +55,11 @@
 			?>
 		</select>
 	</div>
-	<div class="inputBox contenedor_num_cta_pago" style=""  >
+	<div class="inputBox contenedor_condiciones_de_pago" style=""  >
+		<label style="">Condiciones De Pago:</label>
+		<input title="Condiciones De Pago" type="text" name="condiciones_de_pago" class="entradaDatos" value="<?php echo $this->datos['condiciones_de_pago']; ?>" style="width:300px;" />
+	</div>
+	<div class="inputBox contenedor_num_cta_pago" style="display:none;"  >
 		<label style="">Num Cta Pago:</label>
 		<input title="Ultimos 4 digitos de la cuenta" type="text" name="num_cta_pago" class="entradaDatos" value="<?php echo $this->datos['num_cta_pago']; ?>" style="width:300px;" />
 	</div>

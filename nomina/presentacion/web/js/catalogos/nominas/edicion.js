@@ -209,28 +209,124 @@
 			forceSelectionText:true,
 			select : function (e, data) {	
 				console.log(data);
-				$('[name="NumEmpleado"]').val(data.NoEmpleado);
-				$('[name="CURP"]').val(data.CURP);
+				var newValue = new Date(data.FechaInicioRelLaboral); // Type:  Date
+				$('[name="FechaInicioRelLaboral"]').wijinputdate("option", "date", newValue);
 				
+				$('[name="NumEmpleado"]').val(data.NoEmpleado);
+				$('[name="CURP"]').val(data.CURP);				
 				$('[name="NumSeguridadSocial"]').val(data.NumSeguridadSocial);
-				$('[name="FechaInicioRelLaboral"]').val(data.FechaInicioRelLaboral);
 				$('[name="SalarioDiarioIntegrado"]').val(data.SalarioDiarioIntegrado);
 				$('[name="SalarioBaseCotApor"]').val(data.SalarioBaseCotApor);
 				$('[name="CURP"]').val(data.CURP);
 				$('[name="Puesto"]').val(data.puesto);
 				$('[name="CLABE"]').val(data.CLABE);
 				
-				var regimen={
-					'fk_TipoRegimen':data.fk_TipoRegimen,
-					'fk_TipoRegimen':data.nombre_fk_TipoRegimen,
-				};
-				var dataRegimen = $('select[name="fk_TipoRegimen"]').wijcombobox('option','data');
+				
+				//---------------------------------------------------------------------------------
+				var datos=[{
+					'value':data.fk_TipoRegimen,
+					'label':data.nombre_fk_TipoRegimen,
+				}];
 				$('select[name="fk_TipoRegimen"]').wijcombobox('option','selectedIndex',-1);
-				dataRegimen.lenght=0;
-				dataRegimen.push(regimen);
+				$('select[name="fk_TipoRegimen"]').wijcombobox('option','data',datos);
 				$('select[name="fk_TipoRegimen"]').wijcombobox('option','selectedIndex',0);
 				$('select[name="fk_TipoRegimen"]').wijcombobox('repaint');
-				
+				//---------------------------------------------------------------------------------	
+/*
+{name:''}, 
+
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+		{name:''}, 
+*/				
+				 datos=[{
+					'value':data.fk_departamento,
+					'label':data.nombre_fk_departamento,
+				}];
+				$('select[name="fk_Departamento"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_Departamento"]').wijcombobox('option','data',datos);
+				$('select[name="fk_Departamento"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_Departamento"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_TipoJornada,
+					'label':data.nombre_fk_TipoJornada,
+				}];
+				$('select[name="TipoJornada"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="TipoJornada"]').wijcombobox('option','data',datos);
+				$('select[name="TipoJornada"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="TipoJornada"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------		
+				datos=[{
+					'value':data.fk_PeriodicidadPago,
+					'label':data.descripcion_fk_PeriodicidadPago,
+				}];
+				$('select[name="PeriodicidadPago"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="PeriodicidadPago"]').wijcombobox('option','data',datos);
+				$('select[name="PeriodicidadPago"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="PeriodicidadPago"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_RiesgoPuesto,
+					'label':data.descripcion_fk_RiesgoPuesto,
+				}];
+				$('select[name="fk_RiesgoPuesto"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_RiesgoPuesto"]').wijcombobox('option','data',datos);
+				$('select[name="fk_RiesgoPuesto"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_RiesgoPuesto"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_banco,
+					'label':data.nombre_corto_fk_banco,
+				}];
+				$('select[name="fk_banco"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_banco"]').wijcombobox('option','data',datos);
+				$('select[name="fk_banco"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_banco"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_pais,
+					'label':data.nombre_fk_pais,
+				}];
+				$('select[name="fk_pais"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_pais"]').wijcombobox('option','data',datos);
+				$('select[name="fk_pais"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_pais"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_estado,
+					'label':data.nombre_fk_estado,
+				}];
+				$('select[name="fk_estado"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_estado"]').wijcombobox('option','data',datos);
+				$('select[name="fk_estado"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_estado"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_municipio,
+					'label':data.nombre_fk_municipio,
+				}];
+				$('select[name="fk_municipio"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="fk_municipio"]').wijcombobox('option','data',datos);
+				$('select[name="fk_municipio"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="fk_municipio"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
+				datos=[{
+					'value':data.fk_TipoContrato,
+					'label':data.nombre_fk_TipoContrato,
+				}];
+				$('select[name="TipoContrato"]').wijcombobox('option','selectedIndex',-1);
+				$('select[name="TipoContrato"]').wijcombobox('option','data',datos);
+				$('select[name="TipoContrato"]').wijcombobox('option','selectedIndex',0);
+				$('select[name="TipoContrato"]').wijcombobox('repaint');
+				//---------------------------------------------------------------------------------	
 			},
 			search: function (e, obj) { 						
 			}
@@ -264,8 +360,26 @@
 		{name:'email'}, 
 		{name:'CURP'}, 
 		{name:'fk_TipoRegimen'}, 
-		{name:'nombre_fk_TipoRegimen'}, 		
-		{name:'nombre_regimen_contratacion'}, 
+		{name:'nombre_fk_TipoRegimen'}, 
+		{name:'fk_TipoContrato'}, 
+		{name:'nombre_fk_TipoContrato'}, 		
+		{name:'fk_departamento'}, 
+		{name:'nombre_fk_departamento'}, 
+		{name:'fk_TipoJornada'}, 
+		{name:'nombre_fk_TipoJornada'}, 
+		{name:'fk_PeriodicidadPago'}, 
+		{name:'descripcion_fk_PeriodicidadPago'}, 
+		{name:'fk_RiesgoPuesto'}, 
+		{name:'descripcion_fk_RiesgoPuesto'}, 
+		{name:'fk_banco'}, 
+		{name:'nombre_corto_fk_banco'}, 
+		{name:'fk_pais'}, 
+		{name:'nombre_fk_pais'}, 
+		{name:'fk_estado'}, 
+		{name:'nombre_fk_estado'}, 
+		{name:'fk_municipio'}, 
+		{name:'nombre_fk_municipio'}, 
+		// {name:'nombre_regimen_contratacion'}, 
 		{name:'NumSeguridadSocial'}, 
 		{name:'NoEmpleado'}, 
 		
@@ -294,7 +408,14 @@
 			minLength:1,
 			autoFilter:false,	
 			forceSelectionText:true,
-			select : function (e, data) {						
+			select : function (e, data) {	
+				console.log("data"); console.log(data);
+				$('[name="serie"]').val(data.label);
+				if ( data.sig_folio != undefined ){
+					$('[name="folio"]').val(data.sig_folio);
+				}else{
+					$('[name="folio"]').val('');
+				}
 			},
 			search: function (e, obj) { 						
 			}
@@ -324,6 +445,8 @@
 
 		var myReader = new wijarrayreader([
 		{name:'label', mapping:'serie' }, 
+		{name:'sig_folio'}, 
+		
 		{name:'value', mapping:'id' }]); 
 
 		var datasource = new wijdatasource({ 
@@ -358,7 +481,7 @@
 		
 		
 	this.setDSFk_TipoRegimen = function(){		
-		
+		me.Fk_TipoRegimenEnAjax=true; 
 		var filtering=new Array();
 		var proxy = new wijhttpproxy({
 			url: kore.url_base+kore.modulo+'/nominas/buscarRegimen_contratacion',
@@ -377,7 +500,8 @@
 
 		var datasource = new wijdatasource({ 
 			reader: myReader, 
-			proxy: proxy 
+			proxy: proxy,
+			data:[]
 		}); 
 	
 		$('select[name="fk_TipoRegimen"]').wijcombobox('option','data',datasource);
@@ -1015,6 +1139,18 @@
 			paramObj[kv.name] = kv.value;
 		  }
 		});
+		
+		$('#datos_empleado input').attr('disabled',false);
+		$.each($('#datos_empleado form').serializeArray(), function(_, kv) {
+		  if (paramObj.hasOwnProperty(kv.name)) {
+			paramObj[kv.name] = $.makeArray(paramObj[kv.name]);
+			paramObj[kv.name].push(kv.value);
+		  }
+		  else {
+			paramObj[kv.name] = kv.value;
+		  }
+		});
+		$('#datos_empleado input').attr('disabled',true);
 		//-----------------------------------
 		
 
@@ -1409,7 +1545,7 @@
 		$(this.tabId+' [name="FechaPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
 		$(this.tabId+' [name="FechaInicialPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
 		$(this.tabId+' [name="FechaFinalPago"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});
-		$(this.tabId+' [name="FechaInicioRelLaboral"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});	
+		$(this.tabId+' [name="FechaInicioRelLaboral"]').wijinputdate({showTrigger: false, dateFormat:'dd/MM/yyyy'});	
 		$(this.tabId+' [name="fecha_emision"]').wijinputdate({showTrigger: true, dateFormat:'dd/MM/yyyy'});
 		
 		// $(this.tabId+' .frmEdicion textarea').wijtextbox();			
@@ -1428,8 +1564,21 @@
 		this.configurarComboFk_certificado();
 		this.configurarComboFk_moneda();
 		this.configurarComboFk_metodo_pago();
-		var options={autoOpen:false, width:800};
+		var options={
+			autoOpen:false, 
+			width:800,
+			buttons: [{
+					text: "Aceptar",
+					click: function() {
+					  $(this).wijdialog("close");					  
+				   }
+			}]	
+		};
 		$("#datos_empleado").wijdialog(options);
+		
+		$('#datos_empleado input').attr('disabled',true);
+		$('#datos_empleado select').wijcombobox('option', 'disabled',true);
+		
 	};
 	this.configurarToolbar=function(tabId){					
 		var me=this;	

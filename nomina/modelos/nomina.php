@@ -936,7 +936,7 @@ class nominaModelo extends Modelo{
 			$obj['condiciones_de_pago']='';
 			$obj['subTotal']='';
 			$obj['descuento']='';
-			$obj['motivo_descuento']='';
+			$obj['motivo_descuento']='deducciones n&oacute;mina';
 			$obj['tipo_cambio']='';
 			$obj['fk_moneda']='';
 			$obj['moneda_moneda']='';
@@ -1089,6 +1089,32 @@ class nominaModelo extends Modelo{
 		$esNuevo=( empty( $datos['id'] ) )? true : false;			
 		$strCampos='';
 		
+		//----------------------------------------
+		// SIG FOLIO
+		$pdo=$this->getPdo();		
+		$exito = $pdo->exec('LOCK TABLES nomina_series WRITE, nomina_nomina WRITE');
+		$pdo->beginTransaction();	
+		
+		if ( $esNuevo ){
+			//obtener el siguiente folio
+			$fk_serie=$datos['fk_serie'];
+			$serMod = new serie_nominaModelo();
+			$serie=$serMod->obtener( $fk_serie );			
+			$datos['folio']=$serie['sig_folio'];
+			$serie['sig_folio'] = $serie['sig_folio']+1;
+			try{
+				$serMod->guardar( $serie );
+			}catch(Exception $err){
+				
+				$exito = $pdo->exec('UNLOCK TABLES');
+				$pdo->rollBack();
+				return array(
+					'success'=>false,
+					'msg'=>$err
+				);				
+			}
+			
+		}
 		//--------------------------------------------
 		// CAMPOS A GUARDAR
 		 
@@ -1444,6 +1470,8 @@ class nominaModelo extends Modelo{
 		$exito = $sth->execute();
 		if ( !$exito ){
 			$error =  $this->getError( $sth );
+			$pdo->exec('UNLOCK TABLES');
+			$pdo->rollBack();	
 			throw new Exception($error['msg']);
 		}
 		
@@ -1613,7 +1641,22 @@ class nominaModelo extends Modelo{
 			//}
 			
 		}
-		$obj=$this->obtener( $idObj );
+		// $obj=$this->obtener( $idObj );
+		
+		try{
+			$obj=$this->obtener( $idObj );
+		}catch(Exception $err){
+			$pdo->exec('UNLOCK TABLES');
+			$pdo->rollBack();
+			return array(
+				'success'=>false,
+				'msg'=>$err
+			);
+		}
+		
+		$pdo->exec('UNLOCK TABLES');
+		$pdo->commit();
+		
 		return array(
 			'success'=>true,
 			'datos'=>$obj,

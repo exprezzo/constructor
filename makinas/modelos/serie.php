@@ -232,9 +232,7 @@ class serieModelo extends Modelo{
 			$idObj=$datos['id'];
 		}	
 		
-		
-		
-		
+
 		$obj=$this->obtener( $idObj );
 		return array(
 			'success'=>true,

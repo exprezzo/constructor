@@ -36,7 +36,7 @@
 					?>
 				</select>
 									
-					<input title="Folio" type="text" name="folio" class="entradaDatos" value="<?php echo $this->datos['folio']; ?>" style="width:20px; display:inline-block;" />
+				<input title="Folio" required="true" readonly type="text" name="folio" class="entradaDatos" value="<?php echo $this->datos['folio']; ?>" style="width:20px; display:inline-block;" />
 				
 			</div>
 		</div>

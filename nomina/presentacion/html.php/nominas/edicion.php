@@ -32,6 +32,9 @@ if ( !empty( $this->datos['id'] ) ){
 		}else{
 			$mod=new serie_nominaModelo();
 			$objs=$mod->buscar( array() );		
+			$this->datos['serie'] = $objs['datos'][0]['serie'];
+			$this->datos['folio'] = $objs['datos'][0]['sig_folio'];
+			
 			$this->fk_serie_listado = $objs['datos'];
 		}
 if ( !empty( $this->datos['id'] ) ){
@@ -298,6 +301,10 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 #tablaTotales input{text-align: right; }
 
 .toolbar_detalles{margin-bottom:24px !important;}
+
+[name="fk_moneda"]{width: 150px !important;}
+
+.ui-state-disabled, .ui-widget-content .ui-state-disabled{opacity: 1 !important; filter: Alpha(Opacity=1) !important;}
 </style>
 <div class="contenedor_formulario" id="<?php echo $id; ?>">
 	<div id="titulo">
@@ -312,9 +319,9 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 					<input title="Id" type="text" name="id" class="entradaDatos" value="<?php echo $this->datos['id']; ?>" style="width:500px;" />
 				</div>
 				
-				<div class="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px; display:none;">
+				<div class="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px;">
 					<div>
-						<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
+						<?php // include dirname(__FILE__).'/_datos_empleado.php'; ?>	
 					</div>				
 				</div>
 				<div class="datos_generales" style="">
@@ -487,9 +494,9 @@ div[role="combobox"] input[role="textbox"] {height:24px !important; }
 			</form>
 			
 			<div id="datos_empleado" title="Datos del empleado" style="width:800px; margin:10px 0 20px 100px;">
-				<div>
+				<form>
 					<?php include dirname(__FILE__).'/_datos_empleado.php'; ?>	
-				</div>				
+				</form>				
 			</div>
 			<div id="contenedorMenu2" class="toolbarEdicion">
 				<input type="submit" value="Nuevo" class="botonNuevo btnNuevo">
