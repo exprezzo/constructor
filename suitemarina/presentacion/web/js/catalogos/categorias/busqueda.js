@@ -88,7 +88,7 @@
 		$('div'+tabId).css('border','0 1px 1px 1px');			
 		//-------------------------------------------				
 		this.configurarToolbar(tabId);		
-		 this.configurarGrid(tabId);
+		this.configurarGrid(tabId);
 	};
 	this.configurarToolbar=function(tabId){
 		var me=this;
@@ -116,49 +116,7 @@
 			var gridBusqueda=$(me.tabId+" .grid_busqueda");				
 			gridBusqueda.wijgrid('ensureControl', true);
 		});
-		
-		$(this.tabId+ " > .lista_toolbar").wijribbon({
-			click: function (e, cmd) {
-				switch(cmd.commandName){
-					case 'nuevo':						
-						me.nuevo();
-					break;
-					case 'editar':
-						if (me.selected!=undefined){													
-							var id=me.selected[me.configuracion.pk];							
-							TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,id);
-						}
-					break;
-					case 'eliminar':
-						if (me.selected==undefined) return false;
-						var r=confirm("¿Eliminar Categoria?");
-						if (r==true){
-						  me.eliminar();
-						}
-					break;
-					case 'refresh':
-						
-						var gridBusqueda=$(me.tabId+" .grid_busqueda");
-						gridBusqueda.wijgrid('ensureControl', true);
-					break;
-										
-					default:						 
-						$.gritter.add({
-							position: 'bottom-left',
-							title:cmd.commandName,
-							text: "Acciones del toolbar en construcci&oacute;n",
-							image: kore.url_web+'imagenes/info.png',
-							class_name: 'my-sticky-class'
-						});
-						
-					break;
-					case 'imprimir':
-						alert("Imprimir en construcción");
-					break;
-				}
 				
-			}
-		});
 		
 	};
 	this.configurarGrid=function(tabId){
@@ -178,7 +136,7 @@
 			dynamic:true,
 			reader:new wijarrayreader(campos),
 			loading : function(data){				
-				var value = $( ' input[name="query"]').val();				
+				var value = $( '#nav-search-input').val();				
 				
 				data.proxy.options.data.filtering.push({
 					dataKey: "nombre",
@@ -238,6 +196,11 @@
 				//          TabManager.add(kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar','Editar '+me.catalogo.nombre,pedidoId);				
 				window.location=kore.url_base+me.configuracion.modulo.nombre+'/'+me.controlador.nombre+'/editar/'+pedidoId;
 			});			
+			$(".wijmo-wijgrid-footer").addClass('dataTables_paginate paging_bootstrap pagination');
 		} });
+		
+		$(this.tabId+" .grid_busqueda").addClass('table table-striped table-bordered table-hover');
+		
+		
 	};
 };

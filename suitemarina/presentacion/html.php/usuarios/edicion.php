@@ -91,7 +91,7 @@
 				</div>
 				<div class="inputBox contenedor_nombre" style=""  >
 					<label style="">Nombre:</label>
-					<input type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
+					<input maxlength="50" type="text" name="nombre" class="entradaDatos" value="<?php echo $this->datos['nombre']; ?>" style="width:500px;" />
 				</div>
 				<div class="inputBox contenedor_ultima_conexion" style="display:none;"  >
 					<label style="">Ultima_conexion:</label>
@@ -107,7 +107,7 @@
 				</div>
 				<div class="inputBox contenedor_ip" style="display:none;"  >
 					<label style="">Ip:</label>
-					<input type="text" name="ip" class="entradaDatos" value="<?php echo $this->datos['ip']; ?>" style="width:500px;" />
+					<input  type="text" name="ip" class="entradaDatos" value="<?php echo $this->datos['ip']; ?>" style="width:500px;" />
 				</div>
 			</form>
 			<div class="form-actions toolbarEdicion">

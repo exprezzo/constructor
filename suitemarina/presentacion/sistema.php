@@ -49,6 +49,9 @@
 		<script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/funciones.js" ></script>	
 		<script type="text/javascript" src="<?php echo $_PETICION->url_web; ?>js/navegacion_en_tabla.js" ></script>	
 		<script src="<?php echo $_PETICION->url_web; ?>libs/jquery-ui-1.9.2.custom/jquery-ui-1.9.2.custom.js"></script>  
+		<script src="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/js/jquery.wijmo-complete.all.2.3.2.min.js" type="text/javascript"></script>
+	<script src="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Open/js/jquery.wijmo-open.all.2.3.2.min.js" type="text/javascript"></script>	
+	
 		<script src="<?php echo $_PETICION->url_web; ?>libs/blockui.js"></script>  
 		<link href="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
 		<script src="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/js/jquery.gritter.min.js" type="text/javascript"></script>
@@ -60,18 +63,18 @@
 				display: inline-block;
 			}
 			
-			.btn.btnGuardar:hover{
+			.btn.btnGuardar:hover, .btn.btnEditar:hover{
 				background-color: #4f99c6 !important;
 			}
-			.btn.btnGuardar{			
+			.btn.btnGuardar, .btn.btnEditar{			
 				background-color: #6fb3e0!important;
 				border-color: #6fb3e0;
 			}
 			
-			.btn.btnDelete:hover{
+			.btn.btnDelete:hover, .btn.btnEliminar:hover{
 				background-color: #b74635 !important;
 			}
-			.btn.btnDelete {			
+			.btn.btnDelete, .btn.btnEliminar{			
 				background-color: #d15b47 !important;
 				border-color: #d15b47;
 			}
