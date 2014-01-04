@@ -3,7 +3,7 @@ require_once $_PETICION->basePath.'/modelos/catalogo_modelo.php';
 include_once $_PETICION->basePath.'/modelos/modulo.php';
 require_once $_PETICION->basePath.'/modelos/elemento_modelo.php';
 require_once $_PETICION->basePath.'/modelos/modeloc_modelo.php';
-require_once $_PETICION->basePath.'/generador/generador.php';
+require_once $_PETICION->basePath.'/generador_marina/generador.php';
 class catalogos extends Controlador{
 	var $modelo="Catalogo";	
 	
@@ -92,8 +92,8 @@ class catalogos extends Controlador{
 		$res=array(
 			'success'=>true,
 			'msg'=>'Plantilla Obtenida',
-			'datos'=>utf8_decode($buffer)
-			 // 'datos'=>$buffer
+			// 'datos'=>utf8_decode($buffer)
+			 'datos'=>$buffer
 		);
 		 echo json_encode( $res );
 		return $res;

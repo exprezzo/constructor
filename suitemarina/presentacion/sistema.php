@@ -13,6 +13,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		
+		<link id="linkCss" href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Complete/css/jquery.wijmo-complete.2.3.2.css" rel="stylesheet" type="text/css" />
+		<?php
+		// $rutaTema='http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css'; 
+		 $rutaTema=sessionGet('rutaTema');
+		 $user=sessionGet('user');
+		 // echo $rutaTema;
+		 if (empty($rutaTema)){
+			$rutaTema=getUrlTema('midnight');
+		 }
+		 
+		 
+		// $rutaTema=getUrlTema('rocket'); 	
+		?>
+		<link href="<?php echo $rutaTema; ?>" rel="stylesheet" type="text/css" />
+		
+		<link href="<?php echo $_PETICION->url_web; ?>libs/Wijmo.2.3.2/Wijmo-Open/css/jquery.wijmo-open.2.3.2.css" rel="stylesheet" type="text/css" />	
 		<!--basic styles-->
 
 		<link href="<?php echo $_PETICION->url_web; ?>assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -56,31 +72,10 @@
 		<link href="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
 		<script src="<?php echo $_PETICION->url_web; ?>libs/Gritter-master/js/jquery.gritter.min.js" type="text/javascript"></script>
 		<style type="text/css">
-			.inputBox label{				
-				margin-bottom: 17px;
-				width: 137px;
-				text-align: left;
-				display: inline-block;
-			}
-			
-			.btn.btnGuardar:hover, .btn.btnEditar:hover{
-				background-color: #4f99c6 !important;
-			}
-			.btn.btnGuardar, .btn.btnEditar{			
-				background-color: #6fb3e0!important;
-				border-color: #6fb3e0;
-			}
-			
-			.btn.btnDelete:hover, .btn.btnEliminar:hover{
-				background-color: #b74635 !important;
-			}
-			.btn.btnDelete, .btn.btnEliminar{			
-				background-color: #d15b47 !important;
-				border-color: #d15b47;
-			}
 			
 			
 		</style>
+		<link href="<?php echo $_PETICION->url_web; ?>css/estilos.css" rel="stylesheet" type="text/css" />
 		<script src="<?php echo $_PETICION->url_web; ?>js/kore.js" type="text/javascript"></script>
 		<script type="text/javascript">		
 			kore={
@@ -418,19 +413,19 @@
 						</li>
 
 						<li>
-							<a href="#">Paginas</a>
+							<a href="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'.$_PETICION->controlador.'/buscar'; ?>"><?php echo ucfirst($_PETICION->controlador); ?></a>
 
 							<span class="divider">
 								<i class="icon-angle-right arrow-icon"></i>
 							</span>
 						</li>
-						<li class="active">Inicio</li>
+						<li class="active"><?php echo ucfirst($_PETICION->accion); ?></li>
 					</ul><!--.breadcrumb-->
 
 					<div class="nav-search" id="nav-search">
-						<form class="form-search" />
+						<form class="form-search" action="<?php echo $_PETICION->url_app.$_PETICION->modulo.'/'.$_PETICION->controlador; ?>/buscar" method="get" />
 							<span class="input-icon">
-								<input type="text" placeholder="Search ..." class="input-small nav-search-input" id="nav-search-input" autocomplete="off" />
+								<input value="<?php echo empty($_GET['query'])? '' : $_GET['query']; ?>"  name="query" type="text" placeholder="Search ..." class="input-small nav-search-input" id="nav-search-input" autocomplete="off" />
 								<i class="icon-search nav-search-icon"></i>
 							</span>
 						</form>
@@ -548,3 +543,45 @@
 		
 	</body>
 </html>
+<?php
+function getUrlTema($tema){
+	$_TEMAS=array();
+	global $_PETICION;
+	// print_r($_PETICION);
+	// $_TEMAS['artic']="http://cdn.wijmo.com/themes/arctic/jquery-wijmo.css";
+	$_TEMAS['artic']=$_PETICION->url_web. "css/artic/jquery-wijmo.css";
+	$_TEMAS['midnight']="http://cdn.wijmo.com/themes/midnight/jquery-wijmo.css";
+	$_TEMAS['aristo']="http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css";
+	// $_TEMAS['rocket']="http://cdn.wijmo.com/themes/rocket/jquery-wijmo.css";
+	$_TEMAS['rocket']=$_PETICION->url_web. "css/jquery-wijmo_rocket.css";
+	$_TEMAS['cobalt']="http://cdn.wijmo.com/themes/cobalt/jquery-wijmo.css";
+	$_TEMAS['sterling']="http://cdn.wijmo.com/themes/sterling/jquery-wijmo.css";
+	$_TEMAS['black-tie']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css";
+	$_TEMAS['blitzer']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/blitzer/jquery-ui.css";
+	$_TEMAS['cupertino']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/cupertino/jquery-ui.css";
+	$_TEMAS['dark-hive']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/dark-hive/jquery-ui.css";
+	$_TEMAS['dot-luv']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/dot-luv/jquery-ui.css";
+	$_TEMAS['eggplant']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/eggplant/jquery-ui.css";
+	$_TEMAS['excite-bike']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/excite-bike/jquery-ui.css";
+	$_TEMAS['flick']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/flick/jquery-ui.css";
+	$_TEMAS['hot-sneaks']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/hot-sneaks/jquery-ui.css";
+	$_TEMAS['humanity']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/humanity/jquery-ui.css";
+	$_TEMAS['le-frog']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/le-frog/jquery-ui.css";
+	$_TEMAS['mint-choc']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/mint-choc/jquery-ui.css";
+	$_TEMAS['vader']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/vader/jquery-ui.css";
+	$_TEMAS['ui-lightness']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-lightness/jquery-ui.css";
+	$_TEMAS['ui-darkness']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/ui-darkness/jquery-ui.css";
+	$_TEMAS['trontastic']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/trontastic/jquery-ui.css";
+	$_TEMAS['swanky-purse']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/swanky-purse/jquery-ui.css";
+	$_TEMAS['sunny']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/sunny/jquery-ui.css";
+	$_TEMAS['start']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/start/jquery-ui.css";
+	$_TEMAS['south-street']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/south-street/jquery-ui.css";
+	$_TEMAS['smoothness']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery-ui.css";
+	$_TEMAS['redmond']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/redmond/jquery-ui.css";
+	$_TEMAS['pepper-grinder']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/pepper-grinder/jquery-ui.css";
+	$_TEMAS['overcast']="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/overcast/jquery-ui.css";
+	// return $_TEMAS[$tema];
+	// return $_TEMAS['cobalt'];
+	return $_TEMAS['artic'];
+}
+?>
