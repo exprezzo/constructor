@@ -20,6 +20,10 @@ class usuarios extends Controlador{
 		header('Location: '.$_PETICION->url_app.$_PETICION->modulo.'/usuarios/login');
 	}
 	function login(){
+		function isAjax(){
+		   return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+		   strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+		}
 		$vista= $this->getVista();
 		global $_TEMA_APP, $_PETICION;		
 		$layout='login';
@@ -36,34 +40,32 @@ class usuarios extends Controlador{
 				
 				unset($res['usuario']['pass']);					
 				sessionAdd('user', $res['usuario']);
-				// $_SESSION['user']=$res['usuario'];
-							
-					// if ($_SESSION['user']['fk_rol'] == 1 ){				
-						// $_SESSION['isLoged']=true;								
-						// header('Location:'.$_PETICION->url_app.'usuarios/buscar');
-					// }else{
-						// Se reconecta con la bd que le corresponde
-						
-						// if ( sizeof( $res['corps'] )==1 ){
-							// $_SESSION['isLoged']=true;		
-							// $corp=$res['corps'][0];
-							// $corpMod = new corporativoModelo();
-							// $paramsCorp=array( 'id'=> $corp['fk_corporativo'] );
-							// $corpArr = $corpMod->obtener( $paramsCorp);							
-							// $_SESSION['DB_CONFIG']=$corpArr;							
-						// }else{							
-							// echo 'SELECCIONE UN CORPORATIVO'; exit;
-						// }
-						// header('Location:'.$_PETICION->url_app.'facturas/emitidas');
-					// }					
+								
+				if ( isAjax() ){
+					$res = array(
+						'success'=>true,
+						'msg'=>'Usuario identificado'
+					);
+					echo json_enode( $res );
+				}else{
 					$url=sessionGet('_PETICION');
 					$url=( empty($url) ) ? $_PETICION->url_app.$_PETICION->modulo.'/paginas/inicio' : '/'.$url;
 					// echo $url; exit;
 					 header('Location:'.$url);
-			}else{				
-				$vista->error= $res['msg'];//'USUARIO O CONTRASEÑA INCORRECTA';
-				$vista->username=$_POST['nick'];
-				return $vista->mostrarTema($_PETICION, $_TEMA_APP, $layout);
+				}
+					
+			}else{								
+				if ( isAjax() ){
+					$res = array(
+						'success'=>false,
+						'msg'=>$res['msg']
+					);
+					echo json_enode( $res );
+				}else{
+					$vista->error= $res['msg'];//'USUARIO O CONTRASEÑA INCORRECTA';
+					$vista->username=$_POST['nick'];
+					return $vista->mostrarTema($_PETICION, $_TEMA_APP, $layout);
+				}
 			}			
 		}else{
 			//PETICION GET U OTRA DIFERENTE DE POST			

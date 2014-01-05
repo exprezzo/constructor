@@ -1,82 +1,106 @@
-<style>
-	.error{color:red;}
-</style>
-<?php
-	$fecha=new DateTime();	
-	setlocale(LC_TIME, 'spanish');  
-	$numMes = intval($fecha->format('m'));
-	$nombreMes='';
-	switch($numMes){
-		case 1:
-			$nombreMes='Enero';
-		break;
-		case 2:
-			$nombreMes='Febrero';
-		break;
-		case 3:
-			$nombreMes='Marzo';
-		break;
-		case 4:
-			$nombreMes='Abril';
-		break;
-		case 5:
-			$nombreMes='Mayo';
-		break;
-		case 6:
-			$nombreMes='Junio';
-		break;
-		case 7:
-			$nombreMes='Julio';
-		break;
-		case 8:
-			$nombreMes='Agosto';
-		break;
-		case 9:
-			$nombreMes='Septiembre';
-		break;
-		case 10:
-			$nombreMes='Octubre';
-		break;
-		case 11:
-			$nombreMes='Noviembre';
-		break;
-		case 12:
-			$nombreMes='Diciembre';
-		break;
-	}
-	// $nombreMes=strftime("%B",mktime(0, 0, 0, $fecha->format('m'), 1, 2000)); 	
-	// $nombreMes=ucfirst($nombreMes);
-	
-?>
-	<div id="titulo" style=" ">
-    	<div id="contenedorCalendario">
-        <span id="dia"><?php echo $fecha->format('d'); ?></span> <span id="mes"><?php echo $nombreMes ?></span> <span id="aÒo" style=""><?php echo $fecha->format('Y'); ?></span>
-    
+<script src="<?php echo $_PETICION->url_web; ?>js/catalogos/<?php echo $_PETICION->controlador; ?>/login.js"></script>
+<div id="login-box" class="login-box visible widget-box no-border">
+	<?php 
+			if ( !empty($this->error) ){
+				echo '<div style="position: absolute; top: 0; "><div style="display: inline-block; width: 100%; margin-top: 23px;" class="alert alert-error">
+										<button onClick="removeMsgError()" type="button" class="close" data-dismiss="alert">
+											<i class="icon-remove"></i>
+										</button>
+
+										<strong>
+											<i class="icon-remove"></i>
+											Error!
+										</strong>
+										'.htmlentities($this->error).'
+										<br>
+									</div></div>';
+			}
+		?>
+	<div class="widget-body">
+		
+		
+		<div class="widget-main">
+			<h4 class="header blue lighter bigger">
+				<i class="icon-coffee green"></i>
+				Proporciones sus datos
+			</h4>
+
+			<div class="space-6"></div>
+
+			<form method="POST" action="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/login" />
+				<fieldset>
+					<label>
+						<span class="block input-icon input-icon-right">
+							<input name="nick" type="text" class="span12" placeholder="Username" autofocus />
+							<i class="icon-user"></i>
+						</span>
+					</label>
+
+					<label>
+						<span class="block input-icon input-icon-right">
+							<input name="pass" type="password" class="span12" placeholder="Password" />
+							<i class="icon-lock"></i>
+						</span>
+					</label>
+
+					<div class="space"></div>
+
+					<div class="clearfix">
+						<label class="inline">
+							<input type="checkbox" />
+							<span class="lbl"> Recordarme</span>
+						</label>
+
+						<button  class="width-35 pull-right btn btn-small btn-primary">
+							<i class="icon-key"></i>
+							Entrar
+						</button>
+					</div>
+
+					<div class="space-4"></div>
+				</fieldset>
+			</form>
+
+			<div class="social-or-login center">
+				<span class="bigger-110">O entrar usando</span>
+			</div>
+
+			<div class="social-login center">
+				<a class="btn btn-primary">
+					<i class="icon-facebook"></i>
+				</a>
+
+				<a class="btn btn-info">
+					<i class="icon-twitter"></i>
+				</a>
+
+				<a class="btn btn-danger">
+					<i class="icon-google-plus"></i>
+				</a>
+			</div>
+		</div><!--/widget-main-->
+
+		<div class="toolbar clearfix">
+			<div>
+				<a href="<?php echo $_PETICION->url_web; ?>#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+					<i class="icon-arrow-left"></i>
+					Olvide mi contrase√±a
+				</a>
+			</div>
+
+			<div>
+				<a href="<?php echo $_PETICION->url_web; ?>#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+					Registrarme
+					<i class="icon-arrow-right"></i>
+				</a>
+			</div>
 		</div>
-	</div>
-    
-    <div id="cuerpo">
-    	<div id="contenedorLogin">
-			
-            <p>
-            Acceso
-            </p> 
-            <form name="login" action="<?php echo $_PETICION->url_app.$_PETICION->modulo; ?>/usuarios/login#cuerpo" method="POST">
-                    <input type="text" name="nick" value="<?php echo $this->username; ?>" class="textoLogin" placeholder="Username" required>
-                    <input type="password" name="pass" value="" class="textoLogin" placeholder="Password" required>
-                    <br />
-					<?php
-						if ( !empty($this->error) ){
-					?>
-						<div class="error">
-							<?php echo utf8_encode($this->error); ?>
-						</div>
-					<?php
-						}
-					?>
-                    <input style="cursor:pointer;" type="submit" value="Entrar" id="botonLogin">
-            </form> 
-            
-        </div> 
-        
-	</div>
+	</div><!--/widget-body-->
+	
+</div><!--/login-box-->
+
+
+
+
+
+
